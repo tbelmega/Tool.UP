@@ -7,19 +7,26 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import de.unipotsdam.cs.toolup.model.Application;
+import de.unipotsdam.cs.toolup.model.BusinessObject;
 
 public class DatabaseController {
 
-	public static Application load(String uuid) throws SQLException {
+	public static BusinessObject load(String uuid) throws SQLException {
 		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test?user=root&pw=");
 		Statement statement = connection.createStatement();
-		ResultSet res = statement.executeQuery("select * from application;");
+		String tableName = getTableNameFromId(uuid);
+		ResultSet res = statement.executeQuery("select * from " + tableName + ";");
 		res.first();
 		String id = res.getString("uuid");
 		String title = res.getString("title");
 		String description = res.getString("description");
 		
 		return new Application(id,title,description);
+	}
+
+	static String getTableNameFromId(String uuid) {
+		int indexOfFirstSlash = uuid.indexOf('/');
+		return uuid.substring(0, indexOfFirstSlash);
 	}
 
 }

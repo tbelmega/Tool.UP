@@ -9,18 +9,18 @@ CREATE table application_belongs_to_category ( application_uuid varchar(32) NOT 
 CREATE table application_has_feature ( application_uuid varchar(32) NOT NULL, feature_uuid varchar(32) NOT NULL, 
 	PRIMARY KEY (application_uuid,feature_uuid), FOREIGN KEY (application_uuid) REFERENCES application(uuid), FOREIGN KEY (feature_uuid) REFERENCES feature(uuid));
     
-INSERT INTO application values('test_id_1','Dropbox','Dropbox Description');
-INSERT INTO application values('test_id_2','Box.UP','Box.UP Description');
+INSERT INTO application values('application/test_id_1','Dropbox','Dropbox Description');
+INSERT INTO application values('application/test_id_2','Box.UP','Box.UP Description');
     
-INSERT INTO category values('test_id_11','Cloud Speicher','Cloud Speicher Description');
-INSERT INTO category values('test_id_12','Wiki','Wiki Description');
+INSERT INTO category values('category/test_id_11','Cloud Speicher','Cloud Speicher Description');
+INSERT INTO category values('category/test_id_12','Wiki','Wiki Description');
     
-INSERT INTO feature values('test_id_21','Kalender anlegen','Kalender anlegen Description');
-INSERT INTO feature values('test_id_22','Termine teilen','Termine teilen Description');
+INSERT INTO feature values('feature/test_id_21','Kalender anlegen','Kalender anlegen Description');
+INSERT INTO feature values('feature/test_id_22','Termine teilen','Termine teilen Description');
 
-INSERT INTO application_belongs_to_category values('test_id_1','test_id_11');
-INSERT INTO application_belongs_to_category values('test_id_2','test_id_11');
+INSERT INTO application_belongs_to_category values('application/test_id_1','category/test_id_11');
+INSERT INTO application_belongs_to_category values('application/test_id_2','category/test_id_11');
     
-INSERT INTO application_has_feature values('test_id_1','test_id_21');
-INSERT INTO application_has_feature values('test_id_1','test_id_22');
-INSERT INTO application_has_feature values('test_id_2','test_id_21');
+INSERT INTO application_has_feature values('application/test_id_1','feature/test_id_21');
+INSERT INTO application_has_feature values('application/test_id_1','feature/test_id_22');
+INSERT INTO application_has_feature values('application/test_id_2','feature/test_id_21');
