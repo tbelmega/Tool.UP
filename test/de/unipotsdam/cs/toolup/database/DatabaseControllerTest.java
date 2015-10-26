@@ -1,16 +1,13 @@
 package de.unipotsdam.cs.toolup.database;
 
-import static org.testng.AssertJUnit.*;
+import static org.testng.AssertJUnit.assertEquals;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import de.unipotsdam.cs.toolup.model.Application;
 import de.unipotsdam.cs.toolup.model.BusinessObject;
 
 
@@ -18,33 +15,42 @@ import de.unipotsdam.cs.toolup.model.BusinessObject;
 
 public class DatabaseControllerTest {
 	
-	@Test
-	public void testThatLoadedApplicationHasExpectedValues() throws SQLException {
+
+
+
+	@Test(dataProvider = PROVIDE_BUSINESS_OBJECTS)
+	public void testThatLoadedBusinessObjectHasExpectedValues(String expectedTitle, String expectedDescription, Class<? extends BusinessObject> expectedClass, String id) throws SQLException {
 		//arrange
-		String expectedTitle = "Dropbox";
-		String expectedDescription = "Dropbox Description";
-		
+
 		//act
-		BusinessObject app = DatabaseController.load("application/test_id_1");
+		BusinessObject busObj = DatabaseController.load(id);
 		
 		//assert
-		assertEquals(expectedTitle, app.getTitle());
-		assertEquals(expectedDescription, app.getDescription());
+		assertEquals(expectedTitle, busObj.getTitle());
+		assertEquals(expectedDescription, busObj.getDescription());
+	}
+
+	/**
+	 * 
+	 * @param expectedTitle
+	 * @param expectedDescription
+	 * @param expectedClass
+	 * @param id
+	 */
+	private static final String PROVIDE_BUSINESS_OBJECTS = "provideBusinessObjects";
+	
+	@DataProvider(name= PROVIDE_BUSINESS_OBJECTS)
+	public Object[][] provideBusinessObjects(){
+		return new Object[][]{
+				
+				{"Dropbox","Dropbox Description",Application.class,"application/test_id_1"},
+				//{"Cloud Speicher","Cloud Speicher Description",Category.class,"application/test_id_11"},
+				{"Kalender anlegen","Kalender anlegen Description",Feature.class,"feature/test_id_21"}
+				
+		};
 	}
 	
-	@Test
-	public void testThatLoadedFeatureHasExpectedValues() throws SQLException {
-		//arrange
-		String expectedTitle = "Kalender anlegen";
-		String expectedDescription = "Kalender anlegen Description";
-		
-		//act
-		BusinessObject feat = DatabaseController.load("feature/test_id_21");
-		
-		//assert
-		assertEquals(expectedTitle, feat.getTitle());
-		assertEquals(expectedDescription, feat.getDescription());
-	}
+
 	
 	@Test(dataProvider = PROVIDE_SAMPLE_IDS)
 	public void testThatTablenameIsExtractableFromId(String expectedTableName, String id) {
