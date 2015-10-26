@@ -15,9 +15,6 @@ import de.unipotsdam.cs.toolup.model.BusinessObject;
 
 public class DatabaseControllerTest {
 	
-
-
-
 	@Test(dataProvider = PROVIDE_BUSINESS_OBJECTS)
 	public void testThatLoadedBusinessObjectHasExpectedValues(String expectedTitle, String expectedDescription, Class<? extends BusinessObject> expectedClass, String id) throws SQLException {
 		//arrange
@@ -28,6 +25,7 @@ public class DatabaseControllerTest {
 		//assert
 		assertEquals(expectedTitle, busObj.getTitle());
 		assertEquals(expectedDescription, busObj.getDescription());
+		assertEquals(expectedClass, busObj.getClass());
 	}
 
 	/**
@@ -44,7 +42,8 @@ public class DatabaseControllerTest {
 		return new Object[][]{
 				
 				{"Dropbox","Dropbox Description",Application.class,"application/test_id_1"},
-				//{"Cloud Speicher","Cloud Speicher Description",Category.class,"application/test_id_11"},
+				{"Box.UP","Box.UP Description",Application.class,"application/test_id_2"},
+				{"Cloud Speicher","Cloud Speicher Description",Category.class,"category/test_id_11"},
 				{"Kalender anlegen","Kalender anlegen Description",Feature.class,"feature/test_id_21"}
 				
 		};

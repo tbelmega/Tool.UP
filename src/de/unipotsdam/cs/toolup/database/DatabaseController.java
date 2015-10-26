@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import de.unipotsdam.cs.toolup.model.Application;
 import de.unipotsdam.cs.toolup.model.BusinessObject;
 
 public class DatabaseController {
@@ -15,13 +14,14 @@ public class DatabaseController {
 		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test?user=root&pw=");
 		Statement statement = connection.createStatement();
 		String tableName = getTableNameFromId(uuid);
-		ResultSet res = statement.executeQuery("select * from " + tableName + ";");
+		String query = "select * from " + tableName + " WHERE uuid = '" + uuid + "';";
+		ResultSet res = statement.executeQuery(query);
 		res.first();
 		String id = res.getString("uuid");
 		String title = res.getString("title");
 		String description = res.getString("description");
 		
-		return new Application(id,title,description);
+		return BusinessObjectFactory.createBusinessObject(id,title,description);
 	}
 
 	static String getTableNameFromId(String uuid) {
