@@ -4,6 +4,8 @@ import java.sql.SQLException;
 
 import de.unipotsdam.cs.toolup.model.Application;
 import de.unipotsdam.cs.toolup.model.BusinessObject;
+import de.unipotsdam.cs.toolup.model.Category;
+import de.unipotsdam.cs.toolup.model.Feature;
 
 public class BusinessObjectFactory {
 

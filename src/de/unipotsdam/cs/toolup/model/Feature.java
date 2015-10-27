@@ -1,6 +1,5 @@
-package de.unipotsdam.cs.toolup.database;
+package de.unipotsdam.cs.toolup.model;
 
-import de.unipotsdam.cs.toolup.model.BusinessObject;
 
 public class Feature extends BusinessObject {
 

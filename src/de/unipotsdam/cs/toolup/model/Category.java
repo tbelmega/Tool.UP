@@ -1,10 +1,8 @@
-package de.unipotsdam.cs.toolup.database;
+package de.unipotsdam.cs.toolup.model;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
-import de.unipotsdam.cs.toolup.model.BusinessObject;
 
 public class Category extends BusinessObject {
 
