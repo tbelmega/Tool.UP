@@ -15,9 +15,9 @@ public class BusinessObjectFactory {
 		String className =  id.substring(0, indexOfFirstSlash);
 		
 		switch (className.toLowerCase()){
-		case "application": return new Application(id, title, description, DatabaseController.loadRelatedCategoriesForApp(id));
+		case "application": return new Application(id, title, description, DatabaseController.loadRelatedCategoriesForApp(id), DatabaseController.loadRelatedFeaturesForApp(id));
 		case "category": return new Category(id, title, description, DatabaseController.loadRelatedApplicationsForCat(id));
-		case "feature": return new Feature(id, title, description);
+		case "feature": return new Feature(id, title, description, DatabaseController.loadRelatedApplicationsForFeat(id));
 		default: throw new UnsupportedOperationException("No class defined for this prefix:" + className);
 		}
 	}
