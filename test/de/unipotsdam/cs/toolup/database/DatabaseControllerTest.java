@@ -1,8 +1,11 @@
 package de.unipotsdam.cs.toolup.database;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Collection;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -15,6 +18,11 @@ import de.unipotsdam.cs.toolup.model.BusinessObject;
 
 public class DatabaseControllerTest {
 	
+	private static final String FEATURE_TEST_ID_21 = "feature/test_id_21";
+	private static final String APPLICATION_TEST_ID_2 = "application/test_id_2";
+	private static final String APPLICATION_TEST_ID_1 = "application/test_id_1";
+	private static final String CATEGORY_TEST_ID_11 = "category/test_id_11";
+
 	@Test(dataProvider = PROVIDE_BUSINESS_OBJECTS)
 	public void testThatLoadedBusinessObjectHasExpectedValues(String expectedTitle, String expectedDescription, Class<? extends BusinessObject> expectedClass, String id) throws SQLException {
 		//arrange
@@ -41,10 +49,10 @@ public class DatabaseControllerTest {
 	public Object[][] provideBusinessObjects(){
 		return new Object[][]{
 				
-				{"Dropbox","Dropbox Description",Application.class,"application/test_id_1"},
-				{"Box.UP","Box.UP Description",Application.class,"application/test_id_2"},
-				{"Cloud Speicher","Cloud Speicher Description",Category.class,"category/test_id_11"},
-				{"Kalender anlegen","Kalender anlegen Description",Feature.class,"feature/test_id_21"}
+				{"Dropbox","Dropbox Description",Application.class,APPLICATION_TEST_ID_1},
+				{"Box.UP","Box.UP Description",Application.class,APPLICATION_TEST_ID_2},
+				{"Cloud Speicher","Cloud Speicher Description",Category.class,CATEGORY_TEST_ID_11},
+				{"Kalender anlegen","Kalender anlegen Description",Feature.class,FEATURE_TEST_ID_21}
 				
 		};
 	}
@@ -69,11 +77,35 @@ public class DatabaseControllerTest {
 	public Object[][] provideSampleIds(){
 		return new Object[][]{
 				
-				{"application","application/123456"},
-				{"feature","feature/123456"},
-				{"category","category/123456"}
+				{"application",APPLICATION_TEST_ID_1},
+				{"feature",FEATURE_TEST_ID_21},
+				{"category",CATEGORY_TEST_ID_11}
 				
 		};
+	}
+	
+	@Test
+	public void testThatLoadedCategoryHasRelatedApplications() throws SQLException {
+		//arrange
+		Collection<String> expectedAppIds = Arrays.asList(new String[] {APPLICATION_TEST_ID_1, APPLICATION_TEST_ID_2});
+
+		//act
+		Category cat = (Category) DatabaseController.load(CATEGORY_TEST_ID_11);
+
+		//assert
+		assertTrue(cat.getRelatedApplications().containsAll(expectedAppIds));
+	}
+	
+	@Test
+	public void testThatLoadedApplicationHasRelatedCategories() throws SQLException {
+		//arrange
+		Collection<String> expectedCatIds = Arrays.asList(new String[] {CATEGORY_TEST_ID_11});
+		
+		//act
+		Application app = (Application) DatabaseController.load(APPLICATION_TEST_ID_1);
+		
+		//assert
+		assertTrue(app.getRelatedCategories().containsAll(expectedCatIds));
 	}
 	
 
