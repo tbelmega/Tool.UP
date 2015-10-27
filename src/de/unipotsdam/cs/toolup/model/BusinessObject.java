@@ -12,7 +12,7 @@ public class BusinessObject {
 		this.description = description;
 	}
 
-	protected Object getUuid() {
+	public String getUuid() {
 		return this.uuid;
 	}
 
@@ -30,6 +30,15 @@ public class BusinessObject {
 		} else {
 			return false;
 		}
+	}
+
+	public static String getTableNameFromId(String uuid) {
+		int indexOfFirstSlash = uuid.indexOf('/');
+		return uuid.substring(0, indexOfFirstSlash);
+	}
+	
+	public String getTableName(){
+		return getTableNameFromId(this.uuid);
 	}
 
 }

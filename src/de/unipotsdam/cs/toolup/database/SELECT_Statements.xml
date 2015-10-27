@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="applicationBYid">SELECT * FROM application WHERE uuid = ?;</entry>
+<entry key="featureBYid">SELECT * FROM feature WHERE uuid = ?;</entry>
+<entry key="categoryBYid">SELECT * FROM category WHERE uuid = ?;</entry>
+<entry key="applicationBYfeature">SELECT * FROM application_has_feature WHERE feature_uuid = ?;</entry>
+<entry key="featureBYapplication">SELECT * FROM application_has_feature WHERE application_uuid = ?;</entry>
+<entry key="categoryBYapplication">SELECT * FROM application_belongs_to_category WHERE application_uuid = ?;</entry>
+<entry key="applicationBYcategory">SELECT * FROM application_belongs_to_category WHERE category_uuid = ?;</entry>
+</properties>

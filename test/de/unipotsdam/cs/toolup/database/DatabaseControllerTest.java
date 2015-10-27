@@ -60,32 +60,6 @@ public class DatabaseControllerTest {
 		};
 	}
 	
-
-	
-	@Test(dataProvider = PROVIDE_SAMPLE_IDS)
-	public void testThatTablenameIsExtractableFromId(String expectedTableName, String id) {
-		//arrange
-		
-		//act
-		String tableName = DatabaseController.getTableNameFromId(id);
-
-		//assert
-		assertEquals(expectedTableName, tableName);
-	}
-	
-	
-	private static final String PROVIDE_SAMPLE_IDS = "provideSampleIds";
-	
-	@DataProvider(name = PROVIDE_SAMPLE_IDS)
-	public Object[][] provideSampleIds(){
-		return new Object[][]{
-				
-				{"application",APPLICATION_TEST_ID_1},
-				{"feature",FEATURE_TEST_ID_21},
-				{"category",CATEGORY_TEST_ID_11}
-				
-		};
-	}
 	
 	@Test
 	public void testThatLoadedCategoryHasRelatedApplications() throws SQLException {
@@ -133,5 +107,18 @@ public class DatabaseControllerTest {
 		
 		//assert
 		assertTrue(app.getRelatedFeatures().containsAll(expectedFeatureIds));
+	}
+	
+	@Test
+	public void testThatApplicationIsStoredToDatabase() throws SQLException {
+		//arrange
+		Application anApplication = new Application("application/test_id_4", "Moodle", "Moodle Description", null, null);
+
+		//act
+		DatabaseController.storeToDatabase(anApplication);
+
+		//assert
+		Application loaded = (Application) DatabaseController.load(anApplication.getUuid());
+		assertTrue(anApplication.equals(loaded));
 	}
 }
