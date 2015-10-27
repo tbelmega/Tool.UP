@@ -20,6 +20,7 @@ import de.unipotsdam.cs.toolup.model.Feature;
 
 public class DatabaseControllerTest {
 	
+	private static final String FEATURE_TEST_ID_22 = "feature/test_id_22";
 	private static final String FEATURE_TEST_ID_21 = "feature/test_id_21";
 	private static final String APPLICATION_TEST_ID_2 = "application/test_id_2";
 	private static final String APPLICATION_TEST_ID_1 = "application/test_id_1";
@@ -99,6 +100,18 @@ public class DatabaseControllerTest {
 	}
 	
 	@Test
+	public void testThatLoadedFeatureHasRelatedApplications() throws SQLException {
+		//arrange
+		Collection<String> expectedAppIds = Arrays.asList(new String[] {APPLICATION_TEST_ID_1, APPLICATION_TEST_ID_2});
+		
+		//act
+		Feature feat = (Feature) DatabaseController.load(FEATURE_TEST_ID_21);
+		
+		//assert
+		assertTrue(feat.getRelatedApplications().containsAll(expectedAppIds));
+	}
+	
+	@Test
 	public void testThatLoadedApplicationHasRelatedCategories() throws SQLException {
 		//arrange
 		Collection<String> expectedCatIds = Arrays.asList(new String[] {CATEGORY_TEST_ID_11});
@@ -110,5 +123,15 @@ public class DatabaseControllerTest {
 		assertTrue(app.getRelatedCategories().containsAll(expectedCatIds));
 	}
 	
-
+	@Test
+	public void testThatLoadedApplicationHasRelatedFeatures() throws SQLException {
+		//arrange
+		Collection<String> expectedFeatureIds = Arrays.asList(new String[] {FEATURE_TEST_ID_21,FEATURE_TEST_ID_22});
+		
+		//act
+		Application app = (Application) DatabaseController.load(APPLICATION_TEST_ID_1);
+		
+		//assert
+		assertTrue(app.getRelatedFeatures().containsAll(expectedFeatureIds));
+	}
 }

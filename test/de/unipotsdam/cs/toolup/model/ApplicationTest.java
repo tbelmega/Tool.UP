@@ -12,10 +12,10 @@ public class ApplicationTest {
 	@Test
 	public void testThatAnApplicationDoesNotEqualAnOtherApplication() {
 		//arrange
-		BusinessObject anOtherApp = new Application(TEST_ID_1,null,null, null);
+		BusinessObject anOtherApp = new Application(TEST_ID_1,null,null, null,null);
 		
 		//act
-		BusinessObject newApp = new Application(TEST_ID_2,null,null, null);
+		BusinessObject newApp = new Application(TEST_ID_2,null,null, null,null);
 
 		//assert
 		assertFalse(anOtherApp.equals(newApp));
@@ -24,10 +24,10 @@ public class ApplicationTest {
 	@Test
 	public void testThatAnApplicationDoesEqualItself() {
 		//arrange
-		BusinessObject anOtherApp = new Application(TEST_ID_1,null,null, null);
+		BusinessObject anOtherApp = new Application(TEST_ID_1,null,null, null,null);
 		
 		//act
-		BusinessObject newApp = new Application(TEST_ID_1,null,null, null);
+		BusinessObject newApp = new Application(TEST_ID_1,null,null, null,null);
 		
 		//assert
 		assertTrue(anOtherApp.equals(newApp));

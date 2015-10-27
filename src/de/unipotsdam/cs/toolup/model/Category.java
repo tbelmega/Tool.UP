@@ -7,7 +7,7 @@ import java.util.Set;
 public class Category extends BusinessObject {
 
 	private final Collection<String> relatedApplications;
-
+	
 	public Category(String uuid, String title, String description, Set<String> relatedApplications) {
 		super(uuid, title, description);
 		this.relatedApplications = relatedApplications;

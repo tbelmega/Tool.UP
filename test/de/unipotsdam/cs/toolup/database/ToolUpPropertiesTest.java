@@ -3,7 +3,6 @@ package de.unipotsdam.cs.toolup.database;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
