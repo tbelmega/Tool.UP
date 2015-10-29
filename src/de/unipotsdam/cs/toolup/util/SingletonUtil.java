@@ -13,11 +13,11 @@ import java.util.Properties;
  * This class provides a thread-safe implementation of the singleton pattern for a Properties field.
  *
  */
-public class SingletonPropertiesSynchronizedImpl {
+public class SingletonUtil {
 
 	public static Properties getProperties(Properties p, File f) throws InvalidPropertiesFormatException, FileNotFoundException, IOException {
 		if (p == null){
-			p = SingletonPropertiesSynchronizedImpl.loadFromFile(p, f);
+			p = SingletonUtil.loadFromFile(p, f);
 		}
 		return p;
 	}
