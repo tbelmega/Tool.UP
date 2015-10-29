@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import static de.unipotsdam.cs.toolup.util.SingletonPropertiesSynchronizedImpl.*;
+import static de.unipotsdam.cs.toolup.util.SingletonUtil.*;
 
 public class SqlStatements {
 	

@@ -3,6 +3,9 @@ package de.unipotsdam.cs.toolup.model;
 import java.util.Collection;
 import java.util.HashSet;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class Feature extends BusinessObject {
 
@@ -16,6 +19,12 @@ public class Feature extends BusinessObject {
 	public Collection<String> getRelatedApplications() {
 		
 		return new HashSet<String>(this.relatedApplications);
+	}
+
+	@Override
+	public JSONObject convertToJson() throws JSONException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
