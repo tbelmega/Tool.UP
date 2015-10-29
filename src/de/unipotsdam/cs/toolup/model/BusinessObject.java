@@ -1,5 +1,9 @@
 package de.unipotsdam.cs.toolup.model;
 
+import java.util.Collection;
+import java.util.Map;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -61,8 +65,46 @@ public abstract class BusinessObject {
 	}
 	
 	/**
-	 * Creates a JSONObject with the values of this business objects fields.
+	 * Creates a JSONObject with the values of this business objects' fields.
 	 */
 	public abstract JSONObject convertToJson() throws JSONException;
+
+	/**
+	 * Converts a collection of uuids into a JSONArray, which contains JSONObjects of the pattern {"id":<uuid>"}
+	 * @param relation
+	 * @return
+	 * @throws JSONException
+	 */
+	protected JSONArray relationAsArray(Collection<String> relation) throws JSONException {
+		JSONArray categories = new JSONArray();
+		for (String s: relation){
+			categories.put(new JSONObject("{\"id\":\"" + s + "\"}"));
+		}
+		return categories;
+	}
+
+
+	protected JSONObject createJSONObjectFromAttributes(Map<String, JSONArray> relations)
+			throws JSONException {
+				JSONObject result = createJSONObjectForBusinessObject();
+				
+				for (String relationName: relations.keySet()){
+					result.put(relationName, relations.get(relationName));
+				}				
+				return result;
+	}
+
+	/**
+	 * Fill a new JSONObject with the values of a BusinessObject.
+	 * @return
+	 * @throws JSONException
+	 */
+	private JSONObject createJSONObjectForBusinessObject() throws JSONException {
+		JSONObject result = new JSONObject();		
+		result.put("id", this.uuid);
+		result.put("title", this.title);
+		result.put("description", this.description);
+		return result;
+	}
 
 }

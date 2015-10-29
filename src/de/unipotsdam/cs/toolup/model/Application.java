@@ -1,7 +1,9 @@
 package de.unipotsdam.cs.toolup.model;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -31,31 +33,15 @@ public class Application extends BusinessObject {
 	 * Creates a JSONObject with the values of this applications fields.
 	 */
 	@Override
-	public JSONObject convertToJson() throws JSONException {		
-		JSONArray categories = relationAsArray(relatedCategories);	
-		JSONArray features = relationAsArray(relatedFeatures);	
-		JSONObject result = createJSONObjectFromAttributes(categories, features);		
+	public JSONObject convertToJson() throws JSONException {	
+		Map<String, JSONArray> relations = new HashMap<String, JSONArray>();
+		relations.put("categories", relationAsArray(relatedCategories));
+		relations.put("features", relationAsArray(relatedFeatures));
+	
+		JSONObject result = createJSONObjectFromAttributes(relations);		
 		return result;		
 	}
 
-	private JSONObject createJSONObjectFromAttributes(JSONArray categories,
-			JSONArray features) throws JSONException {
-		JSONObject result = new JSONObject();
-		
-		result.put("id", this.uuid);
-		result.put("title", this.title);
-		result.put("description", this.description);
-		result.put("categories", categories);
-		result.put("features", features);
-		return result;
-	}
 
-	private JSONArray relationAsArray(Collection<String> relation) throws JSONException {
-		JSONArray categories = new JSONArray();
-		for (String s: relation){
-			categories.put(new JSONObject("{\"id\":\"" + s + "\"}"));
-		}
-		return categories;
-	}
 
 }

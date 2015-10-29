@@ -1,9 +1,12 @@
 package de.unipotsdam.cs.toolup.model;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,9 +24,12 @@ public class Category extends BusinessObject {
 	}
 
 	@Override
-	public JSONObject convertToJson() throws JSONException {
-		// TODO Auto-generated method stub
-		return null;
+	public JSONObject convertToJson() throws JSONException {	
+		Map<String, JSONArray> relations = new HashMap<String, JSONArray>();
+		relations.put("applications", relationAsArray(relatedApplications));
+
+		JSONObject result = createJSONObjectFromAttributes(relations);		
+		return result;		
 	}
 
 }

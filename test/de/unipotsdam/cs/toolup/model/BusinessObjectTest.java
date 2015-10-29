@@ -17,12 +17,21 @@ import de.unipotsdam.cs.toolup.util.JSONUtil;
 
 public class BusinessObjectTest {
 
+	private static final String FILENAME_TEST_APP_JSON = "test/resources/TestApplication.json";
+	private static final String FILENAME_TEST_FEAT_JSON = "test/resources/TestFeature.json";
+	private static final String FILENAME_TEST_CAT_JSON = "test/resources/TestCategory.json";
+	
+	
 	private static final String APPLICATION_TESTDESCRIPTION_1 = "Dropbox Description";
 	private static final String APPLICATION_TESTTITLE_1 = "Dropbox";
+	private static final String FEATURE_TESTTITLE_21 = "Kalender anlegen";
+	private static final String FEATURE_TESTDESCRIPTION_21 = "Kalender anlegen Description";
+	private static final String CATEGORY_TESTTITLE_11 = "Cloud Speicher";
+	private static final String CATEGORY_TESTDESCRIPTION_11 = "Cloud Speicher Description";
+	
 	private static final String TABLENAME_CATEGORY = "category";
 	private static final String TABLENAME_FEATURE = "feature";
 	private static final String TABLENAME_APPLICATION = "application";
-	private static final String FILENAME_TEST_APP_JSON = "test/resources/TestApplication.json";
 	private static final String FEATURE_TEST_ID_21 = "feature/test_id_21";
 	private static final String FEATURE_TEST_ID_22 = "feature/test_id_22";
 	private static final String APPLICATION_TEST_ID_1 = "application/test_id_1";
@@ -93,6 +102,7 @@ public class BusinessObjectTest {
 	
 	
 	private static final String PROVIDE_BUSINESS_OBJECTS = "provideBusinessObjects";
+
 	
 	@DataProvider(name = PROVIDE_BUSINESS_OBJECTS) 
 	public Object[][] provideBusinessObjects() throws Exception{
@@ -104,12 +114,22 @@ public class BusinessObjectTest {
 		relatedFeats.add(FEATURE_TEST_ID_21);
 		relatedFeats.add(FEATURE_TEST_ID_22);
 		
-		Application app1 = new Application(APPLICATION_TEST_ID_1, APPLICATION_TESTTITLE_1, APPLICATION_TESTDESCRIPTION_1, relatedCats, relatedFeats);
+		Set<String> relatedApps = new HashSet<String>();
+		relatedApps.add(APPLICATION_TEST_ID_1);
+		relatedApps.add(APPLICATION_TEST_ID_2);
 		
-		JSONObject expectedJson1 = new JSONObject(FileUtil.readFile(FILENAME_TEST_APP_JSON));
+		Application app1 = new Application(APPLICATION_TEST_ID_1, APPLICATION_TESTTITLE_1, APPLICATION_TESTDESCRIPTION_1, relatedCats, relatedFeats);
+		BusinessObject feat1 = new Feature(FEATURE_TEST_ID_21, FEATURE_TESTTITLE_21, FEATURE_TESTDESCRIPTION_21, relatedApps);
+		Category cat1 = new Category(CATEGORY_TEST_ID_11, CATEGORY_TESTTITLE_11, CATEGORY_TESTDESCRIPTION_11, relatedApps);
+		
+		JSONObject expectedJsonApp = new JSONObject(FileUtil.readFile(FILENAME_TEST_APP_JSON));
+		JSONObject expectedJsonFeat = new JSONObject(FileUtil.readFile(FILENAME_TEST_FEAT_JSON));
+		JSONObject expectedJsonCat = new JSONObject(FileUtil.readFile(FILENAME_TEST_CAT_JSON));
 		
 		return new Object[][] {
-				{ app1, expectedJson1 }
+				{ app1, expectedJsonApp },
+				{ feat1, expectedJsonFeat },
+				{ cat1, expectedJsonCat },
 		};
 	}
 }
