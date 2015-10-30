@@ -1,7 +1,9 @@
 package de.unipotsdam.cs.toolup.model;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,6 +11,13 @@ import org.json.JSONObject;
 
 public abstract class BusinessObject {
 
+	static final String KEY_ID = "id";
+	static final String KEY_DESCRIPTION = "description";
+	static final String KEY_TITLE = "title";
+	static final String KEY_FEATURES = "features";
+	static final String KEY_CATEGORIES = "categories";
+	static final String KEY_APPLICATIONS = "applications";
+	
 	protected String uuid;
 	protected String title;
 	protected String description;
@@ -17,6 +26,10 @@ public abstract class BusinessObject {
 		this.uuid = uuid;
 		this.title = title;
 		this.description = description;
+	}
+
+	public BusinessObject(String uuid) {
+		this.uuid = uuid;
 	}
 
 	public String getUuid() {
@@ -101,10 +114,32 @@ public abstract class BusinessObject {
 	 */
 	private JSONObject createJSONObjectForBusinessObject() throws JSONException {
 		JSONObject result = new JSONObject();		
-		result.put("id", this.uuid);
-		result.put("title", this.title);
-		result.put("description", this.description);
+		result.put(KEY_ID, this.uuid);
+		result.put(KEY_TITLE, this.title);
+		result.put(KEY_DESCRIPTION, this.description);
 		return result;
 	}
 
+	public static BusinessObject createBusinessObjectFromJson(
+			JSONObject jsonRepresentation) throws JSONException {
+		String id = jsonRepresentation.getString(KEY_ID);
+		String type = getTableNameFromId(id);
+		
+		BusinessObject newlyCreatedBO = BusinessObjectFactory.createInstance(type, id);
+		
+		newlyCreatedBO.title = jsonRepresentation.getString(KEY_TITLE);
+		newlyCreatedBO.description = jsonRepresentation.getString(KEY_DESCRIPTION);
+		
+		return newlyCreatedBO;
+	}
+
+	public abstract Set<String> getRelatedBOs();
+
+	protected Set<String> getRelatedBOOfAllRelations(Collection<String>[] relations) {
+		Set<String> relatedBOs = new HashSet<String>();
+		for (int i = 0; i < relations.length; i++) {
+			relatedBOs.addAll(relations[i]);
+		}
+		return relatedBOs;
+	}
 }

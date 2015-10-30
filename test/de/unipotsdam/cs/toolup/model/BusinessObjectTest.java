@@ -99,6 +99,20 @@ public class BusinessObjectTest {
 		JSONUtil.assertEqualJSONContent(expectedJson, jsonRepresentation);
 	}
 	
+	@Test(dataProvider = PROVIDE_BUSINESS_OBJECTS)
+	public void testConvertFrom(BusinessObject expectedBo, JSONObject jsonRepresentation) throws JSONException {
+		//arrange
+		
+		//act
+		BusinessObject bo = BusinessObject.createBusinessObjectFromJson(jsonRepresentation);
+		
+		//assert
+		assertTrue(expectedBo.equals(bo));
+		assertEquals(expectedBo.title, bo.title);
+		assertEquals(expectedBo.description, bo.description);
+		assertTrue(expectedBo.getRelatedBOs().containsAll(bo.getRelatedBOs()));
+	}
+	
 	
 	
 	private static final String PROVIDE_BUSINESS_OBJECTS = "provideBusinessObjects";
@@ -118,9 +132,9 @@ public class BusinessObjectTest {
 		relatedApps.add(APPLICATION_TEST_ID_1);
 		relatedApps.add(APPLICATION_TEST_ID_2);
 		
-		Application app1 = new Application(APPLICATION_TEST_ID_1, APPLICATION_TESTTITLE_1, APPLICATION_TESTDESCRIPTION_1, relatedCats, relatedFeats);
+		BusinessObject app1 = new Application(APPLICATION_TEST_ID_1, APPLICATION_TESTTITLE_1, APPLICATION_TESTDESCRIPTION_1, relatedCats, relatedFeats);
 		BusinessObject feat1 = new Feature(FEATURE_TEST_ID_21, FEATURE_TESTTITLE_21, FEATURE_TESTDESCRIPTION_21, relatedApps);
-		Category cat1 = new Category(CATEGORY_TEST_ID_11, CATEGORY_TESTTITLE_11, CATEGORY_TESTDESCRIPTION_11, relatedApps);
+		BusinessObject cat1 = new Category(CATEGORY_TEST_ID_11, CATEGORY_TESTTITLE_11, CATEGORY_TESTDESCRIPTION_11, relatedApps);
 		
 		JSONObject expectedJsonApp = new JSONObject(FileUtil.readFile(FILENAME_TEST_APP_JSON));
 		JSONObject expectedJsonFeat = new JSONObject(FileUtil.readFile(FILENAME_TEST_FEAT_JSON));

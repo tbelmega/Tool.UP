@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +20,11 @@ public class Feature extends BusinessObject {
 		this.relatedApplications = relatedApplications;
 	}
 
+	public Feature(String uuid) {
+		super(uuid);
+		this.relatedApplications = new HashSet<String>();
+	}
+
 	public Collection<String> getRelatedApplications() {
 		
 		return new HashSet<String>(this.relatedApplications);
@@ -28,10 +34,17 @@ public class Feature extends BusinessObject {
 	@Override
 	public JSONObject convertToJson() throws JSONException {	
 		Map<String, JSONArray> relations = new HashMap<String, JSONArray>();
-		relations.put("applications", relationAsArray(relatedApplications));
+		relations.put(KEY_APPLICATIONS, relationAsArray(relatedApplications));
 
 		JSONObject result = createJSONObjectFromAttributes(relations);		
 		return result;		
+	}
+	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Set<String> getRelatedBOs() {
+		return getRelatedBOOfAllRelations(new Collection[] { relatedApplications } );
 	}
 
 }

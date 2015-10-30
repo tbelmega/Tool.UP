@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import de.unipotsdam.cs.toolup.model.BusinessObject;
+import de.unipotsdam.cs.toolup.model.BusinessObjectFactory;
 
 public class DatabaseController {
 		

@@ -21,6 +21,12 @@ public class Application extends BusinessObject {
 		this.relatedFeatures = relatedFeatures;
 	}
 
+	public Application(String uuid) {
+		super(uuid);
+		this.relatedCategories = new HashSet<String>();
+		this.relatedFeatures = new HashSet<String>();
+	}
+
 	public Collection<String> getRelatedCategories() {
 		return new HashSet<String>(this.relatedCategories);
 	}
@@ -35,11 +41,17 @@ public class Application extends BusinessObject {
 	@Override
 	public JSONObject convertToJson() throws JSONException {	
 		Map<String, JSONArray> relations = new HashMap<String, JSONArray>();
-		relations.put("categories", relationAsArray(relatedCategories));
-		relations.put("features", relationAsArray(relatedFeatures));
+		relations.put(KEY_CATEGORIES, relationAsArray(relatedCategories));
+		relations.put(KEY_FEATURES, relationAsArray(relatedFeatures));
 	
 		JSONObject result = createJSONObjectFromAttributes(relations);		
 		return result;		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Set<String> getRelatedBOs() {
+		return getRelatedBOOfAllRelations(new Collection[] {relatedCategories, relatedFeatures});
 	}
 
 
