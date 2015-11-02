@@ -13,6 +13,11 @@ import de.unipotsdam.cs.toolup.model.NullBusinessObject;
 
 public class DatabaseController {
 		
+	private static final String TABLE_NAME_FEATURE = "feature";
+	private static final String TABLE_NAME_CATEGORY = "category";
+	private static final String TABLE_NAME_APPLICATION = "application";
+
+
 	public static BusinessObject load(String uuid) throws SQLException {
 		String tableName = BusinessObject.getTableNameFromId(uuid);
 		
@@ -50,19 +55,19 @@ public class DatabaseController {
 	}
 
 	public static Set<String> loadRelatedCategoriesForApp(String id) throws SQLException {
-		return loadRelatedBusinessObjectsForId("category", id);
+		return loadRelatedBusinessObjectsForId(TABLE_NAME_CATEGORY, id);
 	}
 
 	public static Set<String> loadRelatedApplicationsForCat(String id) throws SQLException {
-		return loadRelatedBusinessObjectsForId("application", id);
+		return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION, id);
 	}
 
 	public static Set<String> loadRelatedFeaturesForApp(String id) throws SQLException {
-		return loadRelatedBusinessObjectsForId("feature", id);
+		return loadRelatedBusinessObjectsForId(TABLE_NAME_FEATURE, id);
 	}
 
 	public static Collection<String> loadRelatedApplicationsForFeat(String id) throws SQLException {
-		return loadRelatedBusinessObjectsForId("application", id);
+		return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION, id);
 	}
 
 
@@ -77,25 +82,47 @@ public class DatabaseController {
 
 
 	public static void storeToDatabase(BusinessObject aBusinessObject) throws SQLException {
+		boolean exists = checkIfExistsInDB(aBusinessObject);
+		if (exists) {
+			updateDatabase(aBusinessObject);
+		} else {
+			insertIntoDatabase(aBusinessObject);
+		}		
+	}
+
+
+	private static void insertIntoDatabase(BusinessObject aBusinessObject)
+			throws SQLException {
 		String tableName = BusinessObject.getTableNameFromId(aBusinessObject.getUuid());
-		
-		PreparedStatement prepQuery = SqlStatements.getInsertInto(tableName);
-		
+		PreparedStatement prepQuery;
+		prepQuery = SqlStatements.getInsertInto(tableName);	
 		prepQuery.setString(1, aBusinessObject.getUuid());
 		prepQuery.setString(2, aBusinessObject.getTitle());
 		prepQuery.setString(3, aBusinessObject.getDescription());
 		prepQuery.executeUpdate();
-		
 	}
 
 
+	private static void updateDatabase(BusinessObject aBusinessObject)
+			throws SQLException {
+		String tableName = BusinessObject.getTableNameFromId(aBusinessObject.getUuid());
+		PreparedStatement prepQuery;
+		prepQuery = SqlStatements.getUpdate(tableName);
+		prepQuery.setString(1, aBusinessObject.getTitle());
+		prepQuery.setString(2, aBusinessObject.getDescription());
+		prepQuery.setString(3, aBusinessObject.getUuid());
+		prepQuery.executeUpdate();
+	}
 
 
-//	public static void storeToDatabase(Application anApplication) throws SQLException {
-//		
-//		
-//		String query = "INSERT INTO " + getTableNameFromId(anApplication.getUuid()) + " VALUES ('"+ anApplication.getUuid() +"','"+ anApplication.getTitle() +"','"+ anApplication.getDescription()+"');";
-//		executeUpdate(query);
-//	}
+	public static void deleteFromDatabase(String id) throws SQLException {
+		String tableName = BusinessObject.getTableNameFromId(id);
+		
+		PreparedStatement prepQuery = SqlStatements.getDeleteFrom(tableName);
+		
+		prepQuery.setString(1, id);
+		prepQuery.executeUpdate();
+	}
+
 
 }

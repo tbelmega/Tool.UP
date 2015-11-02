@@ -35,6 +35,14 @@ public abstract class BusinessObject {
 	public String getUuid() {
 		return this.uuid;
 	}
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	public String getTitle() {
 		return title;
@@ -140,4 +148,6 @@ public abstract class BusinessObject {
 		}
 		return relatedBOs;
 	}
+
+
 }

@@ -62,4 +62,12 @@ public class BusinessObjectFactory {
 		}
 	}
 
+	public static BusinessObject createInstance(String id, String title,
+			String description) {
+		BusinessObject bo = createInstance(id);
+		bo.setTitle(title);
+		bo.setDescription(description);
+		return bo;
+	}
+
 }
