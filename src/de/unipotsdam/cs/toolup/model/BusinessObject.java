@@ -122,10 +122,8 @@ public abstract class BusinessObject {
 
 	public static BusinessObject createBusinessObjectFromJson(
 			JSONObject jsonRepresentation) throws JSONException {
-		String id = jsonRepresentation.getString(KEY_ID);
-		String type = getTableNameFromId(id);
-		
-		BusinessObject newlyCreatedBO = BusinessObjectFactory.createInstance(type, id);
+		String id = jsonRepresentation.getString(KEY_ID);		
+		BusinessObject newlyCreatedBO = BusinessObjectFactory.createInstance(id);
 		
 		newlyCreatedBO.title = jsonRepresentation.getString(KEY_TITLE);
 		newlyCreatedBO.description = jsonRepresentation.getString(KEY_DESCRIPTION);

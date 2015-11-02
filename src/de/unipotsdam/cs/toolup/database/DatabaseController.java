@@ -9,6 +9,7 @@ import java.util.Set;
 
 import de.unipotsdam.cs.toolup.model.BusinessObject;
 import de.unipotsdam.cs.toolup.model.BusinessObjectFactory;
+import de.unipotsdam.cs.toolup.model.NullBusinessObject;
 
 public class DatabaseController {
 		
@@ -63,6 +64,19 @@ public class DatabaseController {
 	public static Collection<String> loadRelatedApplicationsForFeat(String id) throws SQLException {
 		return loadRelatedBusinessObjectsForId("application", id);
 	}
+
+
+	public static boolean checkIfExistsInDB(BusinessObject aBusinessObject) throws SQLException {
+		return checkIfExistsInDB(aBusinessObject.getUuid());
+	}
+
+	public static boolean checkIfExistsInDB(String id) throws SQLException {
+		BusinessObject objectFromDB = load(id);
+		return !(objectFromDB instanceof NullBusinessObject);
+	}
+
+
+
 
 //	public static void storeToDatabase(Application anApplication) throws SQLException {
 //		

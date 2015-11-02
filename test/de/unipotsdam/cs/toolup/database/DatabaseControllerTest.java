@@ -1,6 +1,7 @@
 package de.unipotsdam.cs.toolup.database;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ import org.testng.annotations.Test;
 
 import de.unipotsdam.cs.toolup.model.Application;
 import de.unipotsdam.cs.toolup.model.BusinessObject;
+import de.unipotsdam.cs.toolup.model.BusinessObjectFactory;
 import de.unipotsdam.cs.toolup.model.Category;
 import de.unipotsdam.cs.toolup.model.Feature;
 
@@ -109,16 +111,54 @@ public class DatabaseControllerTest {
 		assertTrue(app.getRelatedFeatures().containsAll(expectedFeatureIds));
 	}
 	
-	@Test
-	public void testThatApplicationIsStoredToDatabase() throws SQLException {
+//	@Test
+//	public void testThatApplicationIsStoredToDatabase() throws SQLException {
+//		//arrange
+//		Application anApplication = new Application("application/test_id_4", "Moodle", "Moodle Description", null, null);
+//
+//		//act
+//		DatabaseController.storeToDatabase(anApplication);
+//
+//		//assert
+//		Application loaded = (Application) DatabaseController.load(anApplication.getUuid());
+//		assertTrue(anApplication.equals(loaded));
+//	}
+	
+//	@Test
+//	public void testThatAppilcationIsDeletedFromDatabase() {
+//		//arrange
+//		Application anApplication = new Application("application/test_id_4", "Moodle", "Moodle Description", null, null);
+//		
+//		//act
+//		DatabaseController.deleteFromDatabase(anApplication);
+//
+//		//assert
+//		
+//	}
+	
+	@Test(dataProvider = PROVIDE_BUSINESS_OBJECTS)
+	public void testThatCheckExistReturnsTrue(String expectedTitle, String expectedDescription, Class<? extends BusinessObject> expectedClass, String id) throws SQLException {
 		//arrange
-		Application anApplication = new Application("application/test_id_4", "Moodle", "Moodle Description", null, null);
-
+		BusinessObject aBusinessObject = BusinessObjectFactory.createInstance(id);
+		
 		//act
-		DatabaseController.storeToDatabase(anApplication);
+		boolean exists = DatabaseController.checkIfExistsInDB(aBusinessObject);
+		boolean existsById = DatabaseController.checkIfExistsInDB(id);
 
 		//assert
-		Application loaded = (Application) DatabaseController.load(anApplication.getUuid());
-		assertTrue(anApplication.equals(loaded));
+		assertTrue(exists);
+		assertTrue(existsById);
+	}
+	
+	@Test
+	public void testThatCheckExistReturnsFalse() throws SQLException {
+		//arrange
+		BusinessObject aBusinessObject = new Application("application/test_id_" + System.currentTimeMillis(), "", "", null, null);
+		
+		//act
+		boolean exists = DatabaseController.checkIfExistsInDB(aBusinessObject);
+		
+		//assert
+		assertFalse(exists);
 	}
 }

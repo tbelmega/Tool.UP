@@ -30,9 +30,19 @@ public class BusinessObjectFactory {
 		}
 	}
 
+	/**
+	 * 
+	 * @param res
+	 * @return NullBusinessObject if result set set is empty, 
+	 * otherwise an instance of the matching subclass of BusinessObject with the loaded data.
+	 * @throws SQLException
+	 */
 	public static BusinessObject createBusinessObjectFromSingleResult(
 			ResultSet res) throws SQLException {
-		res.first();
+		if (!res.first()){
+			return NullBusinessObject.getInstance();
+		}
+
 		String id = res.getString(KEY_UUID);
 		String title = res.getString(KEY_TITLE);
 		String description = res.getString(KEY_DESCRIPTION);
@@ -40,7 +50,10 @@ public class BusinessObjectFactory {
 		return createBusinessObjectWithLoadedRelations(id,title,description);
 	}
 
-	public static BusinessObject createInstance(String type, String id) {
+
+	public static BusinessObject createInstance(String id) {
+		String type = getTableNameFromId(id);
+	
 		switch (type.toLowerCase()){
 		case TABLENAME_APPLICATION: return new Application(id);
 		case TABLENAME_CATEGORY: return new Category(id);
