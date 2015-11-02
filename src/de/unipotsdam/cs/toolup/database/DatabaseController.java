@@ -76,6 +76,19 @@ public class DatabaseController {
 	}
 
 
+	public static void storeToDatabase(BusinessObject aBusinessObject) throws SQLException {
+		String tableName = BusinessObject.getTableNameFromId(aBusinessObject.getUuid());
+		
+		PreparedStatement prepQuery = SqlStatements.getInsertInto(tableName);
+		
+		prepQuery.setString(1, aBusinessObject.getUuid());
+		prepQuery.setString(2, aBusinessObject.getTitle());
+		prepQuery.setString(3, aBusinessObject.getDescription());
+		prepQuery.executeUpdate();
+		
+	}
+
+
 
 
 //	public static void storeToDatabase(Application anApplication) throws SQLException {

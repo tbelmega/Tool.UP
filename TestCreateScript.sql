@@ -1,12 +1,12 @@
 DROP schema test;
 CREATE schema test;
 USE test;
-CREATE table application ( uuid varchar(32) NOT NULL, title varchar(128) NOT NULL, description longtext, PRIMARY KEY (uuid) );
-CREATE table category ( uuid varchar(32) NOT NULL, title varchar(128) NOT NULL, description longtext, PRIMARY KEY (uuid) );
-CREATE table feature ( uuid varchar(32) NOT NULL, title varchar(128) NOT NULL, description longtext, PRIMARY KEY (uuid) );
-CREATE table application_belongs_to_category ( application_uuid varchar(32) NOT NULL, category_uuid varchar(32) NOT NULL, 
+CREATE table application ( uuid varchar(64) NOT NULL, title varchar(128) NOT NULL, description longtext, PRIMARY KEY (uuid) );
+CREATE table category ( uuid varchar(64) NOT NULL, title varchar(128) NOT NULL, description longtext, PRIMARY KEY (uuid) );
+CREATE table feature ( uuid varchar(64) NOT NULL, title varchar(128) NOT NULL, description longtext, PRIMARY KEY (uuid) );
+CREATE table application_belongs_to_category ( application_uuid varchar(64) NOT NULL, category_uuid varchar(64) NOT NULL, 
 	PRIMARY KEY (application_uuid,category_uuid), FOREIGN KEY (application_uuid) REFERENCES application(uuid), FOREIGN KEY (category_uuid) REFERENCES category(uuid));
-CREATE table application_has_feature ( application_uuid varchar(32) NOT NULL, feature_uuid varchar(32) NOT NULL, 
+CREATE table application_has_feature ( application_uuid varchar(64) NOT NULL, feature_uuid varchar(64) NOT NULL, 
 	PRIMARY KEY (application_uuid,feature_uuid), FOREIGN KEY (application_uuid) REFERENCES application(uuid), FOREIGN KEY (feature_uuid) REFERENCES feature(uuid));
     
 INSERT INTO application values('application/test_id_1','Dropbox','Dropbox Description');

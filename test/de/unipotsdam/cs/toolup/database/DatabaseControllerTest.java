@@ -7,6 +7,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.UUID;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -111,18 +112,20 @@ public class DatabaseControllerTest {
 		assertTrue(app.getRelatedFeatures().containsAll(expectedFeatureIds));
 	}
 	
-//	@Test
-//	public void testThatApplicationIsStoredToDatabase() throws SQLException {
-//		//arrange
-//		Application anApplication = new Application("application/test_id_4", "Moodle", "Moodle Description", null, null);
-//
-//		//act
-//		DatabaseController.storeToDatabase(anApplication);
-//
-//		//assert
-//		Application loaded = (Application) DatabaseController.load(anApplication.getUuid());
-//		assertTrue(anApplication.equals(loaded));
-//	}
+	@Test(dataProvider = PROVIDE_BUSINESS_OBJECTS)
+	public void testThatApplicationIsInsertedIntoDatabase(String title, String description, Class<? extends BusinessObject> clazz, String id) throws SQLException {
+		//arrange
+		String tablename = BusinessObject.getTableNameFromId(id);
+		BusinessObject aBusinessObject = BusinessObjectFactory.createInstance(tablename + "/" + UUID.randomUUID());
+		assertFalse(DatabaseController.checkIfExistsInDB(aBusinessObject));
+
+		//act
+		DatabaseController.storeToDatabase(aBusinessObject);
+
+		//assert
+		BusinessObject loaded = DatabaseController.load(aBusinessObject.getUuid());
+		assertTrue(aBusinessObject.equals(loaded));
+	}
 	
 //	@Test
 //	public void testThatAppilcationIsDeletedFromDatabase() {
@@ -137,7 +140,7 @@ public class DatabaseControllerTest {
 //	}
 	
 	@Test(dataProvider = PROVIDE_BUSINESS_OBJECTS)
-	public void testThatCheckExistReturnsTrue(String expectedTitle, String expectedDescription, Class<? extends BusinessObject> expectedClass, String id) throws SQLException {
+	public void testThatCheckExistReturnsTrue(String title, String description, Class<? extends BusinessObject> clazz, String id) throws SQLException {
 		//arrange
 		BusinessObject aBusinessObject = BusinessObjectFactory.createInstance(id);
 		
@@ -153,7 +156,7 @@ public class DatabaseControllerTest {
 	@Test
 	public void testThatCheckExistReturnsFalse() throws SQLException {
 		//arrange
-		BusinessObject aBusinessObject = new Application("application/test_id_" + System.currentTimeMillis(), "", "", null, null);
+		BusinessObject aBusinessObject = new Application("application/test_id_" + UUID.randomUUID(), "", "", null, null);
 		
 		//act
 		boolean exists = DatabaseController.checkIfExistsInDB(aBusinessObject);

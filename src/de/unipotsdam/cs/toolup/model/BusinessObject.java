@@ -29,7 +29,7 @@ public abstract class BusinessObject {
 	}
 
 	public BusinessObject(String uuid) {
-		this.uuid = uuid;
+		this(uuid,"","");
 	}
 
 	public String getUuid() {
