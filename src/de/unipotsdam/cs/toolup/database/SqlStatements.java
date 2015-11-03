@@ -12,55 +12,45 @@ import java.util.Properties;
 
 public class SqlStatements {
 	
-	private static final String TOKEN_BO_TABLE_NAME = "BO_TABLE_NAME";
-	private static final File SQL_STATEMENT_FILE = new File("src/de/unipotsdam/cs/toolup/database/SQL_Statements.xml").getAbsoluteFile();;
-	private static final File SELECT_STATEMENT_FILE = new File("src/de/unipotsdam/cs/toolup/database/SELECT_Statements.xml").getAbsoluteFile();
+	private static final String TOKEN_TABLE_NAME = "TABLE_NAME";
+	private static final File SQL_STATEMENT_FILE = new File("src/de/unipotsdam/cs/toolup/database/SQL_Statements.xml").getAbsoluteFile();
+	private static final CharSequence TOKEN_FOREIGN_KEY = "FOREIGN_KEY";
 	private static Properties SQL_STATEMENTS = null;
-	private static Properties SELECT_STATEMENTS = null;
 
-	public static PreparedStatement getSelectAllFrom(String tableName) throws SQLException {
-		Connection connection = DriverManager.getConnection(ToolUpProperties.getDatabaseUrl());				
-		String preparedQuery = getSelectStatement(tableName, "BYid");
-		return connection.prepareStatement(preparedQuery);
-	}
 
-	public static PreparedStatement getRelationAbyB(
-			String a, String b) throws SQLException {
+
+	public static PreparedStatement getSelectRelation(
+			String relationName, String criteriaAttribute) throws SQLException {
 		Connection connection = DriverManager.getConnection(ToolUpProperties.getDatabaseUrl());
-		String preparedQuery = getSelectStatement(a, "BY" + b);	
+		String preparedQuery = getSqlStatements().getProperty("selectRelation");	
+		preparedQuery = preparedQuery.replace(TOKEN_TABLE_NAME, relationName).replace(TOKEN_FOREIGN_KEY,  criteriaAttribute);		
 		return connection.prepareStatement(preparedQuery);
 	}
 	
-	private static String getSelectStatement(String tableName, String by) throws SQLException {
-		String preparedQuery;
-		try {
-			preparedQuery = getSelectStatements().getProperty(tableName + by);
-		} catch (IOException e) {
-			throw new SQLException(e);
-		}
-		return preparedQuery;
-	}
-
-	private static Properties getSelectStatements() throws IOException{
-		if (SELECT_STATEMENTS == null){
-			SELECT_STATEMENTS = loadFromFile(SELECT_STATEMENTS, SELECT_STATEMENT_FILE);
-		} 
-		return SELECT_STATEMENTS;
+	public static PreparedStatement getSelectAllFrom(String tableName) throws SQLException {
+		return getCustomizedStatement("selectBO", tableName);
 	}
 
 	public static PreparedStatement getInsertInto(String tableName) throws SQLException {
-		Connection connection = DriverManager.getConnection(ToolUpProperties.getDatabaseUrl());				
-		String preparedQuery = getInsertStatement(tableName);
+		return getCustomizedStatement("insertBO", tableName);
+	}
+
+	public static PreparedStatement getDeleteFrom(String tableName) throws SQLException {				
+		return getCustomizedStatement("deleteBO", tableName);
+	}
+
+	public static PreparedStatement getUpdate(String tableName) throws SQLException {			
+		return getCustomizedStatement("updateBO", tableName);
+	}
+	
+	private static PreparedStatement getCustomizedStatement(String statementKey, String tableName) throws SQLException {
+		Connection connection = DriverManager.getConnection(ToolUpProperties.getDatabaseUrl());	
+		String preparedQuery;
+		preparedQuery = getSqlStatements().getProperty(statementKey);
+		preparedQuery = preparedQuery.replace(TOKEN_TABLE_NAME, tableName);
 		return connection.prepareStatement(preparedQuery);
 	}
-
-	private static String getInsertStatement(String tableName) throws SQLException {
-		String preparedQuery;
-		preparedQuery = getSqlStatements().getProperty("insertBO");
-		preparedQuery = preparedQuery.replace(TOKEN_BO_TABLE_NAME, tableName);
-		return preparedQuery;
-	}
-
+	
 	private static Properties getSqlStatements() throws SQLException {
 		if (SQL_STATEMENTS == null){
 			try {
@@ -72,29 +62,4 @@ public class SqlStatements {
 		return SQL_STATEMENTS;
 	}
 
-	public static PreparedStatement getDeleteFrom(String tableName) throws SQLException {
-		Connection connection = DriverManager.getConnection(ToolUpProperties.getDatabaseUrl());				
-		String preparedQuery = getDeleteStatement(tableName);
-		return connection.prepareStatement(preparedQuery);
-	}
-
-	private static String getDeleteStatement(String tableName) throws SQLException {
-		String preparedQuery;
-		preparedQuery = getSqlStatements().getProperty("deleteBO");
-		preparedQuery = preparedQuery.replace(TOKEN_BO_TABLE_NAME, tableName);
-		return preparedQuery;
-	}
-
-	public static PreparedStatement getUpdate(String tableName) throws SQLException {
-		Connection connection = DriverManager.getConnection(ToolUpProperties.getDatabaseUrl());				
-		String preparedQuery = getUpdateStatement(tableName);
-		return connection.prepareStatement(preparedQuery);
-	}
-
-	private static String getUpdateStatement(String tableName) throws SQLException {
-		String preparedQuery;
-		preparedQuery = getSqlStatements().getProperty("updateBO");
-		preparedQuery = preparedQuery.replace(TOKEN_BO_TABLE_NAME, tableName);
-		return preparedQuery;
-	}
 }

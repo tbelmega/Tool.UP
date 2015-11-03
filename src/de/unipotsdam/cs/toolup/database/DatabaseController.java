@@ -16,6 +16,8 @@ public class DatabaseController {
 	private static final String TABLE_NAME_FEATURE = "feature";
 	private static final String TABLE_NAME_CATEGORY = "category";
 	private static final String TABLE_NAME_APPLICATION = "application";
+	private static final String TABLE_NAME_APPLICATION_FEATURE = "application_has_feature";
+	private static final String TABLE_NAME_APPLICATION_CATEGORY = "application_belongs_to_category";
 
 
 	public static BusinessObject load(String uuid) throws SQLException {
@@ -30,18 +32,18 @@ public class DatabaseController {
 	}
 
 
-	public static Set<String> loadRelatedBusinessObjectsForId(String getObjectType, String id) throws SQLException {
+	public static Set<String> loadRelatedBusinessObjectsForId(String tableName, String targetBusinessObjectType, String id) throws SQLException {
 
-		String selectBy = BusinessObject.getTableNameFromId(id);
+		String criteriaBusinessObjectType = BusinessObject.getTableNameFromId(id);
 		
-		PreparedStatement prepQuery = SqlStatements.getRelationAbyB(getObjectType, selectBy);
+		PreparedStatement prepQuery = SqlStatements.getSelectRelation(tableName, criteriaBusinessObjectType + "_uuid");
 
 		prepQuery.setString(1, id);
 		prepQuery.toString();
 		
 		ResultSet res = prepQuery.executeQuery();
 
-		return getRelatedIdsFromResultSet(getObjectType + "_uuid",
+		return getRelatedIdsFromResultSet(targetBusinessObjectType + "_uuid",
 				res);
 	}
 
@@ -55,19 +57,19 @@ public class DatabaseController {
 	}
 
 	public static Set<String> loadRelatedCategoriesForApp(String id) throws SQLException {
-		return loadRelatedBusinessObjectsForId(TABLE_NAME_CATEGORY, id);
+		return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION_CATEGORY, TABLE_NAME_CATEGORY, id);
 	}
 
 	public static Set<String> loadRelatedApplicationsForCat(String id) throws SQLException {
-		return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION, id);
+		return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION_CATEGORY, TABLE_NAME_APPLICATION, id);
 	}
 
 	public static Set<String> loadRelatedFeaturesForApp(String id) throws SQLException {
-		return loadRelatedBusinessObjectsForId(TABLE_NAME_FEATURE, id);
+		return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION_FEATURE, TABLE_NAME_FEATURE, id);
 	}
 
 	public static Collection<String> loadRelatedApplicationsForFeat(String id) throws SQLException {
-		return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION, id);
+		return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION_FEATURE, TABLE_NAME_APPLICATION, id);
 	}
 
 

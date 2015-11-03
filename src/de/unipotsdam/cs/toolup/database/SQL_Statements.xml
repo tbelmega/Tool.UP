@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<entry key="insertBO">INSERT INTO BO_TABLE_NAME VALUES (?,?,?);</entry>
-<entry key="updateBO">UPDATE BO_TABLE_NAME SET title = ?, description = ? WHERE uuid = ?;</entry>
-<entry key="deleteBO">DELETE FROM BO_TABLE_NAME WHERE uuid = ?;</entry>
+<entry key="selectBO">SELECT * FROM TABLE_NAME WHERE uuid = ?;</entry>
+<entry key="insertBO">INSERT INTO TABLE_NAME VALUES (?,?,?);</entry>
+<entry key="updateBO">UPDATE TABLE_NAME SET title = ?, description = ? WHERE uuid = ?;</entry>
+<entry key="deleteBO">DELETE FROM TABLE_NAME WHERE uuid = ?;</entry>
+<entry key="selectRelation">SELECT * FROM TABLE_NAME WHERE FOREIGN_KEY = ?;</entry>
 </properties>
