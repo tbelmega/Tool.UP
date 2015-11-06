@@ -149,5 +149,8 @@ public abstract class BusinessObject {
 		return relatedBOs;
 	}
 
+	public abstract void addRelation(String string);
+
+
 
 }

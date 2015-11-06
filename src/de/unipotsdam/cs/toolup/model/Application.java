@@ -1,6 +1,7 @@
 package de.unipotsdam.cs.toolup.model;
 
 import java.util.Collection;
+import static de.unipotsdam.cs.toolup.database.DatabaseController.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -51,7 +52,19 @@ public class Application extends BusinessObject {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Set<String> getRelatedBOs() {
+		//TODO: refactor relations to hashmap<tablename, collection>
 		return getRelatedBOOfAllRelations(new Collection[] {relatedCategories, relatedFeatures});
+	}
+
+	@Override
+	public void addRelation(String string) {
+		if (string.startsWith(TABLE_NAME_CATEGORY)){
+			relatedCategories.add(string);
+		} else if (string.startsWith(TABLE_NAME_FEATURE)){
+			relatedFeatures.add(string);
+		} else {
+			throw new IllegalArgumentException("Business Object of this type can not be related to an application: " + string);
+		}
 	}
 
 

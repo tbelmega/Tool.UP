@@ -7,17 +7,22 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import de.unipotsdam.cs.toolup.model.Application;
 import de.unipotsdam.cs.toolup.model.BusinessObject;
 import de.unipotsdam.cs.toolup.model.BusinessObjectFactory;
+import de.unipotsdam.cs.toolup.model.Category;
+import de.unipotsdam.cs.toolup.model.Feature;
 import de.unipotsdam.cs.toolup.model.NullBusinessObject;
 
 public class DatabaseController {
 		
-	private static final String TABLE_NAME_FEATURE = "feature";
-	private static final String TABLE_NAME_CATEGORY = "category";
-	private static final String TABLE_NAME_APPLICATION = "application";
-	private static final String TABLE_NAME_APPLICATION_FEATURE = "application_has_feature";
-	private static final String TABLE_NAME_APPLICATION_CATEGORY = "application_belongs_to_category";
+	private static final String COLUMN_SUFFIX_UUID = "_uuid";
+	public static final String TABLE_NAME_FEATURE = "feature";
+	public static final String TABLE_NAME_CATEGORY = "category";
+	public static final String TABLE_NAME_APPLICATION = "application";
+	public static final String TABLE_NAME_APPLICATION_FEATURE = "application_has_feature";
+	public static final String TABLE_NAME_APPLICATION_CATEGORY = "application_belongs_to_category";
 
 
 	public static BusinessObject load(String uuid) throws SQLException {
@@ -36,14 +41,14 @@ public class DatabaseController {
 
 		String criteriaBusinessObjectType = BusinessObject.getTableNameFromId(id);
 		
-		PreparedStatement prepQuery = SqlStatements.getSelectRelation(tableName, criteriaBusinessObjectType + "_uuid");
+		PreparedStatement prepQuery = SqlStatements.getSelectRelation(tableName, criteriaBusinessObjectType + COLUMN_SUFFIX_UUID);
 
 		prepQuery.setString(1, id);
 		prepQuery.toString();
 		
 		ResultSet res = prepQuery.executeQuery();
 
-		return getRelatedIdsFromResultSet(targetBusinessObjectType + "_uuid",
+		return getRelatedIdsFromResultSet(targetBusinessObjectType + COLUMN_SUFFIX_UUID,
 				res);
 	}
 
@@ -96,6 +101,58 @@ public class DatabaseController {
 	private static void insertIntoDatabase(BusinessObject aBusinessObject)
 			throws SQLException {
 		String tableName = BusinessObject.getTableNameFromId(aBusinessObject.getUuid());
+		insertBO(aBusinessObject, tableName);
+		insertRelations(aBusinessObject, tableName);
+	}
+
+
+	private static void insertRelations(BusinessObject aBusinessObject,
+			String tableName) throws SQLException {
+		if (aBusinessObject.getRelatedBOs().isEmpty()) return;
+		switch (tableName) {
+		case TABLE_NAME_APPLICATION: {
+			Application app = (Application) aBusinessObject;
+			insertSingleRelationInto(TABLE_NAME_APPLICATION_FEATURE, app.getUuid(), 1, app.getRelatedFeatures());
+			insertSingleRelationInto(TABLE_NAME_APPLICATION_CATEGORY, app.getUuid(), 1, app.getRelatedCategories());
+			break;
+		}
+		case TABLE_NAME_CATEGORY: {
+			Category cat = (Category) aBusinessObject;
+			insertSingleRelationInto(TABLE_NAME_APPLICATION_CATEGORY, cat.getUuid(), 2, cat.getRelatedApplications());
+			break;
+		}
+		case TABLE_NAME_FEATURE: {
+			Feature feat = (Feature) aBusinessObject;
+			insertSingleRelationInto(TABLE_NAME_APPLICATION_FEATURE, feat.getUuid(), 2, feat.getRelatedApplications());
+			break;
+		}
+		default: throw new NotImplementedException();
+		}
+	}
+
+
+	/**
+	 * 
+	 * @param tableName the name of the relation table
+	 * @param uuid the BO thats relations are to be stored
+	 * @param uuidColumnNumber column number of the BOs id in the table. 1 if BO is Application, 2 otherwise.
+	 * @param relatedIds a collection of the uuid's of related BOs
+	 * @throws SQLException
+	 */
+	private static void insertSingleRelationInto(String tableName, String uuid,
+			int uuidColumnNumber, Collection<String> relatedIds) throws SQLException {
+		for (String foreignKey: relatedIds) {
+			PreparedStatement prepQuery;
+			prepQuery = SqlStatements.getInsertRelation(tableName);	
+			prepQuery.setString(uuidColumnNumber, uuid);
+			prepQuery.setString((uuidColumnNumber % 2) +1, foreignKey);
+			prepQuery.executeUpdate();
+		}	
+	}
+
+
+	private static void insertBO(BusinessObject aBusinessObject,
+			String tableName) throws SQLException {
 		PreparedStatement prepQuery;
 		prepQuery = SqlStatements.getInsertInto(tableName);	
 		prepQuery.setString(1, aBusinessObject.getUuid());
@@ -108,6 +165,51 @@ public class DatabaseController {
 	private static void updateDatabase(BusinessObject aBusinessObject)
 			throws SQLException {
 		String tableName = BusinessObject.getTableNameFromId(aBusinessObject.getUuid());
+		updateBO(aBusinessObject, tableName);
+		updateRelations(aBusinessObject, tableName);
+	}
+
+
+	private static void updateRelations(BusinessObject aBusinessObject,
+			String tableName) throws SQLException {
+		if (aBusinessObject.getRelatedBOs().isEmpty()) return;
+		switch (tableName) {
+		case TABLE_NAME_APPLICATION: {
+			Application app = (Application) aBusinessObject;
+			updateSingleRelation(TABLE_NAME_APPLICATION_FEATURE, app.getUuid(), 1, app.getRelatedFeatures());
+			updateSingleRelation(TABLE_NAME_APPLICATION_CATEGORY, app.getUuid(), 1, app.getRelatedCategories());
+			break;
+		}
+		case TABLE_NAME_CATEGORY: {
+			Category cat = (Category) aBusinessObject;
+			updateSingleRelation(TABLE_NAME_APPLICATION_CATEGORY, cat.getUuid(), 2, cat.getRelatedApplications());
+			break;
+		}
+		case TABLE_NAME_FEATURE: {
+			Feature feat = (Feature) aBusinessObject;
+			updateSingleRelation(TABLE_NAME_APPLICATION_FEATURE, feat.getUuid(), 2, feat.getRelatedApplications());
+			break;
+		}
+		default: throw new NotImplementedException();
+		}
+	}
+
+
+	private static void updateSingleRelation(
+			String tableName, String uuid, int uuidColumnNumber,
+			Collection<String> relatedIds) throws SQLException {
+		for (String foreignKey: relatedIds) {
+			PreparedStatement prepQuery;
+			prepQuery = SqlStatements.getInsertRelation(tableName);	
+			prepQuery.setString(uuidColumnNumber, uuid);
+			prepQuery.setString((uuidColumnNumber % 2) +1, foreignKey);
+			prepQuery.executeUpdate();
+		}	
+	}
+
+
+	private static void updateBO(BusinessObject aBusinessObject,
+			String tableName) throws SQLException {
 		PreparedStatement prepQuery;
 		prepQuery = SqlStatements.getUpdate(tableName);
 		prepQuery.setString(1, aBusinessObject.getTitle());

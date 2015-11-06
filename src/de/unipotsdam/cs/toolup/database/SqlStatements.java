@@ -34,6 +34,11 @@ public class SqlStatements {
 	public static PreparedStatement getInsertInto(String tableName) throws SQLException {
 		return getCustomizedStatement("insertBO", tableName);
 	}
+	
+
+	public static PreparedStatement getInsertRelation(String tableName) throws SQLException {
+		return getCustomizedStatement("insertRelation", tableName);
+	}
 
 	public static PreparedStatement getDeleteFrom(String tableName) throws SQLException {				
 		return getCustomizedStatement("deleteBO", tableName);
@@ -61,5 +66,6 @@ public class SqlStatements {
 		} 
 		return SQL_STATEMENTS;
 	}
+
 
 }

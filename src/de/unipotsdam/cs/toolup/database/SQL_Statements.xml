@@ -6,4 +6,6 @@
 <entry key="updateBO">UPDATE TABLE_NAME SET title = ?, description = ? WHERE uuid = ?;</entry>
 <entry key="deleteBO">DELETE FROM TABLE_NAME WHERE uuid = ?;</entry>
 <entry key="selectRelation">SELECT * FROM TABLE_NAME WHERE FOREIGN_KEY = ?;</entry>
+<entry key="deleteRelation">DELETE FROM FROM TABLE_NAME WHERE FOREIGN_KEY = ?;</entry>
+<entry key="insertRelation">INSERT INTO TABLE_NAME VALUES (?,?);</entry>
 </properties>

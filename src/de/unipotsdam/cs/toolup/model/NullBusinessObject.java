@@ -6,6 +6,11 @@ import java.util.Set;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * NullBusinessObject represents the absence of a {@link BusinessObject} according to the NullObjectPattern.
+ * @author Thiemo
+ *
+ */
 public class NullBusinessObject extends BusinessObject {
 	
 	private static NullBusinessObject instance = null;
@@ -35,6 +40,10 @@ public class NullBusinessObject extends BusinessObject {
 			instance = new NullBusinessObject();
 		}
 		return instance;
+	}
+
+	@Override
+	public void addRelation(String string) {
 	}
 
 }

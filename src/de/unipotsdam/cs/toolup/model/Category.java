@@ -43,4 +43,10 @@ public class Category extends BusinessObject {
 		return getRelatedBOOfAllRelations(new Collection[] { relatedApplications } );
 	}
 
+	@Override
+	public void addRelation(String string) {
+		relatedApplications.add(string);
+	}
+
+
 }

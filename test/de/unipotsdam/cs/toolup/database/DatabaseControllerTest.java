@@ -97,12 +97,13 @@ public class DatabaseControllerTest {
 		DatabaseController.storeToDatabase(aBusinessObject);
 
 		//act
-		aBusinessObject = BusinessObjectFactory.createInstance(id, "bbb", "BBBBBB");
-		DatabaseController.storeToDatabase(aBusinessObject);
+		BusinessObject modifiedBusinessObject = BusinessObjectFactory.createInstance(id, "bbb", "BBBBBB");
+		DatabaseController.storeToDatabase(modifiedBusinessObject);
 
 		//assert
 		BusinessObject loadedBO = DatabaseController.load(id);
-		assertTrue(aBusinessObject.equals(loadedBO));
+		assertTrue(modifiedBusinessObject.equals(loadedBO));
+		assertEquals(modifiedBusinessObject.getTitle(), loadedBO.getTitle());
 		
 		//clean up
 		DatabaseController.deleteFromDatabase(id);
