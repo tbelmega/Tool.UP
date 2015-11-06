@@ -4,12 +4,10 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class ToolUpPropertiesTest {
@@ -27,16 +25,19 @@ public class ToolUpPropertiesTest {
 	
 	File PROPERTIES_FILE = new File("Tool.UP_cfg_template.xml");
 	
-	@BeforeMethod
-	public void prepareConfigFile() throws FileNotFoundException, IOException{
-		Properties props = new Properties();
-		props.put(KEY_SERVERADRESS, VALUE_SERVERADRESS);
-		props.put(KEY_SERVERPORT, VALUE_SERVERPORT);
-		props.put(KEY_USERNAME, VALUE_USERNAME);
-		props.put(KEY_PASSWORD, VALUE_PASSWORD);
-		props.put(KEY_SCHEMA, VALUE_SCHEMA);
-		props.storeToXML(new FileOutputStream(PROPERTIES_FILE), null, "utf-8");
-	}
+	/**
+	 * This method can be used to generate a template cfg file.
+	 */
+//	@BeforeMethod
+//	public void prepareConfigFile() throws FileNotFoundException, IOException{
+//		Properties props = new Properties();
+//		props.put(KEY_SERVERADRESS, VALUE_SERVERADRESS);
+//		props.put(KEY_SERVERPORT, VALUE_SERVERPORT);
+//		props.put(KEY_USERNAME, VALUE_USERNAME);
+//		props.put(KEY_PASSWORD, VALUE_PASSWORD);
+//		props.put(KEY_SCHEMA, VALUE_SCHEMA);
+//		props.storeToXML(new FileOutputStream(PROPERTIES_FILE), null, "utf-8");
+//	}
 	
 	@Test
 	public void testThatPropertiesAreLoaded() throws InvalidPropertiesFormatException, FileNotFoundException, IOException {

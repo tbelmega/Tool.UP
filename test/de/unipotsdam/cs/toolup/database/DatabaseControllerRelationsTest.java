@@ -1,6 +1,5 @@
 package de.unipotsdam.cs.toolup.database;
 
-import static de.unipotsdam.cs.toolup.database.DatabaseController.*;
 import static de.unipotsdam.cs.toolup.database.DatabaseControllerDataProvider.APPLICATION_TEST_ID_1;
 import static de.unipotsdam.cs.toolup.database.DatabaseControllerDataProvider.APPLICATION_TEST_ID_2;
 import static de.unipotsdam.cs.toolup.database.DatabaseControllerDataProvider.CATEGORY_TEST_ID_11;
@@ -12,7 +11,6 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
-import java.util.UUID;
 
 import org.testng.annotations.Test;
 
@@ -57,7 +55,7 @@ public class DatabaseControllerRelationsTest extends AbstractDatabaseTest {
 		Application app = (Application) db.load(APPLICATION_TEST_ID_1);
 		
 		//assert
-		assertTrue(app.getRelatedCategories().containsAll(expectedCatIds));
+		assertTrue(app.getRelatedBOs().containsAll(expectedCatIds));
 	}
 	
 	@Test

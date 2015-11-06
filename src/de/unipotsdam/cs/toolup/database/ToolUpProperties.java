@@ -9,25 +9,44 @@ import java.util.Properties;
 
 public class ToolUpProperties {
 
-	private static final String DB_USERNAME = "root";
-	private static final String DB_SCHEMA = "test";
-	private static final String SERVER_PORT = "3306";
-	private static final String SERVER_ADRESS = "localhost";
+	private static final String KEY_SERVERADRESS = "database server adress";
+	private static final String KEY_SERVERPORT = "database server port";
+	private static final String KEY_USERNAME = "database user name";
+	private static final String KEY_PASSWORD = "database password";
+	private static final String KEY_SCHEMA = "database schema";
+	
 	private static final String DATABASE_CONNECTOR = "jdbc:mysql://";
-	private static final String DB_PASSWORD = "";
+	
 	private static String DATABASE_URL = null;
 	private static Properties PROPERTIES = null;
 	
 	static File PROPERTIES_FILE = new File("Tool.UP_cfg.xml");
 
-	public static String getDatabaseUrl() {
+	/**
+	 * Constructs the database url out of the read properties.
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getDatabaseUrl() throws IOException {
 		if (DATABASE_URL == null){
-			DATABASE_URL = DATABASE_CONNECTOR+SERVER_ADRESS+":"+SERVER_PORT+"/"+DB_SCHEMA+"?user="+DB_USERNAME+"&pw=" + DB_PASSWORD;
+			DATABASE_URL = new StringBuilder()
+			.append(DATABASE_CONNECTOR)
+			.append(getProperties().getProperty(KEY_SERVERADRESS) )
+			.append( ":"+getProperties().getProperty(KEY_SERVERPORT))
+			.append("/"+getProperties().getProperty(KEY_SCHEMA))
+			.append("?user="+getProperties().getProperty(KEY_USERNAME+"&pw=" ))
+			.append( getProperties().getProperty(KEY_PASSWORD))
+			.toString();
 		}
 		return DATABASE_URL;
 	}
 
-	public static Properties getProperties() throws InvalidPropertiesFormatException, FileNotFoundException, IOException {
+	/**
+	 * 
+	 * @return the ToolUp singleton Properties object
+	 * @throws IOException
+	 */
+	public static Properties getProperties() throws IOException {
 		if (PROPERTIES == null){
 			loadPropertiesFromFile();
 		}
