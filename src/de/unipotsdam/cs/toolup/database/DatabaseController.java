@@ -1,5 +1,6 @@
 package de.unipotsdam.cs.toolup.database;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,12 +24,26 @@ public class DatabaseController {
 	public static final String TABLE_NAME_APPLICATION = "application";
 	public static final String TABLE_NAME_APPLICATION_FEATURE = "application_has_feature";
 	public static final String TABLE_NAME_APPLICATION_CATEGORY = "application_belongs_to_category";
+	
+	private SqlStatementFactory sqlStatementFactory;
+	private static DatabaseController instance;
+	
+	private DatabaseController () throws IOException, SQLException {
+		sqlStatementFactory = new SqlStatementFactory();
+	}
+	
+	public static DatabaseController getInstance() throws IOException, SQLException{
+		if (instance == null) {
+			instance = new DatabaseController();
+		}
+		return instance;
+	}
 
 
-	public static BusinessObject load(String uuid) throws SQLException {
+	public BusinessObject load(String uuid) throws SQLException {
 		String tableName = BusinessObject.getTableNameFromId(uuid);
 		
-		PreparedStatement prepQuery = SqlStatements.getSelectAllFrom(tableName);
+		PreparedStatement prepQuery = sqlStatementFactory.getSelectAllFrom(tableName);
 		
 		prepQuery.setString(1, uuid);
 		ResultSet res = prepQuery.executeQuery();
@@ -37,11 +52,11 @@ public class DatabaseController {
 	}
 
 
-	public static Set<String> loadRelatedBusinessObjectsForId(String tableName, String targetBusinessObjectType, String id) throws SQLException {
+	public Set<String> loadRelatedBusinessObjectsForId(String tableName, String targetBusinessObjectType, String id) throws SQLException {
 
 		String criteriaBusinessObjectType = BusinessObject.getTableNameFromId(id);
 		
-		PreparedStatement prepQuery = SqlStatements.getSelectRelation(tableName, criteriaBusinessObjectType + COLUMN_SUFFIX_UUID);
+		PreparedStatement prepQuery = sqlStatementFactory.getSelectRelation(tableName, criteriaBusinessObjectType + COLUMN_SUFFIX_UUID);
 
 		prepQuery.setString(1, id);
 		prepQuery.toString();
@@ -52,7 +67,7 @@ public class DatabaseController {
 				res);
 	}
 
-	private static Set<String> getRelatedIdsFromResultSet(
+	private Set<String> getRelatedIdsFromResultSet(
 			String resultColumnName, ResultSet res) throws SQLException {
 		Set<String> relatedIds = new HashSet<String>();
 		while (res.next()) {
@@ -61,34 +76,34 @@ public class DatabaseController {
 		return relatedIds;
 	}
 
-	public static Set<String> loadRelatedCategoriesForApp(String id) throws SQLException {
+	public Set<String> loadRelatedCategoriesForApp(String id) throws SQLException {
 		return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION_CATEGORY, TABLE_NAME_CATEGORY, id);
 	}
 
-	public static Set<String> loadRelatedApplicationsForCat(String id) throws SQLException {
+	public Set<String> loadRelatedApplicationsForCat(String id) throws SQLException {
 		return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION_CATEGORY, TABLE_NAME_APPLICATION, id);
 	}
 
-	public static Set<String> loadRelatedFeaturesForApp(String id) throws SQLException {
+	public Set<String> loadRelatedFeaturesForApp(String id) throws SQLException {
 		return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION_FEATURE, TABLE_NAME_FEATURE, id);
 	}
 
-	public static Collection<String> loadRelatedApplicationsForFeat(String id) throws SQLException {
+	public Collection<String> loadRelatedApplicationsForFeat(String id) throws SQLException {
 		return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION_FEATURE, TABLE_NAME_APPLICATION, id);
 	}
 
 
-	public static boolean checkIfExistsInDB(BusinessObject aBusinessObject) throws SQLException {
+	public boolean checkIfExistsInDB(BusinessObject aBusinessObject) throws SQLException {
 		return checkIfExistsInDB(aBusinessObject.getUuid());
 	}
 
-	public static boolean checkIfExistsInDB(String id) throws SQLException {
+	public boolean checkIfExistsInDB(String id) throws SQLException {
 		BusinessObject objectFromDB = load(id);
 		return !(objectFromDB instanceof NullBusinessObject);
 	}
 
 
-	public static void storeToDatabase(BusinessObject aBusinessObject) throws SQLException {
+	public void storeToDatabase(BusinessObject aBusinessObject) throws SQLException {
 		boolean exists = checkIfExistsInDB(aBusinessObject);
 		if (exists) {
 			updateDatabase(aBusinessObject);
@@ -98,7 +113,7 @@ public class DatabaseController {
 	}
 
 
-	private static void insertIntoDatabase(BusinessObject aBusinessObject)
+	private void insertIntoDatabase(BusinessObject aBusinessObject)
 			throws SQLException {
 		String tableName = BusinessObject.getTableNameFromId(aBusinessObject.getUuid());
 		insertBO(aBusinessObject, tableName);
@@ -106,7 +121,7 @@ public class DatabaseController {
 	}
 
 
-	private static void insertRelations(BusinessObject aBusinessObject,
+	private void insertRelations(BusinessObject aBusinessObject,
 			String tableName) throws SQLException {
 		if (aBusinessObject.getRelatedBOs().isEmpty()) return;
 		switch (tableName) {
@@ -139,11 +154,11 @@ public class DatabaseController {
 	 * @param relatedIds a collection of the uuid's of related BOs
 	 * @throws SQLException
 	 */
-	private static void insertSingleRelationInto(String tableName, String uuid,
+	private void insertSingleRelationInto(String tableName, String uuid,
 			int uuidColumnNumber, Collection<String> relatedIds) throws SQLException {
 		for (String foreignKey: relatedIds) {
 			PreparedStatement prepQuery;
-			prepQuery = SqlStatements.getInsertRelation(tableName);	
+			prepQuery = sqlStatementFactory.getInsertRelation(tableName);	
 			prepQuery.setString(uuidColumnNumber, uuid);
 			prepQuery.setString((uuidColumnNumber % 2) +1, foreignKey);
 			prepQuery.executeUpdate();
@@ -151,10 +166,10 @@ public class DatabaseController {
 	}
 
 
-	private static void insertBO(BusinessObject aBusinessObject,
+	private void insertBO(BusinessObject aBusinessObject,
 			String tableName) throws SQLException {
 		PreparedStatement prepQuery;
-		prepQuery = SqlStatements.getInsertInto(tableName);	
+		prepQuery = sqlStatementFactory.getInsertInto(tableName);	
 		prepQuery.setString(1, aBusinessObject.getUuid());
 		prepQuery.setString(2, aBusinessObject.getTitle());
 		prepQuery.setString(3, aBusinessObject.getDescription());
@@ -162,7 +177,7 @@ public class DatabaseController {
 	}
 
 
-	private static void updateDatabase(BusinessObject aBusinessObject)
+	private void updateDatabase(BusinessObject aBusinessObject)
 			throws SQLException {
 		String tableName = BusinessObject.getTableNameFromId(aBusinessObject.getUuid());
 		updateBO(aBusinessObject, tableName);
@@ -170,7 +185,7 @@ public class DatabaseController {
 	}
 
 
-	private static void updateRelations(BusinessObject aBusinessObject,
+	private void updateRelations(BusinessObject aBusinessObject,
 			String tableName) throws SQLException {
 		if (aBusinessObject.getRelatedBOs().isEmpty()) return;
 		switch (tableName) {
@@ -195,12 +210,12 @@ public class DatabaseController {
 	}
 
 
-	private static void updateSingleRelation(
+	private void updateSingleRelation(
 			String tableName, String uuid, int uuidColumnNumber,
 			Collection<String> relatedIds) throws SQLException {
 		for (String foreignKey: relatedIds) {
 			PreparedStatement prepQuery;
-			prepQuery = SqlStatements.getInsertRelation(tableName);	
+			prepQuery = sqlStatementFactory.getInsertRelation(tableName);	
 			prepQuery.setString(uuidColumnNumber, uuid);
 			prepQuery.setString((uuidColumnNumber % 2) +1, foreignKey);
 			prepQuery.executeUpdate();
@@ -208,10 +223,10 @@ public class DatabaseController {
 	}
 
 
-	private static void updateBO(BusinessObject aBusinessObject,
+	private void updateBO(BusinessObject aBusinessObject,
 			String tableName) throws SQLException {
 		PreparedStatement prepQuery;
-		prepQuery = SqlStatements.getUpdate(tableName);
+		prepQuery = sqlStatementFactory.getUpdate(tableName);
 		prepQuery.setString(1, aBusinessObject.getTitle());
 		prepQuery.setString(2, aBusinessObject.getDescription());
 		prepQuery.setString(3, aBusinessObject.getUuid());
@@ -219,10 +234,10 @@ public class DatabaseController {
 	}
 
 
-	public static void deleteFromDatabase(String id) throws SQLException {
+	public void deleteFromDatabase(String id) throws SQLException {
 		String tableName = BusinessObject.getTableNameFromId(id);
 		
-		PreparedStatement prepQuery = SqlStatements.getDeleteFrom(tableName);
+		PreparedStatement prepQuery = sqlStatementFactory.getDeleteFrom(tableName);
 		
 		prepQuery.setString(1, id);
 		prepQuery.executeUpdate();

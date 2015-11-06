@@ -7,12 +7,14 @@ import static de.unipotsdam.cs.toolup.database.DatabaseControllerDataProvider.FE
 import static de.unipotsdam.cs.toolup.database.DatabaseControllerDataProvider.FEATURE_TEST_ID_22;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.unipotsdam.cs.toolup.model.Application;
@@ -23,13 +25,20 @@ import de.unipotsdam.cs.toolup.model.Feature;
 
 public class DatabaseControllerRelationsTest {
 	
+	private DatabaseController db;
+
+	@BeforeClass
+	public void setUp() throws IOException, SQLException {
+		db = DatabaseController.getInstance();
+	}
+	
 	@Test
 	public void testThatLoadedCategoryHasRelatedApplications() throws SQLException {
 		//arrange
 		Collection<String> expectedAppIds = Arrays.asList(new String[] {APPLICATION_TEST_ID_1, APPLICATION_TEST_ID_2});
 
 		//act
-		Category cat = (Category) DatabaseController.load(CATEGORY_TEST_ID_11);
+		Category cat = (Category) db.load(CATEGORY_TEST_ID_11);
 
 		//assert
 		assertTrue(cat.getRelatedApplications().containsAll(expectedAppIds));
@@ -41,7 +50,7 @@ public class DatabaseControllerRelationsTest {
 		Collection<String> expectedAppIds = Arrays.asList(new String[] {APPLICATION_TEST_ID_1, APPLICATION_TEST_ID_2});
 		
 		//act
-		Feature feat = (Feature) DatabaseController.load(FEATURE_TEST_ID_21);
+		Feature feat = (Feature) db.load(FEATURE_TEST_ID_21);
 		
 		//assert
 		assertTrue(feat.getRelatedApplications().containsAll(expectedAppIds));
@@ -53,7 +62,7 @@ public class DatabaseControllerRelationsTest {
 		Collection<String> expectedCatIds = Arrays.asList(new String[] {CATEGORY_TEST_ID_11});
 		
 		//act
-		Application app = (Application) DatabaseController.load(APPLICATION_TEST_ID_1);
+		Application app = (Application) db.load(APPLICATION_TEST_ID_1);
 		
 		//assert
 		assertTrue(app.getRelatedCategories().containsAll(expectedCatIds));
@@ -65,7 +74,7 @@ public class DatabaseControllerRelationsTest {
 		Collection<String> expectedFeatureIds = Arrays.asList(new String[] {FEATURE_TEST_ID_21,FEATURE_TEST_ID_22});
 		
 		//act
-		Application app = (Application) DatabaseController.load(APPLICATION_TEST_ID_1);
+		Application app = (Application) db.load(APPLICATION_TEST_ID_1);
 		
 		//assert
 		assertTrue(app.getRelatedFeatures().containsAll(expectedFeatureIds));
@@ -81,16 +90,16 @@ public class DatabaseControllerRelationsTest {
 		someApplication.addRelation(FEATURE_TEST_ID_22);
 
 		//act
-		DatabaseController.storeToDatabase(someApplication);
+		db.storeToDatabase(someApplication);
 
 		//assert
-		BusinessObject loadedApplication = DatabaseController.load(uuid);
+		BusinessObject loadedApplication = db.load(uuid);
 		Set<String> expectedRelations = someApplication.getRelatedBOs();
 		Set<String> actualRelations = loadedApplication.getRelatedBOs();
 		assertTrue(actualRelations.containsAll(expectedRelations));
 		
 		//clean up /TODO: clean up even if test fails
-		DatabaseController.deleteFromDatabase(uuid);
+		db.deleteFromDatabase(uuid);
 	}
 	
 	@Test
@@ -102,16 +111,16 @@ public class DatabaseControllerRelationsTest {
 		someCategory.addRelation(APPLICATION_TEST_ID_2);
 		
 		//act
-		DatabaseController.storeToDatabase(someCategory);
+		db.storeToDatabase(someCategory);
 		
 		//assert
-		BusinessObject loadedCategory = DatabaseController.load(uuid);
+		BusinessObject loadedCategory = db.load(uuid);
 		Set<String> expectedRelations = someCategory.getRelatedBOs();
 		Set<String> actualRelations = loadedCategory.getRelatedBOs();
 		assertTrue(actualRelations.containsAll(expectedRelations));
 		
 		//clean up /TODO: clean up even if test fails
-		DatabaseController.deleteFromDatabase(uuid);
+		db.deleteFromDatabase(uuid);
 	}
 	
 	@Test
@@ -123,16 +132,16 @@ public class DatabaseControllerRelationsTest {
 		someFeature.addRelation(APPLICATION_TEST_ID_2);
 		
 		//act
-		DatabaseController.storeToDatabase(someFeature);
+		db.storeToDatabase(someFeature);
 		
 		//assert
-		BusinessObject loadedFeature = DatabaseController.load(uuid);
+		BusinessObject loadedFeature = db.load(uuid);
 		Set<String> expectedRelations = someFeature.getRelatedBOs();
 		Set<String> actualRelations = loadedFeature.getRelatedBOs();
 		assertTrue(actualRelations.containsAll(expectedRelations));
 		
 		//clean up /TODO: clean up even if test fails
-		DatabaseController.deleteFromDatabase(uuid);
+		db.deleteFromDatabase(uuid);
 	}
 	
 	@Test
@@ -140,25 +149,25 @@ public class DatabaseControllerRelationsTest {
 		//arrange
 		String uuid = "application/" + UUID.randomUUID();
 		Application someApplication = (Application) BusinessObjectFactory.createInstance(uuid,"AAA","aaaaa");
-		DatabaseController.storeToDatabase(someApplication);
+		db.storeToDatabase(someApplication);
 		someApplication.addRelation(CATEGORY_TEST_ID_11);
 		someApplication.addRelation(FEATURE_TEST_ID_21);
 		someApplication.addRelation(FEATURE_TEST_ID_22);
 		
 		//act
-		DatabaseController.storeToDatabase(someApplication);
+		db.storeToDatabase(someApplication);
 		
 		//assert
-		BusinessObject loadedApplication = DatabaseController.load(uuid);
+		BusinessObject loadedApplication = db.load(uuid);
 		Set<String> expectedRelations = someApplication.getRelatedBOs();
 		Set<String> actualRelations = loadedApplication.getRelatedBOs();
 		assertTrue(actualRelations.containsAll(expectedRelations));
 		
 		//clean up /TODO: clean up even if test fails
-		DatabaseController.deleteFromDatabase(uuid);
+		db.deleteFromDatabase(uuid);
 		
 		//clean up /TODO: clean up even if test fails
-		DatabaseController.deleteFromDatabase(uuid);
+		db.deleteFromDatabase(uuid);
 	}
 	
 	@Test
@@ -166,21 +175,21 @@ public class DatabaseControllerRelationsTest {
 		//arrange
 		String uuid = "category/" + UUID.randomUUID();
 		Category someCategory = (Category) BusinessObjectFactory.createInstance(uuid,"AAA","aaaaa");
-		DatabaseController.storeToDatabase(someCategory);
+		db.storeToDatabase(someCategory);
 		someCategory.addRelation(APPLICATION_TEST_ID_1);
 		someCategory.addRelation(APPLICATION_TEST_ID_2);
 		
 		//act
-		DatabaseController.storeToDatabase(someCategory);
+		db.storeToDatabase(someCategory);
 		
 		//assert
-		BusinessObject loadedCategory = DatabaseController.load(uuid);
+		BusinessObject loadedCategory = db.load(uuid);
 		Set<String> expectedRelations = someCategory.getRelatedBOs();
 		Set<String> actualRelations = loadedCategory.getRelatedBOs();
 		assertTrue(actualRelations.containsAll(expectedRelations));
 		
 		//clean up /TODO: clean up even if test fails
-		DatabaseController.deleteFromDatabase(uuid);
+		db.deleteFromDatabase(uuid);
 	}
 	
 	@Test
@@ -188,21 +197,21 @@ public class DatabaseControllerRelationsTest {
 		//arrange
 		String uuid = "feature/" + UUID.randomUUID();
 		Feature someFeature = (Feature) BusinessObjectFactory.createInstance(uuid,"AAA","aaaaa");
-		DatabaseController.storeToDatabase(someFeature);
+		db.storeToDatabase(someFeature);
 		someFeature.addRelation(APPLICATION_TEST_ID_1);
 		someFeature.addRelation(APPLICATION_TEST_ID_2);
 		
 		//act
-		DatabaseController.storeToDatabase(someFeature);
+		db.storeToDatabase(someFeature);
 		
 		//assert
-		BusinessObject loadedFeature = DatabaseController.load(uuid);
+		BusinessObject loadedFeature = db.load(uuid);
 		Set<String> expectedRelations = someFeature.getRelatedBOs();
 		Set<String> actualRelations = loadedFeature.getRelatedBOs();
 		assertTrue(actualRelations.containsAll(expectedRelations));
 		
 		//clean up /TODO: clean up even if test fails
-		DatabaseController.deleteFromDatabase(uuid);
+		db.deleteFromDatabase(uuid);
 	}
 	
 }

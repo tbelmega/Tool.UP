@@ -1,5 +1,6 @@
 package de.unipotsdam.cs.toolup.model;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -16,6 +17,15 @@ public class BusinessObjectFactory {
 	private static final String TABLENAME_FEATURE = "feature";
 	private static final String TABLENAME_CATEGORY = "category";
 	private static final String TABLENAME_APPLICATION = "application";
+	
+	private static DatabaseController db;
+	static {
+		try {
+			db = DatabaseController.getInstance();
+		} catch (IOException | SQLException e) {
+			throw new RuntimeException("Could not create DatabaseController.",e);
+		}
+	}
 
 	private static BusinessObject createBusinessObjectWithLoadedRelations(String id, String title,
 			String description) throws SQLException {
@@ -23,9 +33,9 @@ public class BusinessObjectFactory {
 		String className =  id.substring(0, indexOfFirstSlash);
 		
 		switch (className.toLowerCase()){
-		case TABLENAME_APPLICATION: return new Application(id, title, description, DatabaseController.loadRelatedCategoriesForApp(id), DatabaseController.loadRelatedFeaturesForApp(id));
-		case TABLENAME_CATEGORY: return new Category(id, title, description, DatabaseController.loadRelatedApplicationsForCat(id));
-		case TABLENAME_FEATURE: return new Feature(id, title, description, DatabaseController.loadRelatedApplicationsForFeat(id));
+		case TABLENAME_APPLICATION: return new Application(id, title, description, db.loadRelatedCategoriesForApp(id), db.loadRelatedFeaturesForApp(id));
+		case TABLENAME_CATEGORY: return new Category(id, title, description, db.loadRelatedApplicationsForCat(id));
+		case TABLENAME_FEATURE: return new Feature(id, title, description, db.loadRelatedApplicationsForFeat(id));
 		default: throw new UnsupportedOperationException("No class defined for this prefix:" + className);
 		}
 	}

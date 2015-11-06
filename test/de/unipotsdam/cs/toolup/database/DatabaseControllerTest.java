@@ -4,25 +4,31 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import de.unipotsdam.cs.toolup.model.BusinessObject;
 import de.unipotsdam.cs.toolup.model.BusinessObjectFactory;
 
-
-
-
 public class DatabaseControllerTest {
+	
+	private DatabaseController db;
+
+	@BeforeClass
+	public void setUp() throws IOException, SQLException {
+		db = DatabaseController.getInstance();
+	}
 
 	@Test(dataProvider = DatabaseControllerDataProvider.PROVIDE_BUSINESS_OBJECTS, dataProviderClass = DatabaseControllerDataProvider.class)
 	public void testThatLoadedBusinessObjectHasExpectedValues(String expectedTitle, String expectedDescription, Class<? extends BusinessObject> expectedClass, String id) throws SQLException {
 		//arrange
 
 		//act
-		BusinessObject busObj = DatabaseController.load(id);
+		BusinessObject busObj = db.load(id);
 		
 		//assert
 		assertEquals(expectedTitle, busObj.getTitle());
@@ -35,17 +41,17 @@ public class DatabaseControllerTest {
 	public void testThatBusinessObjectIsInsertedIntoDatabase(String tablename) throws SQLException {
 		//arrange
 		BusinessObject aBusinessObject = BusinessObjectFactory.createInstance(tablename + "/" + UUID.randomUUID());
-		assertFalse(DatabaseController.checkIfExistsInDB(aBusinessObject));
+		assertFalse(db.checkIfExistsInDB(aBusinessObject));
 
 		//act
-		DatabaseController.storeToDatabase(aBusinessObject);
+		db.storeToDatabase(aBusinessObject);
 
 		//assert
-		BusinessObject loaded = DatabaseController.load(aBusinessObject.getUuid());
+		BusinessObject loaded = db.load(aBusinessObject.getUuid());
 		assertTrue(aBusinessObject.equals(loaded));
 		
 		//clean up
-		DatabaseController.deleteFromDatabase(aBusinessObject.getUuid());
+		db.deleteFromDatabase(aBusinessObject.getUuid());
 	}
 	
 	@Test(dataProviderClass = DatabaseControllerDataProvider.class, dataProvider = DatabaseControllerDataProvider.PROVIDE_BO_TABLES)
@@ -53,14 +59,14 @@ public class DatabaseControllerTest {
 		//arrange
 		String id = tablename + "/" + UUID.randomUUID();
 		BusinessObject aBusinessObject = BusinessObjectFactory.createInstance(id);
-		DatabaseController.storeToDatabase(aBusinessObject);
-		assertTrue(DatabaseController.checkIfExistsInDB(aBusinessObject));
+		db.storeToDatabase(aBusinessObject);
+		assertTrue(db.checkIfExistsInDB(aBusinessObject));
 		
 		//act
-		DatabaseController.deleteFromDatabase(id);
+		db.deleteFromDatabase(id);
 
 		//assert
-		assertFalse(DatabaseController.checkIfExistsInDB(aBusinessObject));
+		assertFalse(db.checkIfExistsInDB(aBusinessObject));
 	}
 	
 	@Test(dataProviderClass = DatabaseControllerDataProvider.class, dataProvider = DatabaseControllerDataProvider.PROVIDE_BUSINESS_OBJECTS)
@@ -69,8 +75,8 @@ public class DatabaseControllerTest {
 		BusinessObject aBusinessObject = BusinessObjectFactory.createInstance(id);
 		
 		//act
-		boolean exists = DatabaseController.checkIfExistsInDB(aBusinessObject);
-		boolean existsById = DatabaseController.checkIfExistsInDB(id);
+		boolean exists = db.checkIfExistsInDB(aBusinessObject);
+		boolean existsById = db.checkIfExistsInDB(id);
 
 		//assert
 		assertTrue(exists);
@@ -83,7 +89,7 @@ public class DatabaseControllerTest {
 		BusinessObject aBusinessObject = BusinessObjectFactory.createInstance(tablename + "/" + UUID.randomUUID());
 		
 		//act
-		boolean exists = DatabaseController.checkIfExistsInDB(aBusinessObject);
+		boolean exists = db.checkIfExistsInDB(aBusinessObject);
 		
 		//assert
 		assertFalse(exists);
@@ -94,18 +100,18 @@ public class DatabaseControllerTest {
 		//arrange
 		String id = tablename + "/" + UUID.randomUUID();
 		BusinessObject aBusinessObject = BusinessObjectFactory.createInstance(id, "aaa", "AAAAA");
-		DatabaseController.storeToDatabase(aBusinessObject);
+		db.storeToDatabase(aBusinessObject);
 
 		//act
 		BusinessObject modifiedBusinessObject = BusinessObjectFactory.createInstance(id, "bbb", "BBBBBB");
-		DatabaseController.storeToDatabase(modifiedBusinessObject);
+		db.storeToDatabase(modifiedBusinessObject);
 
 		//assert
-		BusinessObject loadedBO = DatabaseController.load(id);
+		BusinessObject loadedBO = db.load(id);
 		assertTrue(modifiedBusinessObject.equals(loadedBO));
 		assertEquals(modifiedBusinessObject.getTitle(), loadedBO.getTitle());
 		
 		//clean up
-		DatabaseController.deleteFromDatabase(id);
+		db.deleteFromDatabase(id);
 	}
 }
