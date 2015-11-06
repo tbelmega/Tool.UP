@@ -51,4 +51,14 @@ public class DatabaseControllerDataProvider {
 		};
 	}
 	
+	public static final String PROVIDE_BO_TABLES_AND_RELATIONS = "provideBOTablesAndRelatedIds";
+	
+	@DataProvider(name= PROVIDE_BO_TABLES_AND_RELATIONS)
+	public static Object[][] provideBOTablesAndRelatedIds(){
+		return new Object[][]{
+				{"application", new String[] {CATEGORY_TEST_ID_11, FEATURE_TEST_ID_21}},
+				{"category", new String[] {APPLICATION_TEST_ID_1, APPLICATION_TEST_ID_2}},
+				{"feature", new String[] {APPLICATION_TEST_ID_1}}
+		};
+	}
 }

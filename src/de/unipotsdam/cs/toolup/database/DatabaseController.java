@@ -28,7 +28,7 @@ public class DatabaseController {
 	private SqlStatementFactory sqlStatementFactory;
 	private static DatabaseController instance;
 	
-	private DatabaseController () throws IOException, SQLException {
+	protected DatabaseController () throws IOException, SQLException {
 		sqlStatementFactory = new SqlStatementFactory();
 	}
 	

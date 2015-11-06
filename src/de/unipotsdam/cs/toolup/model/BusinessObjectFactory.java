@@ -3,6 +3,7 @@ package de.unipotsdam.cs.toolup.model;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 import de.unipotsdam.cs.toolup.database.DatabaseController;
 import de.unipotsdam.cs.toolup.model.Application;
@@ -78,6 +79,10 @@ public class BusinessObjectFactory {
 		bo.setTitle(title);
 		bo.setDescription(description);
 		return bo;
+	}
+	
+	public static BusinessObject createInstanceWithNewUuid(String tablename) {
+		return createInstance(tablename + "/" + UUID.randomUUID());	
 	}
 
 }
