@@ -1,55 +1,33 @@
 package de.unipotsdam.cs.toolup.model;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import static de.unipotsdam.cs.toolup.database.DatabaseController.TABLE_NAME_APPLICATION;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.Collection;
+import java.util.HashSet;
 
 
 public class Feature extends BusinessObject {
 
-	private final Collection<String> relatedApplications;
-
 	public Feature(String uuid, String title, String description, Collection<String> relatedApplications ) {
 		super(uuid, title, description);
-		this.relatedApplications = relatedApplications;
+		this.relations.put(TABLE_NAME_APPLICATION, relatedApplications);
 	}
 
 	public Feature(String uuid) {
-		super(uuid);
-		this.relatedApplications = new HashSet<String>();
+		this(uuid, "", "", new HashSet<String>());
 	}
 
-	public Collection<String> getRelatedApplications() {
-		
-		return new HashSet<String>(this.relatedApplications);
+	public Collection<String> getRelatedApplications() {	
+		return new HashSet<String>(this.relations.get(TABLE_NAME_APPLICATION));
 	}
 
 
-	@Override
-	public JSONObject convertToJson() throws JSONException {	
-		Map<String, JSONArray> relations = new HashMap<String, JSONArray>();
-		relations.put(KEY_APPLICATIONS, relationAsArray(relatedApplications));
-
-		JSONObject result = createJSONObjectFromAttributes(relations);		
-		return result;		
-	}
-	
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public Set<String> getRelatedBOs() {
-		return getRelatedBOOfAllRelations(new Collection[] { relatedApplications } );
-	}
-
-	@Override
-	public void addRelation(String string) {
-		relatedApplications.add(string);
-	}
-
+//	@Override
+//	public JSONObject convertToJson() throws JSONException {	
+//		Map<String, JSONArray> relations = new HashMap<String, JSONArray>();
+//		relations.put(JSON_KEY_APPLICATIONS, relationAsArray(this.relations.get(TABLE_NAME_APPLICATION)));
+//
+//		JSONObject result = createJSONObjectFromAttributes(relations);		
+//		return result;		
+//	}
 }

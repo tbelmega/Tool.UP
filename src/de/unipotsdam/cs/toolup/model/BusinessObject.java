@@ -1,6 +1,11 @@
 package de.unipotsdam.cs.toolup.model;
 
+import static de.unipotsdam.cs.toolup.database.DatabaseController.TABLE_NAME_APPLICATION;
+import static de.unipotsdam.cs.toolup.database.DatabaseController.TABLE_NAME_CATEGORY;
+import static de.unipotsdam.cs.toolup.database.DatabaseController.TABLE_NAME_FEATURE;
+
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -9,23 +14,35 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 public abstract class BusinessObject {
 
-	static final String KEY_ID = "id";
-	static final String KEY_DESCRIPTION = "description";
-	static final String KEY_TITLE = "title";
-	static final String KEY_FEATURES = "features";
-	static final String KEY_CATEGORIES = "categories";
-	static final String KEY_APPLICATIONS = "applications";
+	static final String JSON_KEY_ID = "id";
+	static final String JSON_KEY_DESCRIPTION = "description";
+	static final String JSON_KEY_TITLE = "title";
+	static final String JSON_KEY_FEATURES = "features";
+	static final String JSON_KEY_CATEGORIES = "categories";
+	static final String JSON_KEY_APPLICATIONS = "applications";
 	
 	protected String uuid;
 	protected String title;
 	protected String description;
+	protected final HashMap<String, Collection<String>> relations;
+	
+	static Map<String, String> keyMappingSqlJson = new HashMap<String,String>();
+	static { 
+		keyMappingSqlJson.put(TABLE_NAME_APPLICATION, JSON_KEY_APPLICATIONS);
+		keyMappingSqlJson.put(TABLE_NAME_CATEGORY, JSON_KEY_CATEGORIES);
+		keyMappingSqlJson.put(TABLE_NAME_FEATURE, JSON_KEY_FEATURES);
+	}
+
 
 	public BusinessObject(String uuid, String title, String description) {
 		this.uuid = uuid;
 		this.title = title;
 		this.description = description;
+		this.relations = new HashMap<String, Collection<String>>();
 	}
 
 	public BusinessObject(String uuid) {
@@ -84,11 +101,7 @@ public abstract class BusinessObject {
 	public String getTableName(){
 		return getTableNameFromId(this.uuid);
 	}
-	
-	/**
-	 * Creates a JSONObject with the values of this business objects' fields.
-	 */
-	public abstract JSONObject convertToJson() throws JSONException;
+
 
 	/**
 	 * Converts a collection of uuids into a JSONArray, which contains JSONObjects of the pattern {"id":<uuid>"}
@@ -96,7 +109,7 @@ public abstract class BusinessObject {
 	 * @return
 	 * @throws JSONException
 	 */
-	protected JSONArray relationAsArray(Collection<String> relation) throws JSONException {
+	protected JSONArray relationAsJsonArray(Collection<String> relation) throws JSONException {
 		JSONArray categories = new JSONArray();
 		for (String s: relation){
 			categories.put(new JSONObject("{\"id\":\"" + s + "\"}"));
@@ -104,53 +117,75 @@ public abstract class BusinessObject {
 		return categories;
 	}
 
-
-	protected JSONObject createJSONObjectFromAttributes(Map<String, JSONArray> relations)
-			throws JSONException {
-				JSONObject result = createJSONObjectForBusinessObject();
-				
-				for (String relationName: relations.keySet()){
-					result.put(relationName, relations.get(relationName));
-				}				
-				return result;
-	}
-
+	
 	/**
-	 * Fill a new JSONObject with the values of a BusinessObject.
-	 * @return
-	 * @throws JSONException
+	 * Creates a JSONObject with the values of this business objects' fields.
 	 */
-	private JSONObject createJSONObjectForBusinessObject() throws JSONException {
+	public JSONObject convertToJson() throws JSONException {
 		JSONObject result = new JSONObject();		
-		result.put(KEY_ID, this.uuid);
-		result.put(KEY_TITLE, this.title);
-		result.put(KEY_DESCRIPTION, this.description);
+		result.put(JSON_KEY_ID, this.uuid);
+		result.put(JSON_KEY_TITLE, this.title);
+		result.put(JSON_KEY_DESCRIPTION, this.description);
+		
+		createRelationRepresentations(result);
+			
 		return result;
 	}
 
+	private void createRelationRepresentations(JSONObject result)
+			throws JSONException {
+		for (String key: this.relations.keySet()){
+			String relationName = keyMappingSqlJson.get(key);
+			Collection<String> relatedIds = this.relations.get(key);
+			result.put(relationName, relationAsJsonArray(relatedIds));
+		}
+	}
+
+
+	/**
+	 * Create a new BusinessObject with the values of a JSON representation.
+	 * @param jsonRepresentation
+	 * @return
+	 * @throws JSONException
+	 */
 	public static BusinessObject createBusinessObjectFromJson(
 			JSONObject jsonRepresentation) throws JSONException {
-		String id = jsonRepresentation.getString(KEY_ID);		
+		String id = jsonRepresentation.getString(JSON_KEY_ID);		
 		BusinessObject newlyCreatedBO = BusinessObjectFactory.createInstance(id);
 		
-		newlyCreatedBO.title = jsonRepresentation.getString(KEY_TITLE);
-		newlyCreatedBO.description = jsonRepresentation.getString(KEY_DESCRIPTION);
+		newlyCreatedBO.title = jsonRepresentation.getString(JSON_KEY_TITLE);
+		newlyCreatedBO.description = jsonRepresentation.getString(JSON_KEY_DESCRIPTION);
 		
-		return newlyCreatedBO;
+		throw new NotImplementedException(); //TODO: Read relations from JSON
+		
+		//return newlyCreatedBO;
 	}
 
-	public abstract Set<String> getRelatedBOs();
-
-	protected Set<String> getRelatedBOOfAllRelations(Collection<String>[] relations) {
+	
+	/**
+	 * Gets a union of this object's related ids.
+	 * @return
+	 */
+	public Set<String> getRelatedBOs() {
 		Set<String> relatedBOs = new HashSet<String>();
-		for (int i = 0; i < relations.length; i++) {
-			relatedBOs.addAll(relations[i]);
+		for (Collection<String> relationToSingleType: relations.values()) {
+			relatedBOs.addAll(relationToSingleType);
 		}
 		return relatedBOs;
+	};
+
+
+	/**
+	 * Adds the given id to this object's relations.
+	 * @param id
+	 */
+	public void addRelation(String id) {
+		String tableName = getTableNameFromId(id);
+		
+		if (!relations.containsKey(tableName)){
+			throw new IllegalArgumentException("Business Object of this type can not be related to an application: " + id);
+		} 
+		
+		this.relations.get(tableName).add(id);			
 	}
-
-	public abstract void addRelation(String string);
-
-
-
 }

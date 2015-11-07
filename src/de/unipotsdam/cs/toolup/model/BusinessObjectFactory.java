@@ -55,8 +55,8 @@ public class BusinessObjectFactory {
 		}
 
 		String id = res.getString(KEY_UUID);
-		String title = res.getString(KEY_TITLE);
-		String description = res.getString(KEY_DESCRIPTION);
+		String title = res.getString(JSON_KEY_TITLE);
+		String description = res.getString(JSON_KEY_DESCRIPTION);
 		
 		return createBusinessObjectWithLoadedRelations(id,title,description);
 	}

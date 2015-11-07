@@ -1,10 +1,5 @@
 package de.unipotsdam.cs.toolup.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * NullBusinessObject represents the absence of a {@link BusinessObject} according to the NullObjectPattern.
@@ -18,16 +13,6 @@ public class NullBusinessObject extends BusinessObject {
 
 	private NullBusinessObject(){
 		super("","Null Object","This object represents null.");
-	}
-
-	@Override
-	public JSONObject convertToJson() throws JSONException {
-		return new JSONObject();
-	}
-
-	@Override
-	public Set<String> getRelatedBOs() {
-		return new HashSet<String>();
 	}
 
 	/**

@@ -1,52 +1,23 @@
 package de.unipotsdam.cs.toolup.model;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import static de.unipotsdam.cs.toolup.database.DatabaseController.TABLE_NAME_APPLICATION;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Category extends BusinessObject {
 
-	private final Collection<String> relatedApplications;
-	
 	public Category(String uuid, String title, String description, Set<String> relatedApplications) {
 		super(uuid, title, description);
-		this.relatedApplications = relatedApplications;
+		this.relations.put(TABLE_NAME_APPLICATION, relatedApplications);
 	}
 
 	public Category(String uuid) {
-		super(uuid);
-		this.relatedApplications = new HashSet<String>();
+		this(uuid, "", "", new HashSet<String>());
 	}
 
 	public Collection<String> getRelatedApplications() {
-		return new HashSet<String>(this.relatedApplications);
+		return new HashSet<String>(this.relations.get(TABLE_NAME_APPLICATION));
 	}
-
-	@Override
-	public JSONObject convertToJson() throws JSONException {	
-		Map<String, JSONArray> relations = new HashMap<String, JSONArray>();
-		relations.put(KEY_APPLICATIONS, relationAsArray(relatedApplications));
-
-		JSONObject result = createJSONObjectFromAttributes(relations);		
-		return result;		
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public Set<String> getRelatedBOs() {
-		return getRelatedBOOfAllRelations(new Collection[] { relatedApplications } );
-	}
-
-	@Override
-	public void addRelation(String string) {
-		relatedApplications.add(string);
-	}
-
-
 }

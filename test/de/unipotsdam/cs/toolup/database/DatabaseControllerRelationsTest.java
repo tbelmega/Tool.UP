@@ -52,7 +52,7 @@ public class DatabaseControllerRelationsTest extends AbstractDatabaseTest {
 		Collection<String> expectedCatIds = Arrays.asList(new String[] {CATEGORY_TEST_ID_11});
 		
 		//act
-		Application app = (Application) db.load(APPLICATION_TEST_ID_1);
+		BusinessObject app = (BusinessObject) db.load(APPLICATION_TEST_ID_1);
 		
 		//assert
 		assertTrue(app.getRelatedBOs().containsAll(expectedCatIds));
