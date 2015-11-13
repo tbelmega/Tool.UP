@@ -20,14 +20,4 @@ public class Feature extends BusinessObject {
 	public Collection<String> getRelatedApplications() {	
 		return new HashSet<String>(this.relations.get(TABLE_NAME_APPLICATION));
 	}
-
-
-//	@Override
-//	public JSONObject convertToJson() throws JSONException {	
-//		Map<String, JSONArray> relations = new HashMap<String, JSONArray>();
-//		relations.put(JSON_KEY_APPLICATIONS, relationAsArray(this.relations.get(TABLE_NAME_APPLICATION)));
-//
-//		JSONObject result = createJSONObjectFromAttributes(relations);		
-//		return result;		
-//	}
 }

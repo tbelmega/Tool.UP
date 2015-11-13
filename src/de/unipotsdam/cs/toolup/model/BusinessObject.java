@@ -14,8 +14,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 public abstract class BusinessObject {
 
 	static final String JSON_KEY_ID = "id";
@@ -30,7 +28,7 @@ public abstract class BusinessObject {
 	protected String description;
 	protected final HashMap<String, Collection<String>> relations;
 	
-	static Map<String, String> keyMappingSqlJson = new HashMap<String,String>();
+	static Map<String, String> keyMappingSqlJson = new HashMap<String,String>(); //TODO Move to config file
 	static { 
 		keyMappingSqlJson.put(TABLE_NAME_APPLICATION, JSON_KEY_APPLICATIONS);
 		keyMappingSqlJson.put(TABLE_NAME_CATEGORY, JSON_KEY_CATEGORIES);
@@ -71,15 +69,29 @@ public abstract class BusinessObject {
 
 	/**
 	 * A BusinesObject is defined to equal an other, if the uuid is identical.
-	 * @param anOtherApp
+	 * @param anOtherBO
 	 * @return
 	 */
-	public boolean equals(BusinessObject anOtherApp) {
-		if (this.uuid.equals(anOtherApp.getUuid())){
-			return true;
-		} else {
-			return false;
+	public boolean equals(BusinessObject anOtherBO) {
+		return this.uuid.equals(anOtherBO.getUuid());
+	}
+	
+	/**
+	 * Checks if all the properties of the other BO has the same values as this BO.
+	 * @param anOtherBO
+	 * @return
+	 */
+	public boolean equalsInAllProperties(BusinessObject anOtherBO) {
+		if (!this.uuid.equals(anOtherBO.getUuid())) return false;
+		if (!this.title.equals(anOtherBO.getTitle())) return false;
+		if (!this.description.equals(anOtherBO.getDescription())) return false;
+		
+		for (String relationName : this.relations.keySet()){
+			if (!this.relations.get(relationName).equals(anOtherBO.relations.get(relationName))){
+				return false;
+			}
 		}
+		return true;
 	}
 
 	/**
@@ -156,12 +168,29 @@ public abstract class BusinessObject {
 		newlyCreatedBO.title = jsonRepresentation.getString(JSON_KEY_TITLE);
 		newlyCreatedBO.description = jsonRepresentation.getString(JSON_KEY_DESCRIPTION);
 		
-		throw new NotImplementedException(); //TODO: Read relations from JSON
+		addRelationFromJson(newlyCreatedBO, jsonRepresentation, JSON_KEY_APPLICATIONS);
+		addRelationFromJson(newlyCreatedBO, jsonRepresentation, JSON_KEY_FEATURES);
+		addRelationFromJson(newlyCreatedBO, jsonRepresentation, JSON_KEY_CATEGORIES);
 		
-		//return newlyCreatedBO;
+		return newlyCreatedBO;
 	}
 
-	
+	private static void addRelationFromJson(BusinessObject newlyCreatedBO,
+			JSONObject jsonRepresentation, String relationKey) throws JSONException {
+		if (jsonRepresentation.has(relationKey)){
+			JSONArray relationElements = jsonRepresentation.getJSONArray(relationKey);
+			addIdsOfAllElements(newlyCreatedBO, relationElements);
+		}
+	}
+
+	private static void addIdsOfAllElements(BusinessObject newlyCreatedBO,
+			JSONArray relationElements) throws JSONException {
+		for (int i = 0; i < relationElements.length(); i++){
+			JSONObject app = relationElements.getJSONObject(i);
+			newlyCreatedBO.addRelation(app.getString(JSON_KEY_ID));
+		}
+	}
+
 	/**
 	 * Gets a union of this object's related ids.
 	 * @return

@@ -67,9 +67,9 @@ public class BusinessObjectTest {
 	public void testThatAnApplicationDoesNotEqualAnOtherApplication() {
 		//arrange
 		BusinessObject anOtherApp = new Application(APPLICATION_TEST_ID_1,null,null, null,null);
+		BusinessObject newApp = new Application(APPLICATION_TEST_ID_2,null,null, null,null);
 		
 		//act
-		BusinessObject newApp = new Application(APPLICATION_TEST_ID_2,null,null, null,null);
 
 		//assert
 		assertFalse(anOtherApp.equals(newApp));
@@ -79,9 +79,9 @@ public class BusinessObjectTest {
 	public void testThatAnApplicationDoesEqualItself() {
 		//arrange
 		BusinessObject anOtherApp = new Application(APPLICATION_TEST_ID_1,null,null, null,null);
+		BusinessObject newApp = new Application(APPLICATION_TEST_ID_1,null,null, null,null);
 		
 		//act
-		BusinessObject newApp = new Application(APPLICATION_TEST_ID_1,null,null, null,null);
 		
 		//assert
 		assertTrue(anOtherApp.equals(newApp));
@@ -89,7 +89,7 @@ public class BusinessObjectTest {
 	
 	
 	@Test(dataProvider = PROVIDE_BUSINESS_OBJECTS)
-	public void testConvertJson(BusinessObject bo, JSONObject expectedJson) throws JSONException {
+	public void testThatBusinessObjectIsConvertedToJsonCorrectly(BusinessObject bo, JSONObject expectedJson) throws JSONException {
 		//arrange
 
 		//act
@@ -99,18 +99,68 @@ public class BusinessObjectTest {
 		JSONUtil.assertEqualJSONContent(expectedJson, jsonRepresentation);
 	}
 	
+	@Test(dataProvider = PROVIDE_BOS_TO_COMPARE)
+	public void testThatBOEqualsOtherBOInAllProperties(boolean expectedResult, BusinessObject aBusinessObject, BusinessObject anOtherBusinessObject) {
+		//arrange
+	
+		//act
+		boolean equal = aBusinessObject.equalsInAllProperties(anOtherBusinessObject);
+
+		//assert
+		assertEquals(expectedResult,equal);
+	}
+	
+	private static final String PROVIDE_BOS_TO_COMPARE = "provideBOsToCompare";
+	
+	@DataProvider(name = PROVIDE_BOS_TO_COMPARE)
+	private Object[][] provideBOsToCompare() {
+
+		HashSet<String> emptySet = new HashSet<String>();
+		HashSet<String> featSet = new HashSet<String>();
+		featSet.add(FEATURE_TEST_ID_21);
+		HashSet<String> appSet = new HashSet<String>();
+		appSet.add(APPLICATION_TEST_ID_1);
+		HashSet<String> catSet = new HashSet<String>();
+		catSet.add(CATEGORY_TEST_ID_11);
+		
+		return new Object[][] {
+				{ true, new Application(APPLICATION_TEST_ID_1,"","",emptySet,emptySet), 
+					new Application(APPLICATION_TEST_ID_1,"","",emptySet,emptySet)},
+				{ true, new Application(APPLICATION_TEST_ID_1,APPLICATION_TESTTITLE_1,"",emptySet,emptySet), 
+					new Application(APPLICATION_TEST_ID_1,APPLICATION_TESTTITLE_1,"",emptySet,emptySet)},
+				{ true, new Application(APPLICATION_TEST_ID_1,"",APPLICATION_TESTDESCRIPTION_1,emptySet,emptySet), 
+					new Application(APPLICATION_TEST_ID_1,"",APPLICATION_TESTDESCRIPTION_1,emptySet,emptySet)},
+				{ true, new Application(APPLICATION_TEST_ID_1,"","",featSet,catSet), 
+					new Application(APPLICATION_TEST_ID_1,"","",featSet,catSet)},
+					
+				{ true, new Category(CATEGORY_TEST_ID_11,CATEGORY_TESTTITLE_11,CATEGORY_TESTDESCRIPTION_11,appSet), 
+					new Category(CATEGORY_TEST_ID_11,CATEGORY_TESTTITLE_11,CATEGORY_TESTDESCRIPTION_11,appSet)},
+					
+				{ false, new Application(APPLICATION_TEST_ID_1,"","",emptySet,emptySet),
+					new Application(APPLICATION_TEST_ID_2,"","",emptySet,emptySet)},
+				{ false, new Application(APPLICATION_TEST_ID_1,APPLICATION_TESTTITLE_1,"",emptySet,emptySet),
+					new Application(APPLICATION_TEST_ID_1,APPLICATION_TESTTITLE_1 + "foo","",emptySet,emptySet)},
+				{ false, new Application(APPLICATION_TEST_ID_1,APPLICATION_TESTTITLE_1, APPLICATION_TESTDESCRIPTION_1,emptySet,emptySet),
+					new Application(APPLICATION_TEST_ID_1,APPLICATION_TESTTITLE_1, APPLICATION_TESTDESCRIPTION_1 + "foo",emptySet,emptySet)},
+				{ false, new Application(APPLICATION_TEST_ID_1,APPLICATION_TESTTITLE_1, APPLICATION_TESTDESCRIPTION_1,featSet,emptySet),
+					new Application(APPLICATION_TEST_ID_1,APPLICATION_TESTTITLE_1, APPLICATION_TESTDESCRIPTION_1,emptySet,emptySet)},
+				{ false, new Application(APPLICATION_TEST_ID_1,APPLICATION_TESTTITLE_1, APPLICATION_TESTDESCRIPTION_1,featSet,catSet),
+					new Application(APPLICATION_TEST_ID_1,APPLICATION_TESTTITLE_1, APPLICATION_TESTDESCRIPTION_1,featSet,appSet)},
+					
+				{ false, new Application(APPLICATION_TEST_ID_1,APPLICATION_TESTTITLE_1, APPLICATION_TESTDESCRIPTION_1,featSet,catSet), 
+					new Category(CATEGORY_TEST_ID_11,CATEGORY_TESTTITLE_11,CATEGORY_TESTDESCRIPTION_11,appSet)}
+		};
+	}
+	
 	@Test(dataProvider = PROVIDE_BUSINESS_OBJECTS)
-	public void testConvertFrom(BusinessObject expectedBo, JSONObject jsonRepresentation) throws JSONException {
+	public void testThatBusinessObjectIsCreatedFromJsonData(BusinessObject expectedBo, JSONObject jsonRepresentation) throws JSONException {
 		//arrange
 		
 		//act
 		BusinessObject bo = BusinessObject.createBusinessObjectFromJson(jsonRepresentation);
 		
 		//assert
-		assertTrue(expectedBo.equals(bo));
-		assertEquals(expectedBo.title, bo.title);
-		assertEquals(expectedBo.description, bo.description);
-		assertTrue(expectedBo.getRelatedBOs().containsAll(bo.getRelatedBOs()));
+		assertTrue(bo.equalsInAllProperties(expectedBo));
 	}
 	
 	
