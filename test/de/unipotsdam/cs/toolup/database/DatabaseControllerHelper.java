@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashSet;
 
+import de.unipotsdam.cs.toolup.exceptions.InvalidIdException;
 import de.unipotsdam.cs.toolup.model.BusinessObject;
 
 /**
@@ -34,15 +35,17 @@ public class DatabaseControllerHelper extends DatabaseController {
 	/**
 	 * Invokes the super classes method storeToDatabase,
 	 * but adds the id to a Collection of created test objects, if it doesn't exist in DB.
+	 * @throws InvalidIdException 
+	 * @throws SQLException 
 	 */
-	public void storeToDatabase(BusinessObject someBusinessObject) throws SQLException {
+	public void storeToDatabase(BusinessObject someBusinessObject) throws SQLException, InvalidIdException {
 		if (!checkIfExistsInDB(someBusinessObject)) {
 			createdObjectIds.add(someBusinessObject.getUuid());
 		}
 		super.storeToDatabase(someBusinessObject);
 	}
 	
-	public void deleteCreatedBOsFromDatabase() throws SQLException {
+	public void deleteCreatedBOsFromDatabase() throws SQLException, InvalidIdException {
 		for (String id: createdObjectIds) {
 			deleteFromDatabase(id);
 		}

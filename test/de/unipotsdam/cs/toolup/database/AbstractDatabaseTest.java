@@ -17,7 +17,7 @@ public class AbstractDatabaseTest {
 	}
 	
 	@AfterClass
-	public void cleanCreatedObjects() throws IOException, SQLException {
+	public void cleanCreatedObjects() throws Exception {
 		db.deleteCreatedBOsFromDatabase();
 	}
 	

@@ -7,7 +7,6 @@ import static de.unipotsdam.cs.toolup.database.DatabaseControllerDataProvider.FE
 import static de.unipotsdam.cs.toolup.database.DatabaseControllerDataProvider.FEATURE_TEST_ID_22;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
@@ -23,7 +22,7 @@ import de.unipotsdam.cs.toolup.model.Feature;
 public class DatabaseControllerRelationsTest extends AbstractDatabaseTest {
 	
 	@Test
-	public void testThatLoadedCategoryHasRelatedApplications() throws SQLException {
+	public void testThatLoadedCategoryHasRelatedApplications() throws Exception {
 		//arrange
 		Collection<String> expectedAppIds = Arrays.asList(new String[] {APPLICATION_TEST_ID_1, APPLICATION_TEST_ID_2});
 
@@ -35,7 +34,7 @@ public class DatabaseControllerRelationsTest extends AbstractDatabaseTest {
 	}
 	
 	@Test
-	public void testThatLoadedFeatureHasRelatedApplications() throws SQLException {
+	public void testThatLoadedFeatureHasRelatedApplications() throws Exception {
 		//arrange
 		Collection<String> expectedAppIds = Arrays.asList(new String[] {APPLICATION_TEST_ID_1, APPLICATION_TEST_ID_2});
 		
@@ -47,7 +46,7 @@ public class DatabaseControllerRelationsTest extends AbstractDatabaseTest {
 	}
 	
 	@Test
-	public void testThatLoadedApplicationHasRelatedCategories() throws SQLException {
+	public void testThatLoadedApplicationHasRelatedCategories() throws Exception {
 		//arrange
 		Collection<String> expectedCatIds = Arrays.asList(new String[] {CATEGORY_TEST_ID_11});
 		
@@ -59,7 +58,7 @@ public class DatabaseControllerRelationsTest extends AbstractDatabaseTest {
 	}
 	
 	@Test
-	public void testThatLoadedApplicationHasRelatedFeatures() throws SQLException {
+	public void testThatLoadedApplicationHasRelatedFeatures() throws Exception {
 		//arrange
 		Collection<String> expectedFeatureIds = Arrays.asList(new String[] {FEATURE_TEST_ID_21,FEATURE_TEST_ID_22});
 		
@@ -71,7 +70,7 @@ public class DatabaseControllerRelationsTest extends AbstractDatabaseTest {
 	}
 		
 	@Test(dataProviderClass = DatabaseControllerDataProvider.class, dataProvider = DatabaseControllerDataProvider.PROVIDE_BO_TABLES_AND_RELATIONS)
-	public void testThatInsertedBOStoresRelations(String tablename, String[] relatedIds) throws SQLException {
+	public void testThatInsertedBOStoresRelations(String tablename, String[] relatedIds) throws Exception {
 		//arrange		
 		BusinessObject someBO = BusinessObjectFactory.createInstanceWithNewUuid(tablename);
 		for (String id: Arrays.asList(relatedIds)){
@@ -89,7 +88,7 @@ public class DatabaseControllerRelationsTest extends AbstractDatabaseTest {
 	}
 	
 	@Test(dataProviderClass = DatabaseControllerDataProvider.class, dataProvider = DatabaseControllerDataProvider.PROVIDE_BO_TABLES_AND_RELATIONS)
-	public void testThatUpdatedBOStoresRelations(String tablename, String[] relatedIds) throws SQLException {
+	public void testThatUpdatedBOStoresRelations(String tablename, String[] relatedIds) throws Exception {
 		//arrange		
 			//store new BO without relations
 		BusinessObject someBO = BusinessObjectFactory.createInstanceWithNewUuid(tablename);

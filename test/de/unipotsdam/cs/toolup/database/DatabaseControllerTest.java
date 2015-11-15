@@ -1,24 +1,21 @@
 package de.unipotsdam.cs.toolup.database;
 
+import static de.unipotsdam.cs.toolup.database.DatabaseController.TABLE_NAME_APPLICATION;
 import static org.testng.AssertJUnit.assertEquals;
-
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
-
-import java.sql.SQLException;
 import java.util.UUID;
 
 import org.testng.annotations.Test;
 
-import static de.unipotsdam.cs.toolup.database.DatabaseController.TABLE_NAME_APPLICATION;
 import de.unipotsdam.cs.toolup.model.BusinessObject;
 import de.unipotsdam.cs.toolup.model.BusinessObjectFactory;
 
 public class DatabaseControllerTest extends AbstractDatabaseTest {
 	
 	@Test(dataProvider = DatabaseControllerDataProvider.PROVIDE_BUSINESS_OBJECTS, dataProviderClass = DatabaseControllerDataProvider.class)
-	public void testThatLoadedBusinessObjectHasExpectedValues(String expectedTitle, String expectedDescription, Class<? extends BusinessObject> expectedClass, String id) throws SQLException {
+	public void testThatLoadedBusinessObjectHasExpectedValues(String expectedTitle, String expectedDescription, Class<? extends BusinessObject> expectedClass, String id) throws Exception {
 		//arrange
 
 		//act
@@ -32,7 +29,7 @@ public class DatabaseControllerTest extends AbstractDatabaseTest {
 
 
 	@Test(dataProviderClass = DatabaseControllerDataProvider.class, dataProvider = DatabaseControllerDataProvider.PROVIDE_BO_TABLES)
-	public void testThatBusinessObjectIsInsertedIntoDatabase(String tablename) throws SQLException {
+	public void testThatBusinessObjectIsInsertedIntoDatabase(String tablename) throws Exception {
 		//arrange
 		BusinessObject aBusinessObject = BusinessObjectFactory.createInstanceWithNewUuid(tablename);
 		assertFalse(db.checkIfExistsInDB(aBusinessObject));
@@ -46,7 +43,7 @@ public class DatabaseControllerTest extends AbstractDatabaseTest {
 	}
 	
 	@Test(dataProviderClass = DatabaseControllerDataProvider.class, dataProvider = DatabaseControllerDataProvider.PROVIDE_BO_TABLES)
-	public void testThatBusinessObjectIsDeletedFromDatabase(String tablename) throws SQLException {
+	public void testThatBusinessObjectIsDeletedFromDatabase(String tablename) throws Exception {
 		//arrange
 		String id = tablename + "/" + UUID.randomUUID();
 		BusinessObject aBusinessObject = BusinessObjectFactory.createInstance(id);
@@ -61,7 +58,7 @@ public class DatabaseControllerTest extends AbstractDatabaseTest {
 	}
 	
 	@Test(dataProviderClass = DatabaseControllerDataProvider.class, dataProvider = DatabaseControllerDataProvider.PROVIDE_BUSINESS_OBJECTS)
-	public void testThatCheckExistReturnsTrue(String title, String description, Class<? extends BusinessObject> clazz, String id) throws SQLException {
+	public void testThatCheckExistReturnsTrue(String title, String description, Class<? extends BusinessObject> clazz, String id) throws Exception {
 		//arrange
 		BusinessObject aBusinessObject = BusinessObjectFactory.createInstance(id);
 		
@@ -75,7 +72,7 @@ public class DatabaseControllerTest extends AbstractDatabaseTest {
 	}
 	
 	@Test(dataProviderClass = DatabaseControllerDataProvider.class, dataProvider = DatabaseControllerDataProvider.PROVIDE_BO_TABLES)
-	public void testThatCheckExistReturnsFalse(String tablename) throws SQLException {
+	public void testThatCheckExistReturnsFalse(String tablename) throws Exception {
 		//arrange
 		BusinessObject aBusinessObject = BusinessObjectFactory.createInstance(tablename + "/" + UUID.randomUUID());
 		
@@ -87,7 +84,7 @@ public class DatabaseControllerTest extends AbstractDatabaseTest {
 	}
 	
 	@Test(dataProviderClass = DatabaseControllerDataProvider.class, dataProvider = DatabaseControllerDataProvider.PROVIDE_BO_TABLES)
-	public void testThatBusinessObjectIsUpdated(String tablename) throws SQLException {
+	public void testThatBusinessObjectIsUpdated(String tablename) throws Exception {
 		//arrange
 		String id = tablename + "/" + UUID.randomUUID();
 		BusinessObject aBusinessObject = BusinessObjectFactory.createInstance(id, "aaa", "AAAAA");
@@ -104,7 +101,7 @@ public class DatabaseControllerTest extends AbstractDatabaseTest {
 	}
 	
 	@Test
-	public void testThatDatabaseControllerHelperDeletesObjects() throws SQLException {
+	public void testThatDatabaseControllerHelperDeletesObjects() throws Exception {
 		//arrange
 		String id = TABLE_NAME_APPLICATION +"/" + UUID.randomUUID();
 		BusinessObject aBusinessObject = BusinessObjectFactory.createInstance(id);

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 import de.unipotsdam.cs.toolup.database.DatabaseController;
+import de.unipotsdam.cs.toolup.exceptions.InvalidIdException;
 import de.unipotsdam.cs.toolup.model.Application;
 import de.unipotsdam.cs.toolup.model.BusinessObject;
 import de.unipotsdam.cs.toolup.model.Category;
@@ -29,7 +30,7 @@ public class BusinessObjectFactory {
 	}
 
 	private static BusinessObject createBusinessObjectWithLoadedRelations(String id, String title,
-			String description) throws SQLException {
+			String description) throws SQLException, InvalidIdException {
 		int indexOfFirstSlash = id.indexOf('/');
 		String className =  id.substring(0, indexOfFirstSlash);
 		
@@ -47,9 +48,10 @@ public class BusinessObjectFactory {
 	 * @return NullBusinessObject if result set set is empty, 
 	 * otherwise an instance of the matching subclass of BusinessObject with the loaded data.
 	 * @throws SQLException
+	 * @throws InvalidIdException 
 	 */
 	public static BusinessObject createBusinessObjectFromSingleResult(
-			ResultSet res) throws SQLException {
+			ResultSet res) throws SQLException, InvalidIdException {
 		if (!res.first()){
 			return NullBusinessObject.getInstance();
 		}
@@ -62,7 +64,7 @@ public class BusinessObjectFactory {
 	}
 
 
-	public static BusinessObject createInstance(String id) {
+	public static BusinessObject createInstance(String id) throws InvalidIdException {
 		String type = getTableNameFromId(id);
 	
 		switch (type.toLowerCase()){
@@ -74,14 +76,14 @@ public class BusinessObjectFactory {
 	}
 
 	public static BusinessObject createInstance(String id, String title,
-			String description) {
+			String description) throws InvalidIdException {
 		BusinessObject bo = createInstance(id);
 		bo.setTitle(title);
 		bo.setDescription(description);
 		return bo;
 	}
 	
-	public static BusinessObject createInstanceWithNewUuid(String tablename) {
+	public static BusinessObject createInstanceWithNewUuid(String tablename) throws InvalidIdException {
 		return createInstance(tablename + "/" + UUID.randomUUID());	
 	}
 

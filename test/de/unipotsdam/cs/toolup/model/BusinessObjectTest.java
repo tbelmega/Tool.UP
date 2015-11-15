@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import de.unipotsdam.cs.toolup.exceptions.InvalidIdException;
 import de.unipotsdam.cs.toolup.util.FileUtil;
 import de.unipotsdam.cs.toolup.util.JSONUtil;
 
@@ -32,14 +33,14 @@ public class BusinessObjectTest {
 	private static final String TABLENAME_CATEGORY = "category";
 	private static final String TABLENAME_FEATURE = "feature";
 	private static final String TABLENAME_APPLICATION = "application";
-	private static final String FEATURE_TEST_ID_21 = "feature/test_id_21";
-	private static final String FEATURE_TEST_ID_22 = "feature/test_id_22";
-	private static final String APPLICATION_TEST_ID_1 = "application/test_id_1";
-	private static final String APPLICATION_TEST_ID_2 = "application/test_id_2";
-	private static final String CATEGORY_TEST_ID_11 = "category/test_id_11";
+	public static final String FEATURE_TEST_ID_21 = "feature/test_id_21";
+	public static final String FEATURE_TEST_ID_22 = "feature/test_id_22";
+	public static final String APPLICATION_TEST_ID_1 = "application/test_id_1";
+	public static final String APPLICATION_TEST_ID_2 = "application/test_id_2";
+	public static final String CATEGORY_TEST_ID_11 = "category/test_id_11";
 
 	@Test(dataProvider = PROVIDE_SAMPLE_IDS)
-	public void testThatTablenameIsExtractableFromId(String expectedTableName, String id) {
+	public void testThatTablenameIsExtractableFromId(String expectedTableName, String id) throws InvalidIdException {
 		//arrange
 		
 		//act
@@ -47,6 +48,16 @@ public class BusinessObjectTest {
 
 		//assert
 		assertEquals(expectedTableName, tableName);
+	}
+	
+	@Test(expectedExceptions = {InvalidIdException.class})
+	public void testThatExtractingFromInvalidIdThrowsException() throws InvalidIdException {
+		//arrange
+		
+		//act
+		BusinessObject.getTableNameFromId("foo");
+		
+		//assert
 	}
 	
 	
@@ -153,7 +164,7 @@ public class BusinessObjectTest {
 	}
 	
 	@Test(dataProvider = PROVIDE_BUSINESS_OBJECTS)
-	public void testThatBusinessObjectIsCreatedFromJsonData(BusinessObject expectedBo, JSONObject jsonRepresentation) throws JSONException {
+	public void testThatBusinessObjectIsCreatedFromJsonData(BusinessObject expectedBo, JSONObject jsonRepresentation) throws Exception {
 		//arrange
 		
 		//act

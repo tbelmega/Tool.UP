@@ -14,6 +14,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import de.unipotsdam.cs.toolup.exceptions.InvalidIdException;
+
 public abstract class BusinessObject {
 
 	static final String JSON_KEY_ID = "id";
@@ -99,8 +101,12 @@ public abstract class BusinessObject {
 	 * The uuid is structured like this: tablename/1234567
 	 * @param uuid
 	 * @return an SQL table name
+	 * @throws InvalidIdException 
 	 */
-	public static String getTableNameFromId(String uuid) {
+	public static String getTableNameFromId(String uuid) throws InvalidIdException {
+		if (!uuid.contains("/")){
+			throw new InvalidIdException();
+		}
 		int indexOfFirstSlash = uuid.indexOf('/');
 		return uuid.substring(0, indexOfFirstSlash);
 	}
@@ -109,8 +115,9 @@ public abstract class BusinessObject {
 	 * Extract the table name out of the uuid.
 	 * The uuid is structured like this: tablename/1234567
 	 * @return an SQL table name
+	 * @throws InvalidIdException 
 	 */
-	public String getTableName(){
+	public String getTableName() throws InvalidIdException{
 		return getTableNameFromId(this.uuid);
 	}
 
@@ -159,9 +166,10 @@ public abstract class BusinessObject {
 	 * @param jsonRepresentation
 	 * @return
 	 * @throws JSONException
+	 * @throws InvalidIdException 
 	 */
 	public static BusinessObject createBusinessObjectFromJson(
-			JSONObject jsonRepresentation) throws JSONException {
+			JSONObject jsonRepresentation) throws JSONException, InvalidIdException {
 		String id = jsonRepresentation.getString(JSON_KEY_ID);		
 		BusinessObject newlyCreatedBO = BusinessObjectFactory.createInstance(id);
 		
@@ -176,7 +184,7 @@ public abstract class BusinessObject {
 	}
 
 	private static void addRelationFromJson(BusinessObject newlyCreatedBO,
-			JSONObject jsonRepresentation, String relationKey) throws JSONException {
+			JSONObject jsonRepresentation, String relationKey) throws JSONException, InvalidIdException {
 		if (jsonRepresentation.has(relationKey)){
 			JSONArray relationElements = jsonRepresentation.getJSONArray(relationKey);
 			addIdsOfAllElements(newlyCreatedBO, relationElements);
@@ -184,7 +192,7 @@ public abstract class BusinessObject {
 	}
 
 	private static void addIdsOfAllElements(BusinessObject newlyCreatedBO,
-			JSONArray relationElements) throws JSONException {
+			JSONArray relationElements) throws JSONException, InvalidIdException {
 		for (int i = 0; i < relationElements.length(); i++){
 			JSONObject app = relationElements.getJSONObject(i);
 			newlyCreatedBO.addRelation(app.getString(JSON_KEY_ID));
@@ -207,8 +215,9 @@ public abstract class BusinessObject {
 	/**
 	 * Adds the given id to this object's relations.
 	 * @param id
+	 * @throws InvalidIdException 
 	 */
-	public void addRelation(String id) {
+	public void addRelation(String id) throws InvalidIdException {
 		String tableName = getTableNameFromId(id);
 		
 		if (!relations.containsKey(tableName)){

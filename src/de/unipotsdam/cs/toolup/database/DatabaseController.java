@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import de.unipotsdam.cs.toolup.exceptions.InvalidIdException;
 import de.unipotsdam.cs.toolup.model.Application;
 import de.unipotsdam.cs.toolup.model.BusinessObject;
 import de.unipotsdam.cs.toolup.model.BusinessObjectFactory;
@@ -40,7 +41,7 @@ public class DatabaseController {
 	}
 
 
-	public BusinessObject load(String uuid) throws SQLException {
+	public BusinessObject load(String uuid) throws SQLException, InvalidIdException {
 		String tableName = BusinessObject.getTableNameFromId(uuid);
 		
 		PreparedStatement prepQuery = sqlStatementFactory.getSelectAllFrom(tableName);
@@ -52,7 +53,7 @@ public class DatabaseController {
 	}
 
 
-	public Set<String> loadRelatedBusinessObjectsForId(String tableName, String targetBusinessObjectType, String id) throws SQLException {
+	public Set<String> loadRelatedBusinessObjectsForId(String tableName, String targetBusinessObjectType, String id) throws SQLException, InvalidIdException {
 
 		String criteriaBusinessObjectType = BusinessObject.getTableNameFromId(id);
 		
@@ -76,34 +77,34 @@ public class DatabaseController {
 		return relatedIds;
 	}
 
-	public Set<String> loadRelatedCategoriesForApp(String id) throws SQLException {
+	public Set<String> loadRelatedCategoriesForApp(String id) throws SQLException, InvalidIdException {
 		return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION_CATEGORY, TABLE_NAME_CATEGORY, id);
 	}
 
-	public Set<String> loadRelatedApplicationsForCat(String id) throws SQLException {
+	public Set<String> loadRelatedApplicationsForCat(String id) throws SQLException, InvalidIdException {
 		return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION_CATEGORY, TABLE_NAME_APPLICATION, id);
 	}
 
-	public Set<String> loadRelatedFeaturesForApp(String id) throws SQLException {
+	public Set<String> loadRelatedFeaturesForApp(String id) throws SQLException, InvalidIdException {
 		return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION_FEATURE, TABLE_NAME_FEATURE, id);
 	}
 
-	public Collection<String> loadRelatedApplicationsForFeat(String id) throws SQLException {
+	public Collection<String> loadRelatedApplicationsForFeat(String id) throws SQLException, InvalidIdException {
 		return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION_FEATURE, TABLE_NAME_APPLICATION, id);
 	}
 
 
-	public boolean checkIfExistsInDB(BusinessObject aBusinessObject) throws SQLException {
+	public boolean checkIfExistsInDB(BusinessObject aBusinessObject) throws SQLException, InvalidIdException {
 		return checkIfExistsInDB(aBusinessObject.getUuid());
 	}
 
-	public boolean checkIfExistsInDB(String id) throws SQLException {
+	public boolean checkIfExistsInDB(String id) throws SQLException, InvalidIdException {
 		BusinessObject objectFromDB = load(id);
 		return !(objectFromDB instanceof NullBusinessObject);
 	}
 
 
-	public void storeToDatabase(BusinessObject aBusinessObject) throws SQLException {
+	public void storeToDatabase(BusinessObject aBusinessObject) throws SQLException, InvalidIdException {
 		boolean exists = checkIfExistsInDB(aBusinessObject);
 		if (exists) {
 			updateDatabase(aBusinessObject);
@@ -114,7 +115,7 @@ public class DatabaseController {
 
 
 	private void insertIntoDatabase(BusinessObject aBusinessObject)
-			throws SQLException {
+			throws SQLException, InvalidIdException {
 		String tableName = BusinessObject.getTableNameFromId(aBusinessObject.getUuid());
 		insertBO(aBusinessObject, tableName);
 		insertRelations(aBusinessObject, tableName);
@@ -178,7 +179,7 @@ public class DatabaseController {
 
 
 	private void updateDatabase(BusinessObject aBusinessObject)
-			throws SQLException {
+			throws SQLException, InvalidIdException {
 		String tableName = BusinessObject.getTableNameFromId(aBusinessObject.getUuid());
 		updateBO(aBusinessObject, tableName);
 		updateRelations(aBusinessObject, tableName);
@@ -234,7 +235,7 @@ public class DatabaseController {
 	}
 
 
-	public void deleteFromDatabase(String id) throws SQLException {
+	public void deleteFromDatabase(String id) throws SQLException, InvalidIdException {
 		String tableName = BusinessObject.getTableNameFromId(id);
 		
 		PreparedStatement prepQuery = sqlStatementFactory.getDeleteFrom(tableName);
