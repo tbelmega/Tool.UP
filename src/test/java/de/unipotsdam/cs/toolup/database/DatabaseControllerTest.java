@@ -42,7 +42,7 @@ public class DatabaseControllerTest extends AbstractDatabaseTest {
     @Test(dataProviderClass = DatabaseControllerDataProvider.class, dataProvider = DatabaseControllerDataProvider.PROVIDE_BO_TABLES)
     public void testThatBusinessObjectIsDeletedFromDatabase(String tablename) throws Exception {
         //arrange
-        String id = tablename + "/" + UUID.randomUUID();
+        String id = tablename + BusinessObject.ID_DELIMITER + UUID.randomUUID();
         BusinessObject aBusinessObject = BusinessObjectFactory.createInstance(id);
         db.storeToDatabase(aBusinessObject);
         assertTrue(db.checkIfExistsInDB(aBusinessObject));
@@ -71,7 +71,7 @@ public class DatabaseControllerTest extends AbstractDatabaseTest {
     @Test(dataProviderClass = DatabaseControllerDataProvider.class, dataProvider = DatabaseControllerDataProvider.PROVIDE_BO_TABLES)
     public void testThatCheckExistReturnsFalse(String tablename) throws Exception {
         //arrange
-        BusinessObject aBusinessObject = BusinessObjectFactory.createInstance(tablename + "/" + UUID.randomUUID());
+        BusinessObject aBusinessObject = BusinessObjectFactory.createInstance(tablename + BusinessObject.ID_DELIMITER + UUID.randomUUID());
 
         //act
         boolean exists = db.checkIfExistsInDB(aBusinessObject);
@@ -83,7 +83,7 @@ public class DatabaseControllerTest extends AbstractDatabaseTest {
     @Test(dataProviderClass = DatabaseControllerDataProvider.class, dataProvider = DatabaseControllerDataProvider.PROVIDE_BO_TABLES)
     public void testThatBusinessObjectIsUpdated(String tablename) throws Exception {
         //arrange
-        String id = tablename + "/" + UUID.randomUUID();
+        String id = tablename + BusinessObject.ID_DELIMITER + UUID.randomUUID();
         BusinessObject aBusinessObject = BusinessObjectFactory.createInstance(id, "aaa", "AAAAA");
         db.storeToDatabase(aBusinessObject);
 
@@ -100,7 +100,7 @@ public class DatabaseControllerTest extends AbstractDatabaseTest {
     @Test
     public void testThatDatabaseControllerHelperDeletesObjects() throws Exception {
         //arrange
-        String id = TABLE_NAME_APPLICATION + "/" + UUID.randomUUID();
+        String id = TABLE_NAME_APPLICATION + BusinessObject.ID_DELIMITER + UUID.randomUUID();
         BusinessObject aBusinessObject = BusinessObjectFactory.createInstance(id);
         db.storeToDatabase(aBusinessObject);
         assertTrue(db.checkIfExistsInDB(aBusinessObject));

@@ -29,7 +29,7 @@ public class BusinessObjectFactory {
 
     private static BusinessObject createBusinessObjectWithLoadedRelations(String id, String title,
                                                                           String description) throws SQLException, InvalidIdException {
-        int indexOfFirstSlash = id.indexOf('/');
+        int indexOfFirstSlash = id.indexOf(BusinessObject.ID_DELIMITER_CHAR);
         String className = id.substring(0, indexOfFirstSlash);
 
         switch (className.toLowerCase()) {
@@ -89,7 +89,7 @@ public class BusinessObjectFactory {
     }
 
     public static BusinessObject createInstanceWithNewUuid(String tablename) throws InvalidIdException {
-        return createInstance(tablename + "/" + UUID.randomUUID());
+        return createInstance(tablename + BusinessObject.ID_DELIMITER + UUID.randomUUID());
     }
 
 }

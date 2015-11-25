@@ -11,6 +11,8 @@ import static de.unipotsdam.cs.toolup.database.DatabaseController.*;
 
 public abstract class BusinessObject {
 
+    public static final Character ID_DELIMITER_CHAR = '-';
+    public static final String ID_DELIMITER = ID_DELIMITER_CHAR.toString();
     static final String JSON_KEY_ID = "id";
     static final String JSON_KEY_DESCRIPTION = "description";
     static final String JSON_KEY_TITLE = "title";
@@ -43,18 +45,18 @@ public abstract class BusinessObject {
 
     /**
      * Extract the table name out of the uuid.
-     * The uuid is structured like this: tablename/1234567
+     * The uuid is structured like this: tablename-1234567
      *
      * @param uuid the id of a BO
      * @return an SQL table name
      * @throws InvalidIdException
      */
     public static String getTableNameFromId(String uuid) throws InvalidIdException {
-        if (!uuid.contains("/")) {
+        if (!uuid.contains(ID_DELIMITER)) {
             throw new InvalidIdException();
         }
-        int indexOfFirstSlash = uuid.indexOf('/');
-        return uuid.substring(0, indexOfFirstSlash);
+        int indexOfFirstDash = uuid.indexOf(ID_DELIMITER_CHAR);
+        return uuid.substring(0, indexOfFirstDash);
     }
 
     /**

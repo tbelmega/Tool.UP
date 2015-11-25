@@ -7,11 +7,11 @@ import org.testng.annotations.DataProvider;
 
 public class DatabaseControllerDataProvider {
 
-    public static final String FEATURE_TEST_ID_22 = "feature/test_id_22";
-    public static final String FEATURE_TEST_ID_21 = "feature/test_id_21";
-    public static final String APPLICATION_TEST_ID_2 = "application/test_id_2";
-    public static final String APPLICATION_TEST_ID_1 = "application/test_id_1";
-    public static final String CATEGORY_TEST_ID_11 = "category/test_id_11";
+    public static final String FEATURE_TEST_ID_22 = "feature-test_id_22";
+    public static final String FEATURE_TEST_ID_21 = "feature-test_id_21";
+    public static final String APPLICATION_TEST_ID_2 = "application-test_id_2";
+    public static final String APPLICATION_TEST_ID_1 = "application-test_id_1";
+    public static final String CATEGORY_TEST_ID_11 = "category-test_id_11";
 
 
     /**
@@ -21,11 +21,9 @@ public class DatabaseControllerDataProvider {
      * @param id
      */
     public static final String PROVIDE_BUSINESS_OBJECTS = "provideBusinessObjects";
-    /**
-     * @param tableName
-     */
     public static final String PROVIDE_BO_TABLES = "provideBOTables";
     public static final String PROVIDE_BO_TABLES_AND_RELATIONS = "provideBOTablesAndRelatedIds";
+
 
     @DataProvider(name = PROVIDE_BUSINESS_OBJECTS)
     public static Object[][] provideBusinessObjects() {
