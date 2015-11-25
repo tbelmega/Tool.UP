@@ -2,7 +2,6 @@ package de.unipotsdam.cs.toolup.database;
 
 import de.unipotsdam.cs.toolup.exceptions.InvalidIdException;
 import de.unipotsdam.cs.toolup.model.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -136,7 +135,7 @@ public class DatabaseController {
                 break;
             }
             default:
-                throw new NotImplementedException();
+                throw new UnsupportedOperationException();
         }
     }
 
@@ -150,6 +149,18 @@ public class DatabaseController {
      */
     private void insertSingleRelationInto(String tableName, String uuid,
                                           int uuidColumnNumber, Collection<String> relatedIds) throws SQLException {
+        for (String foreignKey : relatedIds) {
+            PreparedStatement prepQuery;
+            prepQuery = sqlStatementFactory.getInsertRelation(tableName);
+            prepQuery.setString(uuidColumnNumber, uuid);
+            prepQuery.setString((uuidColumnNumber % 2) + 1, foreignKey);
+            prepQuery.executeUpdate();
+        }
+    }
+
+    private void updateSingleRelation(
+            String tableName, String uuid, int uuidColumnNumber,
+            Collection<String> relatedIds) throws SQLException {
         for (String foreignKey : relatedIds) {
             PreparedStatement prepQuery;
             prepQuery = sqlStatementFactory.getInsertRelation(tableName);
@@ -200,22 +211,11 @@ public class DatabaseController {
                 break;
             }
             default:
-                throw new NotImplementedException();
+                throw new UnsupportedOperationException();
         }
     }
 
 
-    private void updateSingleRelation(
-            String tableName, String uuid, int uuidColumnNumber,
-            Collection<String> relatedIds) throws SQLException {
-        for (String foreignKey : relatedIds) {
-            PreparedStatement prepQuery;
-            prepQuery = sqlStatementFactory.getInsertRelation(tableName);
-            prepQuery.setString(uuidColumnNumber, uuid);
-            prepQuery.setString((uuidColumnNumber % 2) + 1, foreignKey);
-            prepQuery.executeUpdate();
-        }
-    }
 
 
     private void updateBO(BusinessObject aBusinessObject,

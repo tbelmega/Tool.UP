@@ -19,8 +19,8 @@ public class BusinessObjectResource {
     protected Response getBusinessObject(String id) {
         Response response;
         try {
-            BusinessObject app = DatabaseController.getInstance().load(id);
-            response = Response.ok(app).build();
+            BusinessObject bo = DatabaseController.getInstance().load(id);
+            response = Response.ok(bo.convertToJson()).build();
         } catch (SQLException | IOException e) {
             e.printStackTrace();
             response = Response.serverError().build();

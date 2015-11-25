@@ -1,5 +1,6 @@
 package de.unipotsdam.cs.toolup.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -7,6 +8,7 @@ import java.util.Set;
 import static de.unipotsdam.cs.toolup.database.DatabaseController.TABLE_NAME_CATEGORY;
 import static de.unipotsdam.cs.toolup.database.DatabaseController.TABLE_NAME_FEATURE;
 
+@XmlRootElement
 public class Application extends BusinessObject {
 
     public Application(String uuid, String title, String description, Set<String> relatedCategories, Set<String> relatedFeatures) {
