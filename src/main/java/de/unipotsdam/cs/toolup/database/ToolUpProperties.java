@@ -1,7 +1,5 @@
 package de.unipotsdam.cs.toolup.database;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -14,7 +12,6 @@ public class ToolUpProperties {
     private static final String KEY_SCHEMA = "database schema";
 
     private static final String DATABASE_CONNECTOR = "jdbc:mysql://";
-    static File PROPERTIES_FILE = new File("Tool.UP_cfg.xml");
     private static String DATABASE_URL = null;
     private static Properties PROPERTIES = null;
 
@@ -53,7 +50,7 @@ public class ToolUpProperties {
     private static synchronized void loadPropertiesFromFile() throws IOException {
         if (PROPERTIES == null) {
             PROPERTIES = new Properties();
-            PROPERTIES.loadFromXML(new FileInputStream(PROPERTIES_FILE));
+            PROPERTIES.loadFromXML(ToolUpProperties.class.getResourceAsStream("/Tool.UP_cfg.xml"));
         }
     }
 

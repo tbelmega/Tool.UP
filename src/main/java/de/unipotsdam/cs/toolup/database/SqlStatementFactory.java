@@ -1,7 +1,5 @@
 package de.unipotsdam.cs.toolup.database;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,16 +9,16 @@ import java.util.Properties;
 
 public class SqlStatementFactory {
 
+    public static final String SQL_STATEMENTS_FILENAME = "/SQL_Statements.xml";
     private static final String TOKEN_TABLE_NAME = "TABLE_NAME";
-    private static final File SQL_STATEMENT_FILE = new File("SQL_Statements.xml").getAbsoluteFile();
-    private static final CharSequence TOKEN_FOREIGN_KEY = "FOREIGN_KEY";
+    private static final String TOKEN_FOREIGN_KEY = "FOREIGN_KEY";
     private final Connection connection;
     private Properties sqlStatements;
 
 
     public SqlStatementFactory() throws IOException, SQLException {
         sqlStatements = new Properties();
-        sqlStatements.loadFromXML(new FileInputStream(SQL_STATEMENT_FILE));
+        sqlStatements.loadFromXML(this.getClass().getResourceAsStream(SQL_STATEMENTS_FILENAME));
         connection = DriverManager.getConnection(ToolUpProperties.getDatabaseUrl());
     }
 

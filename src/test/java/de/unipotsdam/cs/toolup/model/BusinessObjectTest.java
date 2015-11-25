@@ -20,9 +20,12 @@ public class BusinessObjectTest {
     public static final String APPLICATION_TEST_ID_1 = "application/test_id_1";
     public static final String APPLICATION_TEST_ID_2 = "application/test_id_2";
     public static final String CATEGORY_TEST_ID_11 = "category/test_id_11";
-    private static final String FILENAME_TEST_APP_JSON = "test/resources/TestApplication.json";
-    private static final String FILENAME_TEST_FEAT_JSON = "test/resources/TestFeature.json";
-    private static final String FILENAME_TEST_CAT_JSON = "test/resources/TestCategory.json";
+    public static final String PROVIDE_SAMPLE_IDS = "provideSampleIds";
+    public static final String PROVIDE_BOS_TO_COMPARE = "provideBOsToCompare";
+    public static final String PROVIDE_BUSINESS_OBJECTS = "provideBusinessObjects";
+    private static final String FILENAME_TEST_APP_JSON = "src/test/java/resources/TestApplication.json";
+    private static final String FILENAME_TEST_FEAT_JSON = "src/test/java/resources/TestFeature.json";
+    private static final String FILENAME_TEST_CAT_JSON = "src/test/java/resources/TestCategory.json";
     private static final String APPLICATION_TESTDESCRIPTION_1 = "Dropbox Description";
     private static final String APPLICATION_TESTTITLE_1 = "Dropbox";
     private static final String FEATURE_TESTTITLE_21 = "Kalender anlegen";
@@ -32,9 +35,6 @@ public class BusinessObjectTest {
     private static final String TABLENAME_CATEGORY = "category";
     private static final String TABLENAME_FEATURE = "feature";
     private static final String TABLENAME_APPLICATION = "application";
-    private static final String PROVIDE_SAMPLE_IDS = "provideSampleIds";
-    private static final String PROVIDE_BOS_TO_COMPARE = "provideBOsToCompare";
-    private static final String PROVIDE_BUSINESS_OBJECTS = "provideBusinessObjects";
 
     @Test(dataProvider = PROVIDE_SAMPLE_IDS)
     public void testThatTablenameIsExtractableFromId(String expectedTableName, String id) throws InvalidIdException {
@@ -190,7 +190,7 @@ public class BusinessObjectTest {
         return new Object[][]{
                 {app1, expectedJsonApp},
                 {feat1, expectedJsonFeat},
-                {cat1, expectedJsonCat},
+                {cat1, expectedJsonCat}
         };
     }
 }
