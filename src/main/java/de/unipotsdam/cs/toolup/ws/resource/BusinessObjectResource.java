@@ -11,9 +11,9 @@ import java.sql.SQLException;
 
 public class BusinessObjectResource {
 
-    protected static final String PATH_APPLICATION = "/application";
-    protected static final String PATH_FEATURE = "/feature";
-    protected static final String PATH_CATEGORY = "/category";
+    protected static final String PATH_APPLICATION = "application";
+    protected static final String PATH_FEATURE = "feature";
+    protected static final String PATH_CATEGORY = "category";
     protected static final String PARAM_ID = "id";
 
     protected Response getBusinessObject(String id) {

@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 public class FeatureResource extends BusinessObjectResource {
 
     @GET
-    @Path("{id}")
+    @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response get(@PathParam(PARAM_ID) String id) {
         return getBusinessObject(id);
