@@ -1,0 +1,13 @@
+{
+  "id": "feature/test_id_21",
+  "title": "Kalender anlegen",
+  "description": "Kalender anlegen Description",
+  "applications": [
+    {
+      "id": "application/test_id_1"
+    },
+    {
+      "id": "application/test_id_2"
+    }
+  ]
+}
