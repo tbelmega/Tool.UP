@@ -3,9 +3,8 @@ package de.unipotsdam.cs.toolup.ws.resource;
 import de.unipotsdam.cs.toolup.database.DatabaseController;
 import de.unipotsdam.cs.toolup.exceptions.InvalidIdException;
 import de.unipotsdam.cs.toolup.model.BusinessObject;
+import de.unipotsdam.cs.toolup.model.NullBusinessObject;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -16,18 +15,14 @@ public class BusinessObjectResource {
     protected static final String PATH_CATEGORY = "category";
     protected static final String PARAM_ID = "id";
 
-    protected Response getBusinessObject(String id) {
-        Response response;
+    protected BusinessObject getBusinessObject(String id) {
         try {
-            BusinessObject bo = DatabaseController.getInstance().load(id);
-            response = Response.ok(bo.convertToJson()).build();
-        } catch (SQLException | IOException e) {
+            return DatabaseController.getInstance().load(id);
+
+        } catch (SQLException | IOException | InvalidIdException e) {
             e.printStackTrace();
-            response = Response.serverError().build();
-        } catch (InvalidIdException e) {
-            response = Response.status(Status.NOT_FOUND).build();
+            return NullBusinessObject.getInstance();
         }
-        return response;
     }
 
 }

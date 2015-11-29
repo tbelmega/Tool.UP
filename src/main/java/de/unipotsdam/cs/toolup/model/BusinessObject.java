@@ -5,6 +5,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.*;
 
 import static de.unipotsdam.cs.toolup.database.DatabaseController.*;
@@ -13,12 +15,12 @@ public abstract class BusinessObject {
 
     public static final Character ID_DELIMITER_CHAR = '-';
     public static final String ID_DELIMITER = ID_DELIMITER_CHAR.toString();
-    static final String JSON_KEY_ID = "id";
-    static final String JSON_KEY_DESCRIPTION = "description";
-    static final String JSON_KEY_TITLE = "title";
-    static final String JSON_KEY_FEATURES = "features";
-    static final String JSON_KEY_CATEGORIES = "categories";
-    static final String JSON_KEY_APPLICATIONS = "applications";
+    public static final String JSON_KEY_ID = "id";
+    public static final String JSON_KEY_DESCRIPTION = "description";
+    public static final String JSON_KEY_TITLE = "title";
+    public static final String JSON_KEY_FEATURES = "features";
+    public static final String JSON_KEY_CATEGORIES = "categories";
+    public static final String JSON_KEY_APPLICATIONS = "applications";
     static Map<String, String> keyMappingSqlJson = new HashMap<>(); //TODO Move to config file
 
     static {
@@ -28,10 +30,10 @@ public abstract class BusinessObject {
     }
 
     protected final HashMap<String, Collection<String>> relations = new HashMap<>();
+
     protected String uuid;
     protected String title;
     protected String description;
-
 
     public BusinessObject(String uuid, String title, String description) {
         this.uuid = uuid;
