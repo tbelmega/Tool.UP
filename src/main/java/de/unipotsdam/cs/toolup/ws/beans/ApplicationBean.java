@@ -38,17 +38,9 @@ public class ApplicationBean extends BusinessObjectBean {
     }
 
 
-    public static ApplicationBean getBean(String id) {
-        try {
-            Application app = (Application)DatabaseController.getInstance().load(id);
-            return new ApplicationBean(app);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (InvalidIdException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static ApplicationBean getBean(String id) throws InvalidIdException, SQLException, IOException {
+        Application app = (Application)DatabaseController.getInstance().load(id);
+        return new ApplicationBean(app);
+
     }
 }

@@ -9,13 +9,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 
-@Path(BusinessObjectResource.PATH_FEATURE)
-public class FeatureResource extends BusinessObjectResource {
+@Path("feature")
+public class FeatureResource {
 
     @GET
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public FeatureBean get(@PathParam(PARAM_ID) String id) {
+    public FeatureBean get(@PathParam("id") String id) throws Exception {
         return FeatureBean.getBean(id);
     }
 }

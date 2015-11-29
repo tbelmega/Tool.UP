@@ -27,11 +27,11 @@ public class IntegrationTestWebService {
     private static final String CATEGORY_RESOURCE_URL = "/category/";
     private static final String FEATURE_RESOURCE_URL = "/feature/";
 
+    private HttpClient client = HttpClientBuilder.create().build();
 
     @Test
     public void testThatGetRequestReturnsStatusCodeOK() throws Exception {
         //arrange
-        HttpClient client = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet(TOOLUP_URL + APPLICATION_RESOURCE_URL + BusinessObjectTest.APPLICATION_TEST_ID_1);
         request.addHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType());
 
@@ -45,7 +45,6 @@ public class IntegrationTestWebService {
     @Test
     public void testThatGetRequestReturnsMimeTypeJson() throws Exception {
         //arrange
-        HttpClient client = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet(TOOLUP_URL + APPLICATION_RESOURCE_URL + BusinessObjectTest.APPLICATION_TEST_ID_1);
         request.addHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType());
 
@@ -61,7 +60,6 @@ public class IntegrationTestWebService {
         //arrange
         BusinessObject expectedBO = DatabaseController.getInstance().load(BusinessObjectTest.CATEGORY_TEST_ID_11);
 
-        HttpClient client = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet(TOOLUP_URL + CATEGORY_RESOURCE_URL + BusinessObjectTest.CATEGORY_TEST_ID_11);
         request.addHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType());
 
@@ -81,7 +79,6 @@ public class IntegrationTestWebService {
         //arrange
         BusinessObject expectedBO = DatabaseController.getInstance().load( BusinessObjectTest.FEATURE_TEST_ID_21);
 
-        HttpClient client = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet(TOOLUP_URL + FEATURE_RESOURCE_URL + BusinessObjectTest.FEATURE_TEST_ID_21);
         request.addHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType());
 
@@ -101,7 +98,6 @@ public class IntegrationTestWebService {
         //arrange
         BusinessObject expectedBO = DatabaseController.getInstance().load(BusinessObjectTest.APPLICATION_TEST_ID_1);
 
-        HttpClient client = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet(TOOLUP_URL + APPLICATION_RESOURCE_URL + BusinessObjectTest.APPLICATION_TEST_ID_1);
         request.addHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType());
 

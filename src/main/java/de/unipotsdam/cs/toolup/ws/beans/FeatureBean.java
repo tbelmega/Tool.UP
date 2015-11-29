@@ -17,19 +17,9 @@ public class FeatureBean extends BusinessObjectBean{
         this.applications = feat.getRelatedApplications();
     }
 
-
-    public static FeatureBean getBean(String id) {
-        try {
-            Feature feat = (Feature) DatabaseController.getInstance().load(id);
-            return new FeatureBean(feat);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (InvalidIdException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static FeatureBean getBean(String id) throws IOException, SQLException, InvalidIdException {
+        Feature feat = (Feature) DatabaseController.getInstance().load(id);
+        return new FeatureBean(feat);
     }
 
 }

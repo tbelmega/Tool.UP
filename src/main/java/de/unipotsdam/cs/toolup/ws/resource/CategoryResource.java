@@ -9,13 +9,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 
-@Path(BusinessObjectResource.PATH_CATEGORY)
-public class CategoryResource extends BusinessObjectResource {
+@Path("category")
+public class CategoryResource {
 
     @GET
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public CategoryBean get(@PathParam(PARAM_ID) String id) {
+    public CategoryBean get(@PathParam("id") String id) throws Exception{
         return CategoryBean.getBean(id);
     }
 }
