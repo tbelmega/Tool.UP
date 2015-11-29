@@ -3,7 +3,7 @@
 <properties>
     <entry key="database password"/>
     <entry key="database schema">test</entry>
-    <entry key="database user name">root</entry>
+    <entry key="database user name"></entry>
     <entry key="database server port">3306</entry>
     <entry key="database server adress">localhost</entry>
 </properties>
