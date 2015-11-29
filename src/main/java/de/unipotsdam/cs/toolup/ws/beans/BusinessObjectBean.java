@@ -1,6 +1,8 @@
 package de.unipotsdam.cs.toolup.ws.beans;
 
 import de.unipotsdam.cs.toolup.model.BusinessObject;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class BusinessObjectBean {
 
@@ -36,5 +38,26 @@ public class BusinessObjectBean {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if (!(obj instanceof BusinessObjectBean))
+            return false;
+        if (obj == this)
+            return true;
+
+        BusinessObjectBean anotherBean = (BusinessObjectBean) obj;
+
+        return new EqualsBuilder()
+               .append(this.id, anotherBean.id)
+               .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(5,47)
+                .append(this.id)
+                .toHashCode();
     }
 }

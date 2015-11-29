@@ -7,27 +7,20 @@ import de.unipotsdam.cs.toolup.model.BusinessObjectTest;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.ContentType;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import org.testng.annotations.Test;
 
 import static junit.framework.Assert.assertEquals;
 
-/**
- * In contrast to the UnitTests, this integration tests require a running web server to succeed.
- */
-public class IntegrationTestWebService {
 
-    private final static String TOOLUP_URL = "http://localhost:8080/toolup";
+public class IntegrationTestWebService extends AbstractTestWebService {
+
     private final static String APPLICATION_RESOURCE_URL = "/application/";
     private static final String CATEGORY_RESOURCE_URL = "/category/";
     private static final String FEATURE_RESOURCE_URL = "/feature/";
-
-    private HttpClient client = HttpClientBuilder.create().build();
 
     @Test
     public void testThatGetRequestReturnsStatusCodeOK() throws Exception {

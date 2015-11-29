@@ -4,8 +4,10 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.*;
 import java.util.Properties;
 
+import static org.junit.Assert.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
 
 public class ToolUpPropertiesTest {
@@ -15,9 +17,7 @@ public class ToolUpPropertiesTest {
     private static final String KEY_SERVERPORT = "database server port";
     private static final Object VALUE_SERVERPORT = "3306";
     private static final String KEY_USERNAME = "database user name";
-    private static final String VALUE_USERNAME = "root";
     private static final String KEY_PASSWORD = "database password";
-    private static final String VALUE_PASSWORD = "";
     private static final String KEY_SCHEMA = "database schema";
     private static final String VALUE_SCHEMA = "test";
 
@@ -46,9 +46,26 @@ public class ToolUpPropertiesTest {
         //assert
         assertEquals(VALUE_SERVERADRESS, props.getProperty(KEY_SERVERADRESS));
         assertEquals(VALUE_SERVERPORT, props.getProperty(KEY_SERVERPORT));
-        assertEquals(VALUE_USERNAME, props.getProperty(KEY_USERNAME));
-        assertEquals(VALUE_PASSWORD, props.getProperty(KEY_PASSWORD));
+        assertNotNull(props.getProperty(KEY_USERNAME));
+        assertNotNull(props.getProperty(KEY_PASSWORD));
         assertEquals(VALUE_SCHEMA, props.getProperty(KEY_SCHEMA));
+    }
+
+    @Test
+    public void testThatDbConnectionIsEstablished() throws IOException, SQLException {
+        //arrange
+        String dbUrl = ToolUpProperties.getDatabaseUrl().replace("toolup","");
+
+        //act
+        Connection connection = DriverManager.getConnection(dbUrl);
+
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM application;");
+        ResultSet result = statement.executeQuery();
+        //TODO: test that connection is only established with correct credentials
+
+
+        //assert
+        assertNotNull(connection);
     }
 
 

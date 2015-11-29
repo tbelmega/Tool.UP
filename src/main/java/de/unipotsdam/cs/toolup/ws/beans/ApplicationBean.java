@@ -7,6 +7,8 @@ import de.unipotsdam.cs.toolup.model.Application;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class ApplicationBean extends BusinessObjectBean {
@@ -42,5 +44,16 @@ public class ApplicationBean extends BusinessObjectBean {
         Application app = (Application)DatabaseController.getInstance().load(id);
         return new ApplicationBean(app);
 
+    }
+
+    public static Collection<ApplicationBean> getBeans(Set<Application> applications) throws InvalidIdException, SQLException, IOException {
+        Collection<ApplicationBean> appBeans = new HashSet<>();
+
+        for (Application app: applications) {
+            ApplicationBean bean = ApplicationBean.getBean(app.getUuid());
+            appBeans.add(bean);
+        }
+
+        return appBeans;
     }
 }

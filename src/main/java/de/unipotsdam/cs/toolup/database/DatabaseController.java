@@ -81,7 +81,7 @@ public class DatabaseController {
         return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION_FEATURE, TABLE_NAME_FEATURE, id);
     }
 
-    public Collection<String> loadRelatedApplicationsForFeat(String id) throws SQLException, InvalidIdException {
+    public Set<String> loadRelatedApplicationsForFeat(String id) throws SQLException, InvalidIdException {
         return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION_FEATURE, TABLE_NAME_APPLICATION, id);
     }
 
@@ -158,6 +158,7 @@ public class DatabaseController {
         }
     }
 
+    //TODO fix duplication
     private void updateSingleRelation(
             String tableName, String uuid, int uuidColumnNumber,
             Collection<String> relatedIds) throws SQLException {
