@@ -30,7 +30,8 @@ public class ToolUpProperties {
                     "/" +
                     getProperties().getProperty(KEY_SCHEMA) +
                     "?user=" +
-                    getProperties().getProperty(KEY_USERNAME + "&pw=") +
+                    getProperties().getProperty(KEY_USERNAME) +
+                    "&pw=" +
                     getProperties().getProperty(KEY_PASSWORD);
         }
         return DATABASE_URL;
