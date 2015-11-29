@@ -44,3 +44,9 @@ Temporary Items
 /bin/
 /target/
 /test-output/
+
+#IntelliJ IDEA
+/.idea/
+/.css/
+/.img/
+*.iml
