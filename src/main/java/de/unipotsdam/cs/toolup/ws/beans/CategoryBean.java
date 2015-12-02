@@ -2,11 +2,14 @@ package de.unipotsdam.cs.toolup.ws.beans;
 
 import de.unipotsdam.cs.toolup.database.DatabaseController;
 import de.unipotsdam.cs.toolup.exceptions.InvalidIdException;
+import de.unipotsdam.cs.toolup.model.BusinessObject;
 import de.unipotsdam.cs.toolup.model.Category;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
 
 public class CategoryBean extends BusinessObjectBean{
 
@@ -24,6 +27,15 @@ public class CategoryBean extends BusinessObjectBean{
 
     }
 
+    public static Collection<CategoryBean> getAllCategories() throws IOException, SQLException {
+        Collection<CategoryBean> result = new HashSet<>();
+        Map<String, BusinessObject> allCats = DatabaseController.getInstance().loadAllFrom(DatabaseController.TABLE_NAME_CATEGORY);
+
+        for (BusinessObject cat : allCats.values()) {
+            result.add(new CategoryBean((Category) cat));
+        }
+        return result;
+    }
 }
 
 

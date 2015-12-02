@@ -7,10 +7,18 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.Collection;
 
 
 @Path("application")
 public class ApplicationResource {
+
+    @GET
+    @Path("/")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Collection<ApplicationBean> getAll() throws Exception {
+        return ApplicationBean.getAllApplications();
+    }
 
     @GET
     @Path("/{id}")

@@ -4,7 +4,7 @@ import de.unipotsdam.cs.toolup.model.BusinessObject;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class BusinessObjectBean {
+public class BusinessObjectBean implements Comparable<BusinessObjectBean> {
 
     private String id;
     private String title;
@@ -59,5 +59,11 @@ public class BusinessObjectBean {
         return new HashCodeBuilder(5,47)
                 .append(this.id)
                 .toHashCode();
+    }
+
+
+    @Override
+    public int compareTo(BusinessObjectBean o) {
+        return this.getId().compareTo(o.getId());
     }
 }
