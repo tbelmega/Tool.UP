@@ -29,8 +29,12 @@ public class SqlStatementFactory {
         return connection.prepareStatement(preparedQuery);
     }
 
-    public PreparedStatement getSelectAllFrom(String tableName) throws SQLException {
+    public PreparedStatement getStatementSelectByUuidFrom(String tableName) throws SQLException {
         return getCustomizedStatement("selectBO", tableName);
+    }
+
+    public PreparedStatement getStatementSelectAllFrom(String tableName) throws SQLException {
+        return getCustomizedStatement("selectAll", tableName);
     }
 
     public PreparedStatement getInsertInto(String tableName) throws SQLException {

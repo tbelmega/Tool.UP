@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class DatabaseController {
@@ -34,10 +35,32 @@ public class DatabaseController {
     }
 
 
+    /**
+     * Loads all BusinessObjects from a single table.
+     * @param tableName name of the table to load from.
+     * @return all the loaded BusinessObjects in a map from uuid to BusinessObject
+     * @throws SQLException
+     */
+    public Map<String,BusinessObject> loadAllFrom(String tableName) throws SQLException {
+        PreparedStatement prepQuery = sqlStatementFactory.getStatementSelectAllFrom(tableName);
+
+        ResultSet res = prepQuery.executeQuery();
+
+        return BusinessObjectFactory.createSetOfBusinessObjectsFromAllResults(res);
+    }
+
+    /**
+     * Loads a single business object with the given uuid.
+     * The table to load from is evaluated from the id.
+     * @param uuid the uuid of the object to load.
+     * @return the loaded BusinessObject
+     * @throws SQLException
+     * @throws InvalidIdException
+     */
     public BusinessObject load(String uuid) throws SQLException, InvalidIdException {
         String tableName = BusinessObject.getTableNameFromId(uuid);
 
-        PreparedStatement prepQuery = sqlStatementFactory.getSelectAllFrom(tableName);
+        PreparedStatement prepQuery = sqlStatementFactory.getStatementSelectByUuidFrom(tableName);
 
         prepQuery.setString(1, uuid);
         ResultSet res = prepQuery.executeQuery();

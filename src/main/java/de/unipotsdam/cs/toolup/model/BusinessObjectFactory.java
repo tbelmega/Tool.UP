@@ -6,6 +6,8 @@ import de.unipotsdam.cs.toolup.exceptions.InvalidIdException;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import static de.unipotsdam.cs.toolup.model.BusinessObject.*;
@@ -56,12 +58,34 @@ public class BusinessObjectFactory {
         if (!res.first()) {
             return NullBusinessObject.getInstance();
         }
+        return createBusinessObjectFromResult(res);
+    }
 
+    /**
+     * @param res the result of a database query
+     * @return all the loaded BusinessObjects in a Map from ID to BusinessObject
+     * @throws SQLException
+     */
+    public static Map<String, BusinessObject> createSetOfBusinessObjectsFromAllResults(ResultSet res) throws SQLException {
+        Map<String, BusinessObject> loadedBOs = new HashMap<>();
+
+        while (res.next()) {
+            BusinessObject bo = createBusinessObjectFromResult(res);
+            loadedBOs.put(bo.getUuid(), bo);
+        }
+        return loadedBOs;
+    }
+
+    private static BusinessObject createBusinessObjectFromResult(ResultSet res) throws SQLException {
         String id = res.getString(KEY_UUID);
         String title = res.getString(JSON_KEY_TITLE);
         String description = res.getString(JSON_KEY_DESCRIPTION);
 
-        return createBusinessObjectWithLoadedRelations(id, title, description);
+        try {
+            return createBusinessObjectWithLoadedRelations(id, title, description);
+        } catch (Exception e) {
+            throw new RuntimeException("This should never happen. ID is loaded from DB and cannot be invalid", e);
+        }
     }
 
 
@@ -91,5 +115,6 @@ public class BusinessObjectFactory {
     public static BusinessObject createInstanceWithNewUuid(String tablename) throws InvalidIdException {
         return createInstance(tablename + BusinessObject.ID_DELIMITER + UUID.randomUUID());
     }
+
 
 }

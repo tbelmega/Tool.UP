@@ -20,6 +20,7 @@ public class BusinessObjectTest {
     public static final String APPLICATION_TEST_ID_1 = "application-test_id_1";
     public static final String APPLICATION_TEST_ID_2 = "application-test_id_2";
     public static final String CATEGORY_TEST_ID_11 = "category-test_id_11";
+    public static final String CATEGORY_TEST_ID_12 = "category-test_id_12";
     public static final String PROVIDE_SAMPLE_IDS = "provideSampleIds";
     public static final String PROVIDE_BOS_TO_COMPARE = "provideBOsToCompare";
     public static final String PROVIDE_BUSINESS_OBJECTS = "provideBusinessObjects";
