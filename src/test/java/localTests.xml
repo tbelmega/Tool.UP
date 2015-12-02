@@ -1,18 +1,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="TestAll">
+<suite name="LocalTests">
 
     <test name="LocalTests">
         <packages>
             <package name="de.unipotsdam.cs.toolup.*">
                 <exclude name="de.unipotsdam.cs.toolup.ws.*"/>
-            </package>
-        </packages>
-    </test>
-
-    <test name="webserviceTests">
-        <packages>
-            <package name="de.unipotsdam.cs.toolup.ws.*">
             </package>
         </packages>
     </test>
