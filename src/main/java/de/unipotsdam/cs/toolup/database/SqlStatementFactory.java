@@ -38,7 +38,12 @@ public class SqlStatementFactory {
     }
 
     public PreparedStatement getInsertInto(String tableName) throws SQLException {
-        return getCustomizedStatement("insertBO", tableName);
+        switch (tableName) {
+            case "category":
+                return getCustomizedStatement("insertCategory", tableName);
+            default:
+                return getCustomizedStatement("insertBO", tableName);
+        }
     }
 
 

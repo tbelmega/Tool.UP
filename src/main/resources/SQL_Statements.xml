@@ -4,6 +4,7 @@
     <entry key="selectBO">SELECT * FROM TABLE_NAME WHERE uuid = ?;</entry>
     <entry key="selectAll">SELECT * FROM TABLE_NAME;</entry>
     <entry key="insertBO">INSERT INTO TABLE_NAME VALUES (?,?,?);</entry>
+    <entry key="insertCategory">INSERT INTO TABLE_NAME VALUES (?,?,?,NULL);</entry>
     <entry key="updateBO">UPDATE TABLE_NAME SET title = ?, description = ? WHERE uuid = ?;</entry>
     <entry key="deleteBO">DELETE FROM TABLE_NAME WHERE uuid = ?;</entry>
     <entry key="selectRelation">SELECT * FROM TABLE_NAME WHERE FOREIGN_KEY = ?;</entry>
