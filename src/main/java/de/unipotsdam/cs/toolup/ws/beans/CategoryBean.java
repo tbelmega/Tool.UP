@@ -14,10 +14,14 @@ import java.util.Map;
 public class CategoryBean extends BusinessObjectBean{
 
     private Collection<String> applications;
+    private String superCategory;
+    private Collection<String> subCategories;
 
     public CategoryBean(Category cat) {
         super(cat);
         this.applications = cat.getRelatedApplications();
+        this.superCategory = cat.getSuperCategory();
+        this.subCategories = cat.getSubCategories();
     }
 
 
@@ -35,6 +39,14 @@ public class CategoryBean extends BusinessObjectBean{
             result.add(new CategoryBean((Category) cat));
         }
         return result;
+    }
+
+    public String getSuperCategory() {
+        return superCategory;
+    }
+
+    public Collection<String> getSubCategories() {
+        return subCategories;
     }
 }
 

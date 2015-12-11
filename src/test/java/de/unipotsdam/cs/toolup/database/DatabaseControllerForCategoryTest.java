@@ -9,7 +9,7 @@ import java.util.Collection;
 
 import static de.unipotsdam.cs.toolup.model.BusinessObjectTest.*;
 import static de.unipotsdam.cs.toolup.util.AssertionUtil.assertCollectionEquals;
-import static org.testng.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertEquals;
 
 public class DatabaseControllerForCategoryTest extends AbstractDatabaseTest {
 
