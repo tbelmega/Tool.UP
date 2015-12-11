@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import static de.unipotsdam.cs.toolup.database.DatabaseController.TABLE_NAME_CATEGORY;
+
 public class SqlStatementFactory {
 
     public static final String SQL_STATEMENTS_FILENAME = "/SQL_Statements.xml";
@@ -67,4 +69,7 @@ public class SqlStatementFactory {
     }
 
 
+    public PreparedStatement getSelectSubcategories() throws SQLException {
+        return getCustomizedStatement("selectSubCategories", TABLE_NAME_CATEGORY);
+    }
 }

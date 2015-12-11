@@ -19,7 +19,8 @@ public class DatabaseController {
     public static final String TABLE_NAME_APPLICATION = "application";
     public static final String TABLE_NAME_APPLICATION_FEATURE = "application_has_feature";
     public static final String TABLE_NAME_APPLICATION_CATEGORY = "application_belongs_to_category";
-    private static final String COLUMN_SUFFIX_UUID = "_uuid";
+    private static final String COLUMN_NAME_UUID = "uuid";
+    private static final String COLUMN_SUFFIX_UUID = "_" + COLUMN_NAME_UUID;
     private static DatabaseController instance;
     private SqlStatementFactory sqlStatementFactory;
 
@@ -79,11 +80,11 @@ public class DatabaseController {
 
         ResultSet res = prepQuery.executeQuery();
 
-        return getRelatedIdsFromResultSet(targetBusinessObjectType + COLUMN_SUFFIX_UUID,
+        return getAllIdsFromResultSet(targetBusinessObjectType + COLUMN_SUFFIX_UUID,
                 res);
     }
 
-    private Set<String> getRelatedIdsFromResultSet(
+    private Set<String> getAllIdsFromResultSet(
             String resultColumnName, ResultSet res) throws SQLException {
         Set<String> relatedIds = new HashSet<>();
         while (res.next()) {
@@ -108,6 +109,15 @@ public class DatabaseController {
         return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION_FEATURE, TABLE_NAME_APPLICATION, id);
     }
 
+
+    public Collection<String> loadSubCategories(String uuid) throws SQLException {
+        PreparedStatement prepQuery = sqlStatementFactory.getSelectSubcategories();
+
+        prepQuery.setString(1, uuid);
+        ResultSet res = prepQuery.executeQuery();
+
+        return getAllIdsFromResultSet(COLUMN_NAME_UUID, res);
+    }
 
     public boolean checkIfExistsInDB(BusinessObject aBusinessObject) throws SQLException, InvalidIdException {
         return checkIfExistsInDB(aBusinessObject.getUuid());

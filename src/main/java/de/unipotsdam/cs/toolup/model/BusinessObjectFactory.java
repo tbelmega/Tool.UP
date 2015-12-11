@@ -15,6 +15,7 @@ import static de.unipotsdam.cs.toolup.model.BusinessObject.*;
 public class BusinessObjectFactory {
 
     private static final String KEY_UUID = "uuid";
+    private static final String KEY_SUPERCATEGORY = "supercategory";
     private static final String TABLENAME_FEATURE = "feature";
     private static final String TABLENAME_CATEGORY = "category";
     private static final String TABLENAME_APPLICATION = "application";
@@ -29,22 +30,7 @@ public class BusinessObjectFactory {
         }
     }
 
-    private static BusinessObject createBusinessObjectWithLoadedRelations(String id, String title,
-                                                                          String description) throws SQLException, InvalidIdException {
-        int indexOfFirstSlash = id.indexOf(BusinessObject.ID_DELIMITER_CHAR);
-        String className = id.substring(0, indexOfFirstSlash);
 
-        switch (className.toLowerCase()) {
-            case TABLENAME_APPLICATION:
-                return new Application(id, title, description, db.loadRelatedCategoriesForApp(id), db.loadRelatedFeaturesForApp(id));
-            case TABLENAME_CATEGORY:
-                return new Category(id, title, description, db.loadRelatedApplicationsForCat(id));
-            case TABLENAME_FEATURE:
-                return new Feature(id, title, description, db.loadRelatedApplicationsForFeat(id));
-            default:
-                throw new UnsupportedOperationException("No class defined for this prefix:" + className);
-        }
-    }
 
     /**
      * @param res the result of a database query
@@ -77,15 +63,38 @@ public class BusinessObjectFactory {
     }
 
     private static BusinessObject createBusinessObjectFromResult(ResultSet res) throws SQLException {
-        String id = res.getString(KEY_UUID);
-        String title = res.getString(JSON_KEY_TITLE);
-        String description = res.getString(JSON_KEY_DESCRIPTION);
-
         try {
-            return createBusinessObjectWithLoadedRelations(id, title, description);
-        } catch (Exception e) {
+            return createBusinessObjectWithLoadedRelations(res);
+        } catch (InvalidIdException e) {
             throw new RuntimeException("This should never happen. ID is loaded from DB and cannot be invalid", e);
         }
+    }
+
+    private static BusinessObject createBusinessObjectWithLoadedRelations(ResultSet res) throws SQLException, InvalidIdException {
+        BusinessObject loadedBO;
+        String id = res.getString(KEY_UUID);
+        int indexOfFirstSlash = id.indexOf(BusinessObject.ID_DELIMITER_CHAR);
+        String className = id.substring(0, indexOfFirstSlash);
+
+        switch (className.toLowerCase()) {
+            case TABLENAME_APPLICATION:
+                loadedBO = new Application(id, null, null, db.loadRelatedCategoriesForApp(id), db.loadRelatedFeaturesForApp(id));
+                break;
+            case TABLENAME_CATEGORY:
+                loadedBO = new Category(id, null, null, db.loadRelatedApplicationsForCat(id));
+                ((Category) loadedBO).setSuperCategory(res.getString(KEY_SUPERCATEGORY));
+                ((Category) loadedBO).addSubCategories(db.loadSubCategories(id));
+                break;
+            case TABLENAME_FEATURE:
+                loadedBO = new Feature(id, null, null, db.loadRelatedApplicationsForFeat(id));
+                break;
+            default:
+                throw new UnsupportedOperationException("No class defined for this prefix:" + className);
+        }
+
+        loadedBO.setTitle(res.getString(JSON_KEY_TITLE));
+        loadedBO.setDescription(res.getString(JSON_KEY_DESCRIPTION));
+        return loadedBO;
     }
 
 
