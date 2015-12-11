@@ -8,9 +8,13 @@ import static de.unipotsdam.cs.toolup.database.DatabaseController.TABLE_NAME_APP
 
 public class Category extends BusinessObject {
 
+    private String superCategory;
+    private Collection<String> subCategories;
+
     public Category(String uuid, String title, String description, Set<String> relatedApplications) {
         super(uuid, title, description);
         this.relations.put(TABLE_NAME_APPLICATION, relatedApplications);
+        this.subCategories = new HashSet<>();
     }
 
     public Category(String uuid) {
@@ -19,5 +23,21 @@ public class Category extends BusinessObject {
 
     public Collection<String> getRelatedApplications() {
         return new HashSet<>(this.relations.get(TABLE_NAME_APPLICATION));
+    }
+
+    public String getSuperCategory() {
+        return superCategory;
+    }
+
+    public void setSuperCategory(String superCategory) {
+        this.superCategory = superCategory;
+    }
+
+    public Collection<String> getSubCategories() {
+        return new HashSet<>(subCategories);
+    }
+
+    public void addSubCategories(Collection<String> subcategories) {
+        this.subCategories.addAll(subcategories);
     }
 }
