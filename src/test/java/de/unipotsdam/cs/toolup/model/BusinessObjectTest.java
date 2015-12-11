@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +23,7 @@ public class BusinessObjectTest {
     public static final String CATEGORY_TEST_ID_11 = "category-test_id_11";
     public static final String CATEGORY_TEST_ID_12 = "category-test_id_12";
     public static final String CATEGORY_TEST_ID_13 = "category-test_id_13";
+    public static final String CATEGORY_TEST_ID_19 = "category-test_id_19";
     public static final String PROVIDE_SAMPLE_IDS = "provideSampleIds";
     public static final String PROVIDE_BOS_TO_COMPARE = "provideBOsToCompare";
     public static final String PROVIDE_BUSINESS_OBJECTS = "provideBusinessObjects";
@@ -183,7 +185,9 @@ public class BusinessObjectTest {
 
         BusinessObject app1 = new Application(APPLICATION_TEST_ID_1, APPLICATION_TESTTITLE_1, APPLICATION_TESTDESCRIPTION_1, relatedCats, relatedFeats);
         BusinessObject feat1 = new Feature(FEATURE_TEST_ID_21, FEATURE_TESTTITLE_21, FEATURE_TESTDESCRIPTION_21, relatedApps);
-        BusinessObject cat1 = new Category(CATEGORY_TEST_ID_11, CATEGORY_TESTTITLE_11, CATEGORY_TESTDESCRIPTION_11, relatedApps);
+        Category cat1 = new Category(CATEGORY_TEST_ID_11, CATEGORY_TESTTITLE_11, CATEGORY_TESTDESCRIPTION_11, relatedApps);
+        cat1.setSuperCategory(CATEGORY_TEST_ID_13);
+        cat1.addSubCategories(Arrays.asList(CATEGORY_TEST_ID_19));
 
         JSONObject expectedJsonApp = new JSONObject(FileUtil.readFile(FILENAME_TEST_APP_JSON));
         JSONObject expectedJsonFeat = new JSONObject(FileUtil.readFile(FILENAME_TEST_FEAT_JSON));
