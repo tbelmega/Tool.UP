@@ -50,3 +50,6 @@ Temporary Items
 /.css/
 /.img/
 *.iml
+
+#Database cfg
+/src/main/resources/Tool.UP_cfg.xml
