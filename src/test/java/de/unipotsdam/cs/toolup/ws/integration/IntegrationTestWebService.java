@@ -115,7 +115,7 @@ public class IntegrationTestWebService extends AbstractTestWebService {
     @DataProvider
     public Iterator<Object[]> provideAllIdsAndResourceUrl() {
         List<Object[]> data = Arrays.asList(
-                new Object[]{Arrays.asList(CATEGORY_TEST_ID_11, CATEGORY_TEST_ID_12), CATEGORY_RESOURCE_URL},
+                new Object[]{Arrays.asList(CATEGORY_TEST_ID_11, CATEGORY_TEST_ID_12, CATEGORY_TEST_ID_13), CATEGORY_RESOURCE_URL},
                 new Object[]{Arrays.asList(APPLICATION_TEST_ID_1, APPLICATION_TEST_ID_2), APPLICATION_RESOURCE_URL},
                 new Object[]{Arrays.asList(FEATURE_TEST_ID_21, FEATURE_TEST_ID_22), FEATURE_RESOURCE_URL}
         );

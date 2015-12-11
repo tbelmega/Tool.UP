@@ -6,9 +6,8 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static de.unipotsdam.cs.toolup.model.BusinessObjectTest.CATEGORY_TEST_ID_11;
-import static de.unipotsdam.cs.toolup.model.BusinessObjectTest.CATEGORY_TEST_ID_12;
-import static org.testng.Assert.assertEquals;
+import static de.unipotsdam.cs.toolup.model.BusinessObjectTest.*;
+import static de.unipotsdam.cs.toolup.util.AssertionUtil.assertCollectionEquals;
 
 public class CategoryResourceTest {
 
@@ -17,7 +16,8 @@ public class CategoryResourceTest {
         //arrange
         Collection<CategoryBean> expectedCats = Arrays.asList(
                 CategoryBean.getBean(CATEGORY_TEST_ID_11),
-                CategoryBean.getBean(CATEGORY_TEST_ID_12)
+                CategoryBean.getBean(CATEGORY_TEST_ID_12),
+                CategoryBean.getBean(CATEGORY_TEST_ID_13)
         );
 
         CategoryResource catRes = new CategoryResource();
@@ -26,7 +26,7 @@ public class CategoryResourceTest {
         Collection<CategoryBean> cats = catRes.getAll();
 
         //assert
-        assertEquals(expectedCats, cats);
+        assertCollectionEquals(expectedCats, cats);
     }
 
 }
