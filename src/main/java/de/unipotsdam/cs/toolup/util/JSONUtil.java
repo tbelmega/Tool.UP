@@ -15,7 +15,7 @@ public class JSONUtil {
     public static void assertEqualJSONContent(JSONObject expectedJson,
                                               JSONObject actualJson) throws JSONException {
         if (!equalJSONContent(expectedJson, actualJson)) {
-            fail();
+            fail("Expected: \n" + expectedJson.toString(4) + "\n\n But was: " + actualJson.toString(4));
         }
     }
 
