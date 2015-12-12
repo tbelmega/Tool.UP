@@ -52,4 +52,4 @@ Temporary Items
 *.iml
 
 #Database cfg
-/src/main/resources/Tool.UP_cfg.xml
+*Tool.UP_cfg.xml
