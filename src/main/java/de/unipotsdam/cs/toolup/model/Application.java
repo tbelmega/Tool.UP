@@ -1,5 +1,8 @@
 package de.unipotsdam.cs.toolup.model;
 
+import de.unipotsdam.cs.toolup.exceptions.InvalidIdException;
+import org.json.JSONObject;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +20,12 @@ public class Application extends BusinessObject {
 
     public Application(String uuid) {
         this(uuid, "", "", new HashSet<String>(), new HashSet<String>());
+    }
+
+    @Override
+    protected void buildSubClassSpecificAttributes(JSONObject jsonRepresentation) throws InvalidIdException {
+        addRelationFromJson(jsonRepresentation, JSON_KEY_FEATURES);
+        addRelationFromJson(jsonRepresentation, JSON_KEY_CATEGORIES);
     }
 
     public Collection<String> getRelatedCategories() {

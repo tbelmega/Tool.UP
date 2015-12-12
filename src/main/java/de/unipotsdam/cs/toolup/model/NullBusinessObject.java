@@ -1,6 +1,9 @@
 package de.unipotsdam.cs.toolup.model;
 
 
+import de.unipotsdam.cs.toolup.exceptions.InvalidIdException;
+import org.json.JSONObject;
+
 /**
  * NullBusinessObject represents the absence of a {@link BusinessObject} according to the NullObjectPattern.
  *
@@ -26,6 +29,10 @@ public class NullBusinessObject extends BusinessObject {
             instance = new NullBusinessObject();
         }
         return instance;
+    }
+
+    @Override
+    protected void buildSubClassSpecificAttributes(JSONObject jsonRepresentation) throws InvalidIdException {
     }
 
     @Override

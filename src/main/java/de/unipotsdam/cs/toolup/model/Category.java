@@ -1,5 +1,9 @@
 package de.unipotsdam.cs.toolup.model;
 
+import de.unipotsdam.cs.toolup.exceptions.InvalidIdException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,6 +12,8 @@ import static de.unipotsdam.cs.toolup.database.DatabaseController.TABLE_NAME_APP
 
 public class Category extends BusinessObject {
 
+    private static final String JSON_KEY_SUPERCATEGORY = "supercategory";
+    private static final String JSON_KEY_SUBCATEGORIES = "subcategories";
     private String superCategory = "";
     private Collection<String> subCategories = new HashSet<>();
 
@@ -18,6 +24,20 @@ public class Category extends BusinessObject {
 
     public Category(String uuid) {
         this(uuid, "", "", new HashSet<String>());
+    }
+
+    @Override
+    protected void buildSubClassSpecificAttributes(JSONObject jsonRepresentation) throws InvalidIdException {
+        addRelationFromJson(jsonRepresentation, JSON_KEY_APPLICATIONS);
+
+        this.superCategory = jsonRepresentation.getString(JSON_KEY_SUPERCATEGORY);
+
+        JSONArray subcategories = jsonRepresentation.getJSONArray(JSON_KEY_SUBCATEGORIES);
+
+        for (int i = 0; i < subcategories.length(); i++) {
+            JSONObject subCat = subcategories.getJSONObject(i);
+            this.subCategories.add(subCat.getString(JSON_KEY_ID));
+        }
     }
 
     public Collection<String> getRelatedApplications() {

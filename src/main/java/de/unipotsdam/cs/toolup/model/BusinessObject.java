@@ -21,8 +21,8 @@ public abstract class BusinessObject {
     public static final String JSON_KEY_FEATURES = "features";
     public static final String JSON_KEY_CATEGORIES = "categories";
     public static final String JSON_KEY_APPLICATIONS = "applications";
-    static Map<String, String> keyMappingSqlJson = new HashMap<>(); //TODO Move to config file
 
+    static Map<String, String> keyMappingSqlJson = new HashMap<>(); //TODO Move to config file
     static {
         keyMappingSqlJson.put(TABLE_NAME_APPLICATION, JSON_KEY_APPLICATIONS);
         keyMappingSqlJson.put(TABLE_NAME_CATEGORY, JSON_KEY_CATEGORIES);
@@ -77,18 +77,19 @@ public abstract class BusinessObject {
         newlyCreatedBO.title = jsonRepresentation.getString(JSON_KEY_TITLE);
         newlyCreatedBO.description = jsonRepresentation.getString(JSON_KEY_DESCRIPTION);
 
-        addRelationFromJson(newlyCreatedBO, jsonRepresentation, JSON_KEY_APPLICATIONS);
-        addRelationFromJson(newlyCreatedBO, jsonRepresentation, JSON_KEY_FEATURES);
-        addRelationFromJson(newlyCreatedBO, jsonRepresentation, JSON_KEY_CATEGORIES);
+        newlyCreatedBO.buildSubClassSpecificAttributes(jsonRepresentation);
+
+
 
         return newlyCreatedBO;
     }
 
-    private static void addRelationFromJson(BusinessObject newlyCreatedBO,
-                                            JSONObject jsonRepresentation, String relationKey) throws JSONException, InvalidIdException {
+    protected abstract void buildSubClassSpecificAttributes(JSONObject jsonRepresentation) throws InvalidIdException;
+
+    protected void addRelationFromJson(JSONObject jsonRepresentation, String relationKey) throws JSONException, InvalidIdException {
         if (jsonRepresentation.has(relationKey)) {
             JSONArray relationElements = jsonRepresentation.getJSONArray(relationKey);
-            addIdsOfAllElements(newlyCreatedBO, relationElements);
+            addIdsOfAllElements(this, relationElements);
         }
     }
 
