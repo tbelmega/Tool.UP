@@ -5,6 +5,7 @@ CREATE TABLE application (
   uuid        VARCHAR(64)  NOT NULL,
   title       VARCHAR(128) NOT NULL,
   description LONGTEXT,
+  FULLTEXT (title,description),
   PRIMARY KEY (uuid)
 );
 CREATE TABLE category (
@@ -12,6 +13,7 @@ CREATE TABLE category (
   title         VARCHAR(128) NOT NULL,
   description   LONGTEXT,
   supercategory VARCHAR(64),
+  FULLTEXT (title,description),
   PRIMARY KEY (uuid),
   FOREIGN KEY (supercategory) REFERENCES category (uuid)
     ON DELETE SET NULL
@@ -20,6 +22,7 @@ CREATE TABLE feature (
   uuid        VARCHAR(64)  NOT NULL,
   title       VARCHAR(128) NOT NULL,
   description LONGTEXT,
+  FULLTEXT (title,description),
   PRIMARY KEY (uuid)
 );
 CREATE TABLE application_belongs_to_category (

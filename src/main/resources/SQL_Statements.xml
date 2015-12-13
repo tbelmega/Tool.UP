@@ -4,7 +4,10 @@
     <entry key="selectBO">SELECT * FROM TABLE_NAME WHERE uuid = ?;</entry>
     <entry key="selectAll">SELECT * FROM TABLE_NAME;</entry>
     <entry key="selectSubCategories">SELECT uuid FROM TABLE_NAME WHERE supercategory = ?;</entry>
-    <entry key="selectCategoriesWithApplication">SELECT DISTINCT cat.* FROM category cat INNER JOIN application_belongs_to_category app_to_cat ON cat.uuid = app_to_cat.category_uuid;</entry>
+    <entry key="selectCategoriesWithApplication">
+		SELECT DISTINCT cat.* FROM category cat 
+		INNER JOIN application_belongs_to_category app_to_cat ON cat.uuid = app_to_cat.category_uuid;
+	</entry>
     <entry key="selectCategoriesWithoutSuperCategory">SELECT * FROM category WHERE supercategory IS NULL;</entry>
     <entry key="insertBO">INSERT INTO TABLE_NAME VALUES (?,?,?);</entry>
     <entry key="insertCategory">INSERT INTO TABLE_NAME VALUES (?,?,?,NULL);</entry>
@@ -13,4 +16,12 @@
     <entry key="selectRelation">SELECT * FROM TABLE_NAME WHERE FOREIGN_KEY = ?;</entry>
     <entry key="deleteRelation">DELETE FROM FROM TABLE_NAME WHERE FOREIGN_KEY = ?;</entry>
     <entry key="insertRelation">INSERT INTO TABLE_NAME VALUES (?,?);</entry>
+	<entry key="fullTextSearch">
+		SELECT DISTINCT a.* 
+		FROM application a 
+		LEFT OUTER JOIN application_has_feature rel ON a.uuid = rel.application_uuid 
+		JOIN feature f ON rel.feature_uuid = f.uuid
+		WHERE MATCH(a.title,a.description) AGAINST (? IN NATURAL LANGUAGE MODE)
+		OR MATCH(f.title,f.description) AGAINST (? IN NATURAL LANGUAGE MODE);
+	</entry>
 </properties>

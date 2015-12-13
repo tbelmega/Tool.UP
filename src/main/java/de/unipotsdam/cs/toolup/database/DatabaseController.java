@@ -137,6 +137,17 @@ public class DatabaseController {
         return BusinessObjectFactory.createSetOfBusinessObjectsFromAllResults(res);
     }
 
+    public Map<String, BusinessObject> doFullTextSearch(String searchString) throws SQLException {
+        PreparedStatement prepQuery = sqlStatementFactory.getFullTextSearchStatement(searchString);
+
+        prepQuery.setString(1, searchString);
+        prepQuery.setString(2, searchString);
+
+        ResultSet res = prepQuery.executeQuery();
+
+        return BusinessObjectFactory.createSetOfBusinessObjectsFromAllResults(res);
+    }
+
 
     public boolean checkIfExistsInDB(BusinessObject aBusinessObject) throws SQLException, InvalidIdException {
         return checkIfExistsInDB(aBusinessObject.getUuid());
@@ -290,6 +301,7 @@ public class DatabaseController {
         prepQuery.setString(1, id);
         prepQuery.executeUpdate();
     }
+
 
 
 }

@@ -25,6 +25,22 @@ public class ApplicationBean extends BusinessObjectBean {
         this.features = app.getRelatedFeatures();
     }
 
+    public Collection<String> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Collection<String> categories) {
+        this.categories = categories;
+    }
+
+    public Collection<String> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(Collection<String> features) {
+        this.features = features;
+    }
+
     public static ApplicationBean getBean(String id) throws InvalidIdException, SQLException, IOException {
         Application app = (Application)DatabaseController.getInstance().load(id);
         return new ApplicationBean(app);
@@ -52,19 +68,16 @@ public class ApplicationBean extends BusinessObjectBean {
         return result;
     }
 
-    public Collection<String> getCategories() {
-        return categories;
-    }
 
-    public void setCategories(Collection<String> categories) {
-        this.categories = categories;
-    }
 
-    public Collection<String> getFeatures() {
-        return features;
-    }
+    public static Collection<ApplicationBean> searchFor(String searchString) throws IOException, SQLException, InvalidIdException {
+        Collection<ApplicationBean> result = new HashSet<>();
+        Map<String, BusinessObject> allApps = DatabaseController.getInstance().doFullTextSearch(searchString);
 
-    public void setFeatures(Collection<String> features) {
-        this.features = features;
+        for (BusinessObject app : allApps.values()) {
+            result.add(new ApplicationBean((Application) app));
+        }
+        return result;
+
     }
 }

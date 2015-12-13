@@ -82,4 +82,9 @@ public class SqlStatementFactory {
         String preparedQuery = sqlStatements.getProperty("selectCategoriesWithoutSuperCategory");
         return connection.prepareStatement(preparedQuery);
     }
+
+    public PreparedStatement getFullTextSearchStatement(String searchString) throws SQLException {
+        String preparedQuery = sqlStatements.getProperty("fullTextSearch");
+        return connection.prepareStatement(preparedQuery);
+    }
 }
