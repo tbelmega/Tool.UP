@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-<properties>
-    <entry key="database server adress">localhost</entry>
-    <entry key="database server port">3306</entry>
-    <entry key="database schema">provider_toolup</entry>
-    <entry key="database user name">root</entry>
-    <entry key="database password">bgi1MqJ0YOpvfw6xRBmU</entry>
-</properties>
