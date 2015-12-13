@@ -41,4 +41,18 @@ public class CategoryResourceTest {
         assertCollectionEquals(expectedCats, cats);
     }
 
+    @Test
+    public void testThatCategoryResourceReturnsTopLevelCategories() throws Exception {
+        //arrange
+        Collection<CategoryBean> expectedCats = Arrays.asList(
+                CategoryBean.getBean(CATEGORY_TEST_ID_13)
+        );
+
+        //act
+        Collection<CategoryBean> cats = new CategoryResource().getTopLevelCategories();
+
+        //assert
+        assertCollectionEquals(expectedCats, cats);
+    }
+
 }

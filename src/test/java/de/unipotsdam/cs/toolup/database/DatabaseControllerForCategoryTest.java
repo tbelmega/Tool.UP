@@ -50,4 +50,16 @@ public class DatabaseControllerForCategoryTest extends AbstractDatabaseTest {
         assertCollectionEquals(expectedCategories, loadedCats.keySet());
     }
 
+    @Test
+    public void testThatTopLevelCategoriesAreLoadedFromDB() throws Exception {
+        //arrange
+        Collection<String> expectedCategories = Arrays.asList(CATEGORY_TEST_ID_13);
+
+        //act
+        Map<String, BusinessObject> loadedCats = db.loadTopLevelCategories();
+
+        //assert
+        assertCollectionEquals(expectedCategories, loadedCats.keySet());
+    }
+
 }

@@ -77,4 +77,9 @@ public class SqlStatementFactory {
         String preparedQuery = sqlStatements.getProperty("selectCategoriesWithApplication");
         return connection.prepareStatement(preparedQuery);
     }
+
+    public PreparedStatement getSelectTopLevelCategories() throws SQLException {
+        String preparedQuery = sqlStatements.getProperty("selectCategoriesWithoutSuperCategory");
+        return connection.prepareStatement(preparedQuery);
+    }
 }

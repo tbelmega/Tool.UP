@@ -129,6 +129,15 @@ public class DatabaseController {
     }
 
 
+    public Map<String, BusinessObject> loadTopLevelCategories() throws SQLException {
+        PreparedStatement prepQuery = sqlStatementFactory.getSelectTopLevelCategories();
+
+        ResultSet res = prepQuery.executeQuery();
+
+        return BusinessObjectFactory.createSetOfBusinessObjectsFromAllResults(res);
+    }
+
+
     public boolean checkIfExistsInDB(BusinessObject aBusinessObject) throws SQLException, InvalidIdException {
         return checkIfExistsInDB(aBusinessObject.getUuid());
     }

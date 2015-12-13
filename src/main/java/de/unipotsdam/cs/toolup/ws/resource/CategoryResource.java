@@ -36,4 +36,11 @@ public class CategoryResource {
     public Collection<CategoryBean> getAllWithApplication() throws Exception {
         return  CategoryBean.getAllCategoriesWithApplication();
     }
+
+    @GET
+    @Path("/toplevel")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Collection<CategoryBean> getTopLevelCategories() throws IOException, SQLException {
+        return CategoryBean.getTopLevelCategories();
+    }
 }

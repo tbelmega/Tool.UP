@@ -25,6 +25,14 @@ public class CategoryBean extends BusinessObjectBean{
     }
 
 
+    public String getSuperCategory() {
+        return superCategory;
+    }
+
+    public Collection<String> getSubCategories() {
+        return subCategories;
+    }
+
     public static CategoryBean getBean(String id) throws IOException, SQLException, InvalidIdException {
         Category cat = (Category) DatabaseController.getInstance().load(id);
         return new CategoryBean(cat);
@@ -51,12 +59,14 @@ public class CategoryBean extends BusinessObjectBean{
         return result;
     }
 
-    public String getSuperCategory() {
-        return superCategory;
-    }
+    public static Collection<CategoryBean> getTopLevelCategories() throws IOException, SQLException {
+        Collection<CategoryBean> result = new HashSet<>();
+        Map<String, BusinessObject> allCats = DatabaseController.getInstance().loadTopLevelCategories();
 
-    public Collection<String> getSubCategories() {
-        return subCategories;
+        for (BusinessObject cat : allCats.values()) {
+            result.add(new CategoryBean((Category) cat));
+        }
+        return result;
     }
 }
 

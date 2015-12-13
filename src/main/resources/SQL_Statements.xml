@@ -5,6 +5,7 @@
     <entry key="selectAll">SELECT * FROM TABLE_NAME;</entry>
     <entry key="selectSubCategories">SELECT uuid FROM TABLE_NAME WHERE supercategory = ?;</entry>
     <entry key="selectCategoriesWithApplication">SELECT DISTINCT cat.* FROM category cat INNER JOIN application_belongs_to_category app_to_cat ON cat.uuid = app_to_cat.category_uuid;</entry>
+    <entry key="selectCategoriesWithoutSuperCategory">SELECT * FROM category WHERE supercategory IS NULL;</entry>
     <entry key="insertBO">INSERT INTO TABLE_NAME VALUES (?,?,?);</entry>
     <entry key="insertCategory">INSERT INTO TABLE_NAME VALUES (?,?,?,NULL);</entry>
     <entry key="updateBO">UPDATE TABLE_NAME SET title = ?, description = ? WHERE uuid = ?;</entry>
