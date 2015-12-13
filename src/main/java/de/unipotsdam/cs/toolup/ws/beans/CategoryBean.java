@@ -41,6 +41,16 @@ public class CategoryBean extends BusinessObjectBean{
         return result;
     }
 
+    public static Collection<CategoryBean> getAllCategoriesWithApplication() throws IOException, SQLException {
+        Collection<CategoryBean> result = new HashSet<>();
+        Map<String, BusinessObject> allCats = DatabaseController.getInstance().loadAllCategoriesWithApplication();
+
+        for (BusinessObject cat : allCats.values()) {
+            result.add(new CategoryBean((Category) cat));
+        }
+        return result;
+    }
+
     public String getSuperCategory() {
         return superCategory;
     }

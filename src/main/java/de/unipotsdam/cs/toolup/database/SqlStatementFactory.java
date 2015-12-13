@@ -72,4 +72,9 @@ public class SqlStatementFactory {
     public PreparedStatement getSelectSubcategories() throws SQLException {
         return getCustomizedStatement("selectSubCategories", TABLE_NAME_CATEGORY);
     }
+
+    public PreparedStatement getSelectAllCategoriesWithApplication() throws SQLException {
+        String preparedQuery = sqlStatements.getProperty("selectCategoriesWithApplication");
+        return connection.prepareStatement(preparedQuery);
+    }
 }

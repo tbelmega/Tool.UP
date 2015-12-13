@@ -1,7 +1,6 @@
 package de.unipotsdam.cs.toolup.ws.integration;
 
 
-import de.unipotsdam.cs.toolup.model.Application;
 import de.unipotsdam.cs.toolup.model.BusinessObject;
 import de.unipotsdam.cs.toolup.model.BusinessObjectTest;
 import org.apache.http.HttpHeaders;
@@ -21,7 +20,7 @@ import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
 
-public class LookupTestWebservice extends AbstractTestWebService {
+public class LookupTestWebservice extends AbstractTestWebservice {
 
     private final static String LOOKUP_URL = "/lookup";
 

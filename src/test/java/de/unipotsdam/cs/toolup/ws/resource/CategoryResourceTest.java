@@ -20,10 +20,22 @@ public class CategoryResourceTest {
                 CategoryBean.getBean(CATEGORY_TEST_ID_13)
         );
 
-        CategoryResource catRes = new CategoryResource();
+        //act
+        Collection<CategoryBean> cats = new CategoryResource().getAll();
+
+        //assert
+        assertCollectionEquals(expectedCats, cats);
+    }
+
+    @Test
+    public void testThatCategoryResourceReturnsAllCategoriesWithApplications() throws Exception {
+        //arrange
+        Collection<CategoryBean> expectedCats = Arrays.asList(
+                CategoryBean.getBean(CATEGORY_TEST_ID_11)
+        );
 
         //act
-        Collection<CategoryBean> cats = catRes.getAll();
+        Collection<CategoryBean> cats = new CategoryResource().getAllWithApplication();
 
         //assert
         assertCollectionEquals(expectedCats, cats);

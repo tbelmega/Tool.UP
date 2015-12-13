@@ -7,6 +7,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collection;
 
 
@@ -28,4 +30,10 @@ public class CategoryResource {
         return CategoryBean.getBean(id);
     }
 
+    @GET
+    @Path("/withApplication")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Collection<CategoryBean> getAllWithApplication() throws Exception {
+        return  CategoryBean.getAllCategoriesWithApplication();
+    }
 }

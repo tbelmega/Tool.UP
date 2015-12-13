@@ -119,6 +119,16 @@ public class DatabaseController {
         return getAllIdsFromResultSet(COLUMN_NAME_UUID, res);
     }
 
+
+    public Map<String,BusinessObject> loadAllCategoriesWithApplication() throws SQLException {
+        PreparedStatement prepQuery = sqlStatementFactory.getSelectAllCategoriesWithApplication();
+
+        ResultSet res = prepQuery.executeQuery();
+
+        return BusinessObjectFactory.createSetOfBusinessObjectsFromAllResults(res);
+    }
+
+
     public boolean checkIfExistsInDB(BusinessObject aBusinessObject) throws SQLException, InvalidIdException {
         return checkIfExistsInDB(aBusinessObject.getUuid());
     }

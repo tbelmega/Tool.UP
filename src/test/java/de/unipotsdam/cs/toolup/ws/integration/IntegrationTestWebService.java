@@ -25,7 +25,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
 
-public class IntegrationTestWebService extends AbstractTestWebService {
+public class IntegrationTestWebservice extends AbstractTestWebservice {
 
     private final static String APPLICATION_RESOURCE_URL = "/application/";
     private static final String CATEGORY_RESOURCE_URL = "/category/";
