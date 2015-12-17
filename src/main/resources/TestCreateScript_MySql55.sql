@@ -7,7 +7,7 @@ CREATE TABLE application (
   description LONGTEXT,
   FULLTEXT (title,description),
   PRIMARY KEY (uuid)
-);
+) ENGINE=MyISAM;
 CREATE TABLE category (
   uuid          VARCHAR(64)  NOT NULL,
   title         VARCHAR(128) NOT NULL,
@@ -17,14 +17,14 @@ CREATE TABLE category (
   PRIMARY KEY (uuid),
   FOREIGN KEY (supercategory) REFERENCES category (uuid)
     ON DELETE SET NULL
-);
+) ENGINE=MyISAM;
 CREATE TABLE feature (
   uuid        VARCHAR(64)  NOT NULL,
   title       VARCHAR(128) NOT NULL,
   description LONGTEXT,
   FULLTEXT (title,description),
   PRIMARY KEY (uuid)
-);
+) ENGINE=MyISAM;
 CREATE TABLE application_belongs_to_category (
   application_uuid VARCHAR(64) NOT NULL,
   category_uuid    VARCHAR(64) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE application_belongs_to_category (
     ON DELETE CASCADE,
   FOREIGN KEY (category_uuid) REFERENCES category (uuid)
     ON DELETE CASCADE
-);
+) ENGINE=MyISAM;
 CREATE TABLE application_has_feature (
   application_uuid VARCHAR(64) NOT NULL,
   feature_uuid     VARCHAR(64) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE application_has_feature (
     ON DELETE CASCADE,
   FOREIGN KEY (feature_uuid) REFERENCES feature (uuid)
     ON DELETE CASCADE
-);
+) ENGINE=MyISAM;
 
 INSERT INTO application VALUES ('application-test_id_1', 'Dropbox', 'Dropbox Description');
 INSERT INTO application VALUES ('application-test_id_2', 'Box.UP', 'Box.UP Description');
