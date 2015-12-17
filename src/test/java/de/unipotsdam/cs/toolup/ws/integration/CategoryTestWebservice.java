@@ -17,7 +17,7 @@ import java.util.Map;
 import static de.unipotsdam.cs.toolup.model.BusinessObject.JSON_KEY_ID;
 import static org.testng.AssertJUnit.assertTrue;
 
-public class CategoryTestWebservice extends AbstractTestWebservice {
+public class CategoryTestWebservice extends AbstractTestWebService {
 
     @Test
     public void testThatWebserviceReturnsAllCategoriesThatIncludeAnyApplication() throws Exception {

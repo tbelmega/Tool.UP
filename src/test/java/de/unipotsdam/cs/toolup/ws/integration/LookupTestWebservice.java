@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
 
-public class LookupTestWebservice extends AbstractTestWebservice {
+public class LookupTestWebService extends AbstractTestWebService {
 
     private final static String LOOKUP_URL = "/lookup";
 

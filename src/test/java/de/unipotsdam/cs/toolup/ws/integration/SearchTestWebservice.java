@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
 
-public class SearchTestWebservice extends AbstractTestWebservice {
+public class SearchTestWebService extends AbstractTestWebService {
 
     private final static String SEARCH_URL = "/search";
 
