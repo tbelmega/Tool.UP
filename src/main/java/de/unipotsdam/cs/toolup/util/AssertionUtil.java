@@ -6,19 +6,19 @@ import java.util.Collection;
 
 public class AssertionUtil {
 
-    public static <T> void assertContainsAll(Collection<T> expectedCollection, Collection<? extends T> actualCollection) {
-        if (expectedCollection == null && actualCollection == null) {
+    public static <T> void assertContainsAll(Collection<T> containingCollection, Collection<? extends T> containedCollection) {
+        if (containingCollection == null && containedCollection == null) {
             return;
         }
 
-        if (expectedCollection == null ^ actualCollection == null) {
-            throw new AssertionError("Expected: " + expectedCollection + "\n but was: " + actualCollection);
+        if (containingCollection == null ^ containedCollection == null) {
+            throw new AssertionError("Expected: " + containingCollection + "\n but was: " + containedCollection);
         }
 
-        if (!expectedCollection.containsAll(actualCollection)) {
-            String expected = ToStringBuilder.reflectionToString(expectedCollection);
-            String actual = ToStringBuilder.reflectionToString(actualCollection);
-            throw new AssertionError("Expected: " + expected + "\n but was: " + actual);
+        if (!containingCollection.containsAll(containedCollection)) {
+            String containing = ToStringBuilder.reflectionToString(containingCollection);
+            String contained = ToStringBuilder.reflectionToString(containedCollection);
+            throw new AssertionError("Expected that  " + containing + "\n would contain all elements of : " + contained);
         }
     }
 
