@@ -17,6 +17,7 @@ public class BusinessObjectTest {
 
     public static final String FEATURE_TEST_ID_21 = "feature-test_id_21";
     public static final String FEATURE_TEST_ID_22 = "feature-test_id_22";
+    public static final String FEATURE_TEST_ID_23 = "feature-test_id_23";
     public static final String APPLICATION_TEST_ID_1 = "application-test_id_1";
     public static final String APPLICATION_TEST_ID_2 = "application-test_id_2";
     public static final String CATEGORY_TEST_ID_11 = "category-test_id_11";
