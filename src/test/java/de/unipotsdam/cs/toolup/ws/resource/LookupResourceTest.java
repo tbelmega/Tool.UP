@@ -30,7 +30,7 @@ public class LookupResourceTest {
     public void testThatPostRequestReturnsMapOfApplicationBeans2() throws Exception {
     //arrange
         ApplicationBean app1 = ApplicationBean.getBean(APPLICATION_TEST_ID_1);
-        ApplicationBean app2 = ApplicationBean.getBean(APPLICATION_TEST_ID_1);
+        ApplicationBean app2 = ApplicationBean.getBean(APPLICATION_TEST_ID_2);
         List<ApplicationBean> expectedApps = Arrays.asList(app1, app2);
         LookupResource lookupResource = new LookupResource();
 

@@ -42,7 +42,7 @@ public class SearchTestWebService extends AbstractTestWebService {
     }
 
     @Test
-    public void testThatLookupRequestReturnsExpectedApplication() throws Exception {
+    public void testThatSearchRequestReturnsExpectedApplication() throws Exception {
         //arrange
         HttpPost request = new HttpPost(TOOLUP_URL + SEARCH_URL);
         request.addHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType());

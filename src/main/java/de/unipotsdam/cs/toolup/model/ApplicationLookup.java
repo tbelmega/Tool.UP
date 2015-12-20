@@ -6,7 +6,10 @@ import de.unipotsdam.cs.toolup.exceptions.InvalidIdException;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class ApplicationLookup {
 
@@ -49,8 +52,10 @@ public class ApplicationLookup {
     private Set<Application> loadApplicationsByIds(Set<String> intersectionOfApps) throws SQLException, InvalidIdException, IOException {
         Set<Application> resultSetOfApps = new HashSet<>();
         for (String id: intersectionOfApps){
-            Application app = (Application) DatabaseController.getInstance().load(id);
-            resultSetOfApps.add(app);
+            BusinessObject app = DatabaseController.getInstance().load(id);
+            if (!(app instanceof NullBusinessObject)) {
+                resultSetOfApps.add((Application) app);
+            }
         }
         return resultSetOfApps;
     }

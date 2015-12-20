@@ -3,7 +3,6 @@ package de.unipotsdam.cs.toolup.model;
 import de.unipotsdam.cs.toolup.exceptions.InvalidIdException;
 import de.unipotsdam.cs.toolup.util.FileUtil;
 import de.unipotsdam.cs.toolup.util.JSONUtil;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -97,7 +96,7 @@ public class BusinessObjectTest {
     }
 
     @Test(dataProvider = PROVIDE_BUSINESS_OBJECTS)
-    public void testThatBusinessObjectIsConvertedToJsonCorrectly(BusinessObject bo, JSONObject expectedJson) throws JSONException {
+    public void testThatBusinessObjectIsConvertedToJsonCorrectly(BusinessObject bo, JSONObject expectedJson) throws Exception {
         //arrange
 
         //act
