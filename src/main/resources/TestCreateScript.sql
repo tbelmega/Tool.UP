@@ -55,6 +55,8 @@ INSERT INTO category VALUES ('category-test_id_12', 'Wiki', 'Wiki Description', 
 
 INSERT INTO feature VALUES ('feature-test_id_21', 'Kalender anlegen', 'Kalender anlegen Description');
 INSERT INTO feature VALUES ('feature-test_id_22', 'Termine teilen', 'Termine teilen Description');
+INSERT INTO feature VALUES ('feature-test_id_23', 'Nicht zugeordnetes Feature',
+                            'Dieses Feature ist keiner Application zugeordnet. Wird für einen Lookup-Test benötigt.');
 
 INSERT INTO application_belongs_to_category VALUES ('application-test_id_1', 'category-test_id_11');
 INSERT INTO application_belongs_to_category VALUES ('application-test_id_2', 'category-test_id_11');
