@@ -199,4 +199,5 @@ public class BusinessObjectTest {
                 {cat1, expectedJsonCat}
         };
     }
+
 }

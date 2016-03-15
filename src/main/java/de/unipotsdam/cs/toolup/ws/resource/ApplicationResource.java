@@ -7,7 +7,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.Collection;
+import javax.ws.rs.core.Response;
+
+import static de.unipotsdam.cs.toolup.util.JerseyUtil.createResponseOk;
 
 
 @Path("application")
@@ -16,15 +18,15 @@ public class ApplicationResource {
     @GET
     @Path("/")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Collection<ApplicationBean> getAll() throws Exception {
-        return ApplicationBean.getAllApplications();
+    public Response getAll() throws Exception {
+        return createResponseOk(ApplicationBean.getAllApplications());
     }
 
     @GET
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public ApplicationBean get(@PathParam("id") String id) throws Exception {
-        return  ApplicationBean.getBean(id);
+    public Response get(@PathParam("id") String id) throws Exception {
+        return createResponseOk(ApplicationBean.getBean(id));
     }
 
 }

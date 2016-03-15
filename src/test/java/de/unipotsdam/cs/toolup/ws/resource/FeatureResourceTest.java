@@ -24,7 +24,7 @@ public class FeatureResourceTest {
         FeatureResource featRes = new FeatureResource();
 
         //act
-        Collection<FeatureBean> feats = featRes.getAll();
+        Collection<FeatureBean> feats = (Collection<FeatureBean>) featRes.getAll().getEntity();
 
         //assert
         AssertionUtil.assertCollectionEquals(expectedFeats, feats);

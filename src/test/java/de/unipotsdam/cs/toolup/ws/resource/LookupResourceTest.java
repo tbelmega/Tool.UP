@@ -23,7 +23,7 @@ public class LookupResourceTest {
         LookupResource lookupResource = new LookupResource();
 
         //act
-        Collection<ApplicationBean> apps = lookupResource.post(FEATURE_TEST_ID_21 + ", " + FEATURE_TEST_ID_22);
+        Collection<ApplicationBean> apps = (Collection<ApplicationBean>) lookupResource.post(FEATURE_TEST_ID_21 + ", " + FEATURE_TEST_ID_22).getEntity();
 
         //assert
         assertTrue(apps.contains(app));
@@ -38,7 +38,7 @@ public class LookupResourceTest {
         LookupResource lookupResource = new LookupResource();
 
         //act
-        Collection<ApplicationBean> apps = lookupResource.post(FEATURE_TEST_ID_21);
+        Collection<ApplicationBean> apps = (Collection<ApplicationBean>) lookupResource.post(FEATURE_TEST_ID_21).getEntity();
 
         //assert
         assertTrue(apps.containsAll(expectedApps));
@@ -52,7 +52,7 @@ public class LookupResourceTest {
         LookupResource lookupResource = new LookupResource();
 
         //act
-        Collection<ApplicationBean> apps = lookupResource.post(FEATURE_TEST_ID_22 + ", " + FEATURE_TEST_ID_23);
+        Collection<ApplicationBean> apps = (Collection<ApplicationBean>) lookupResource.post(FEATURE_TEST_ID_22 + ", " + FEATURE_TEST_ID_23).getEntity();
 
         //assert
         assertContainsAll(apps, expectedApps);
@@ -66,7 +66,7 @@ public class LookupResourceTest {
         LookupResource lookupResource = new LookupResource();
 
         //act
-        Collection<ApplicationBean> apps = lookupResource.post(FEATURE_TEST_ID_21 + ", " + FEATURE_TEST_ID_22 + ", " + FEATURE_TEST_ID_23);
+        Collection<ApplicationBean> apps = (Collection<ApplicationBean>) lookupResource.post(FEATURE_TEST_ID_21 + ", " + FEATURE_TEST_ID_22 + ", " + FEATURE_TEST_ID_23).getEntity();
 
         //assert
         assertContainsAll(apps, expectedApps);
@@ -81,7 +81,7 @@ public class LookupResourceTest {
         LookupResource lookupResource = new LookupResource();
 
         //act
-        Collection<ApplicationBean> apps = lookupResource.post(FEATURE_TEST_ID_21 + ", " + FEATURE_TEST_ID_23);
+        Collection<ApplicationBean> apps = (Collection<ApplicationBean>) lookupResource.post(FEATURE_TEST_ID_21 + ", " + FEATURE_TEST_ID_23).getEntity();
 
         //assert
         assertContainsAll(apps, expectedApps);
@@ -95,7 +95,7 @@ public class LookupResourceTest {
         LookupResource lookupResource = new LookupResource();
 
         //act
-        Collection<ApplicationBean> apps = lookupResource.post(FEATURE_TEST_ID_23);
+        Collection<ApplicationBean> apps = (Collection<ApplicationBean>) lookupResource.post(FEATURE_TEST_ID_23).getEntity();
 
         //assert
         assertContainsAll(apps, expectedApps);

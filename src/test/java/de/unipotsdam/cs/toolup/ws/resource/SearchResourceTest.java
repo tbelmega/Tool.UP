@@ -20,7 +20,7 @@ public class SearchResourceTest {
         SearchResource searchResource = new SearchResource();
 
         //act
-        Collection<ApplicationBean> apps = searchResource.post("Description");
+        Collection<ApplicationBean> apps = (Collection<ApplicationBean>) searchResource.post("Description").getEntity();
 
         //assert
         expectedApp = ApplicationBean.getBean(APPLICATION_TEST_ID_1);

@@ -7,9 +7,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Collection;
+
+import static de.unipotsdam.cs.toolup.util.JerseyUtil.createResponseOk;
 
 
 @Path("feature")
@@ -18,15 +20,15 @@ public class FeatureResource {
     @GET
     @Path("/")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Collection<FeatureBean> getAll() throws IOException, SQLException {
-        return FeatureBean.getAllFeatures();
+    public Response getAll() throws IOException, SQLException {
+        return createResponseOk(FeatureBean.getAllFeatures());
     }
 
     @GET
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public FeatureBean get(@PathParam("id") String id) throws Exception {
-        return FeatureBean.getBean(id);
+    public Response get(@PathParam("id") String id) throws Exception {
+        return createResponseOk(FeatureBean.getBean(id));
     }
 
 }

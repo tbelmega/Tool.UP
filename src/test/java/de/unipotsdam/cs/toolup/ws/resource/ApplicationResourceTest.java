@@ -23,7 +23,7 @@ public class ApplicationResourceTest {
         ApplicationResource appRes = new ApplicationResource();
 
         //act
-        Collection<ApplicationBean> apps = appRes.getAll();
+        Collection<ApplicationBean> apps = (Collection<ApplicationBean>) appRes.getAll().getEntity();
 
         //assert
         assertEquals(expectedApps, apps);

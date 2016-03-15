@@ -21,7 +21,7 @@ public class CategoryResourceTest {
         );
 
         //act
-        Collection<CategoryBean> cats = new CategoryResource().getAll();
+        Collection<CategoryBean> cats = (Collection<CategoryBean>) new CategoryResource().getAll().getEntity();
 
         //assert
         assertCollectionEquals(expectedCats, cats);
@@ -35,7 +35,7 @@ public class CategoryResourceTest {
         );
 
         //act
-        Collection<CategoryBean> cats = new CategoryResource().getAllWithApplication();
+        Collection<CategoryBean> cats = (Collection<CategoryBean>) new CategoryResource().getAllWithApplication().getEntity();
 
         //assert
         assertCollectionEquals(expectedCats, cats);
@@ -49,7 +49,7 @@ public class CategoryResourceTest {
         );
 
         //act
-        Collection<CategoryBean> cats = new CategoryResource().getTopLevelCategories();
+        Collection<CategoryBean> cats = (Collection<CategoryBean>)new CategoryResource().getTopLevelCategories().getEntity();
 
         //assert
         assertCollectionEquals(expectedCats, cats);
