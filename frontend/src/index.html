@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8">
+        <title>Tool.UP</title>
+
+        <link type="text/css" rel="stylesheet" href="css/main.css">
+
+        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script src="js/main.js"></script>
+    </head>
+    <body>
+
+    <nav>
+        <ul>
+            <li><img src = img/uni-logo.png/></li>
+            <li><a href='#'>Startseite</a></li>
+            <li>
+
+                <div class="category-dropdown" onclick="showCategoryDropDown()">
+                    Kategorien
+                    <div id="category-dropdown-content" class="dropdown-content">
+                        <a href="#">Link 1</a>
+                        <a href="#">Link 2</a>
+                        <a href="#">Link 3</a>
+                    </div>
+                </div>
+
+            </li>
+            <li><a href='#'>Impressum</a></li>
+            <li>
+
+                <form class="full-text-search">
+                    <input id="search-text-field" type="text" placeholder="Suche..." required>
+                    <input id="search-button" type="button" value="Suche">
+                </form>
+
+            </li>
+        </ul>
+    </nav>
+
+        <!-- Add your site or application content here -->
+        <p>Liste aller TopLevel-Kategorien</p>
+
+        <div id="show-data"></div>
+
+
+    </body>
+
+
+
+
+
+</html>
