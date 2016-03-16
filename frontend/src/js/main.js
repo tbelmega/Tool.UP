@@ -18,8 +18,9 @@ window.onclick = function(event) {
 }
 
 $(document).ready(function () {
-    var showData = $('#show-data');
+    $('#menu').load('doc/navbar.html');
 
+    var showData = $('#show-data');
 
     $.ajax({
         type: 'GET',

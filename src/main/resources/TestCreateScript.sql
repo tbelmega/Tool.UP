@@ -48,7 +48,15 @@ INSERT INTO application VALUES ('application-test_id_1', 'Dropbox', 'Dropbox Des
 INSERT INTO application VALUES ('application-test_id_2', 'Box.UP', 'Box.UP Description');
 
 INSERT INTO category
-VALUES ('category-test_id_13', 'Überkategorie', 'Eine Kategorie zum Testen der Superkategorie-Beziehung', NULL);
+VALUES ('category-test_id_13', 'Überkategorie1', 'Eine Kategorie zum Testen der Superkategorie-Beziehung', NULL);
+INSERT INTO category
+VALUES ('category-test_id_14', 'Überkategorie2', 'Eine Kategorie zum Testen der Superkategorie-Beziehung', NULL);
+INSERT INTO category
+VALUES ('category-test_id_15', 'Überkategorie3', 'Eine Kategorie zum Testen der Superkategorie-Beziehung', NULL);
+INSERT INTO category
+VALUES ('category-test_id_16', 'Überkategorie4', 'Eine Kategorie zum Testen der Superkategorie-Beziehung', NULL);
+INSERT INTO category
+VALUES ('category-test_id_17', 'Überkategorie5', 'Eine Kategorie zum Testen der Superkategorie-Beziehung', NULL);
 INSERT INTO category
 VALUES ('category-test_id_11', 'Cloud Speicher', 'Cloud Speicher Description', 'category-test_id_13');
 INSERT INTO category VALUES ('category-test_id_12', 'Wiki', 'Wiki Description', 'category-test_id_13');
