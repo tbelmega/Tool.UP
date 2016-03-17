@@ -1,9 +1,9 @@
 $(document).ready(function () {
-    var $toplevelCategories = $('#toplevel-categories');
+    var $features = $('#features');
 
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/toolup/category/toplevel',
+        url: 'http://localhost:8080/toolup/feature',
         dataType: 'json',
         crossDomain: true,
         contentType: 'text/plain',
@@ -16,19 +16,19 @@ $(document).ready(function () {
         success: function(data) {
             console.log(data);
 
-            $toplevelCategories.empty();
+            $features.empty();
 
             for (var item of data) {
                 console.log(item);
-                var content = '<li>' + item['title'] + '</li>';
-                var list = $('<ul />').html(content);
-                $toplevelCategories.append(list);
+                var content = '<li><input type="checkbox">' + " " + item['title'] + '</input></li>';
+                $features.append(content);
             }
         },
         error: function() {
-            alert("Laden der Toplevel-Kategorien fehlgeschlagen.");
+            alert("Laden der Features fehlgeschlagen.");
         }
 
     });
-    $toplevelCategories.text('Loading the JSON file.');
+
+    $features.text('Loading the JSON file.');
 });

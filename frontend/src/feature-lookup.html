@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <title>Tool.UP</title>
+    <link type="text/css" rel="stylesheet" href="css/main.css">
+    <link type="text/css" rel="stylesheet" href="css/feature-lookup.css">
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="js/feature-lookup.js"></script>
+    <script src="js/menu.js"></script>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><img src = img/uni-logo.png/></li>
+        <li><a href='index.html'>Startseite</a></li>
+        <li>
+            <div class="category-dropdown" onclick="showCategoryDropDown()">
+                Kategorien
+                <div id="category-dropdown-content" class="dropdown-content">
+                </div>
+            </div>
+        </li>
+        <li class="selected-menu-item"><a href='feature-lookup.html'>Feature-Suche</a></li>
+        <li><a href='#'>Impressum</a></li>
+    </ul>
+    <form class="full-text-search">
+        <input type="text" placeholder="Suche..." required>
+        <input type="submit" value="Suche">
+    </form>
+</nav>
+
+<div id="main-content">
+
+    <p>Wählen Sie aus der Liste alle Funktionen, die das gesuchte Werkzeug bereitstellen soll.
+    Tool.UP zeigt Ihnen die Werkzeuge, die möglichst viele Ihrer Anforderungen erfüllen.</p>
+
+    <div id="feature-list">
+        <form action="">
+            <ul id="features">
+
+            </ul>
+            <input type = "submit" value="Suchen">
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

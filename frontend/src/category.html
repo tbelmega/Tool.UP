@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <title>Tool.UP</title>
+    <link type="text/css" rel="stylesheet" href="css/main.css">
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/category.js"></script>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><img src = img/uni-logo.png/></li>
+        <li><a href='index.html'>Startseite</a></li>
+        <li class="selected-menu-item">
+            <div class="category-dropdown" onclick="showCategoryDropDown()">
+                Kategorien
+                <div id="category-dropdown-content" class="dropdown-content">
+                </div>
+            </div>
+        </li>
+        <li><a href='feature-lookup.html'>Feature-Suche</a></li>
+        <li><a href='#'>Impressum</a></li>
+    </ul>
+    <form class="full-text-search">
+        <input type="text" placeholder="Suche..." required>
+        <input type="submit" value="Suche">
+    </form>
+</nav>
+
+<div id="main-content">
+    <h1 id="title"></h1>
+    <p id="description"></p>
+    <br>
+    <h2>Unterkategorien</h2>
+    <div id="subcategories"></div>
+    <br>
+    <h2>Tools</h2>
+    <div id="tools"></div>
+</div>
+
+
+</body>
+</html>

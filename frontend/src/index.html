@@ -1,60 +1,55 @@
 <!doctype html>
 <html lang="de">
-    <head>
-        <meta charset="utf-8">
-        <title>Tool.UP</title>
+<head>
+    <meta charset="utf-8">
+    <title>Tool.UP</title>
+    <link type="text/css" rel="stylesheet" href="css/main.css">
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/menu.js"></script>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><img src = img/uni-logo.png/></li>
+        <li class="selected-menu-item"><a href='index.html'>Startseite</a></li>
+        <li>
 
-        <link type="text/css" rel="stylesheet" href="css/main.css">
-
-        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-        <script src="js/main.js"></script>
-    </head>
-    <body>
-
-    <nav>
-        <ul>
-            <li><img src = img/uni-logo.png/></li>
-            <li><a href='index.html'>Startseite</a></li>
-            <li>
-
-                <div class="category-dropdown" onclick="showCategoryDropDown()">
-                    Kategorien
-                    <div id="category-dropdown-content" class="dropdown-content">
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
-                    </div>
+            <div class="category-dropdown" onclick="showCategoryDropDown()">
+                Kategorien
+                <div id="category-dropdown-content" class="dropdown-content">
                 </div>
+            </div>
 
-            </li>
-            <li><a href='#'>Feature-Suche</a></li>
-            <li><a href='#'>Impressum</a></li>
-        </ul>
-        <form class="full-text-search">
-            <input id="search-text-field" type="text" placeholder="Suche..." required>
-            <input id="search-button" type="button" value="Suche">
-        </form>
-    </nav>
+        </li>
+        <li><a href='feature-lookup.html'>Feature-Suche</a></li>
+        <li><a href='#'>Impressum</a></li>
+    </ul>
+    <form class="full-text-search">
+        <input type="text" placeholder="Suche..." required>
+        <input type="submit" value="Suche">
+    </form>
+</nav>
 
 
-    <div id="main-content">
-        <h1>Tool.UP</h1>
-        <p>Zeit sparen, Frust vermeiden? Mit den richtigen Software-Werkzeugen können Sie Forschung und Lehre
-            noch effizienter organisieren. Tool.UP hilft Ihnen, die passenden Werkzeuge für Ihren Bedarf zu finden.</p>
-        <h2>Legen Sie los!</h2>
-        <p>Nutzen Sie eine der folgenden Möglichkeiten, um sich über verfügbare Softwre zu informieren:</p>
-        <ul id="getting-started" type ="square">
-            <li>Wählen Sie eine Kategorie aus dem Menü,</li>
-            <li>suchen Sie Software mit einer Kombination von Features,</li>
-            <li>nutzen Sie die Volltextsuche, oder</li>
-            <li>stöbern Sie durch die aufgeführten Oberkategorien. </li>
-        </ul>
-        <br/>
-        <div id="show-data"></div>
+<div id="main-content">
+    <h1>Tool.UP</h1>
+    <p>Zeit sparen, Frust vermeiden? Mit den richtigen Software-Werkzeugen können Sie Forschung und Lehre
+        noch effizienter organisieren. Tool.UP hilft Ihnen, die passenden Werkzeuge für Ihren Bedarf zu finden.</p>
+    <h2>Legen Sie los!</h2>
+    <p>Nutzen Sie eine der folgenden Möglichkeiten, um sich über verfügbare Software zu informieren:</p>
+    <ul id="getting-started" type ="square">
+        <li>Wählen Sie eine Kategorie aus dem Menü,</li>
+        <li>suchen Sie Software mit einer Kombination von Features,</li>
+        <li>nutzen Sie die Volltextsuche, oder</li>
+        <li>stöbern Sie durch die aufgeführten Oberkategorien. </li>
+    </ul>
+    <br/>
+    <div id="toplevel-categories"></div>
 
-    </div>
+</div>
 
-    </body>
+</body>
 
 
 
