@@ -21,7 +21,7 @@ $(document).ready(function(){
 
             for (var item of data) {
                 console.log(item);
-                var content = '<a href="#">' + item['title'] + '</a>';
+                var content = createCategoryLink(item['id'],item['title']);
                 $menuCategories.append(content);
             }
         },
@@ -57,4 +57,8 @@ window.onclick = function(event) {
 $.urlParam = function(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     return results[1] || 0;
+}
+
+function createCategoryLink(id, title) {
+    return '<a href="category.html?id=' + id + '">' + title + '</a>';
 }

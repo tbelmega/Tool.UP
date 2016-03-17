@@ -20,7 +20,7 @@ $(document).ready(function () {
 
             for (var item of data) {
                 console.log(item);
-                var content = '<li>' + item['title'] + '</li>';
+                var content = '<li>' + createCategoryLink(item['id'],item['title']) + '</li>';
                 var list = $('<ul />').html(content);
                 $toplevelCategories.append(list);
             }
