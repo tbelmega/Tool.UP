@@ -25,6 +25,10 @@ public class CategoryBean extends BusinessObjectBean{
     }
 
 
+    public Collection<String> getApplications(){
+        return applications;
+    }
+
     public String getSuperCategory() {
         return superCategory;
     }
