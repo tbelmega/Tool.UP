@@ -134,28 +134,61 @@ input[type=submit] {
     margin-left: 60px;
 }
 
-#toplevel-categories li {
+.business-object-list {
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.business-object-list::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.business-object-list li {
     list-style-type: none;
     height: 60px;
-    width: 150px;
+    min-width: 180px;
     float: left;
     text-align: center;
-    background-color: #cccccc;
-    border-radius: 10px;
+
     box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.4);
     margin: 10px;
     cursor: pointer;
 }
 
-#toplevel-categories li a {
-    text-decoration: none;
+.business-object-list li a {
     color: #47476b;
+    text-decoration: none;
     line-height: 60px;
     display: block;
 }
 
-#toplevel-categories li:hover {
+.business-object-list li:hover {
     background-color: bisque;
+}
+
+.category-list li {
+    background-color: #cccccc;
+    border-radius: 10px;
+}
+
+
+.feature-list li {
+    background-color: #999999;
+    border-radius: 30px;
+}
+
+.application-list li {
+    background-color: #47476b;
+}
+
+.application-list li a {
+    color: #cccccc;
+}
+
+.application-list li a:hover {
+    color: #47476b;
 }
 
 

@@ -1,19 +1,19 @@
 $(document).ready(function () {
-    var categoryId = $.urlParam('id');
+    var applicationId = $.urlParam('id');
 
     var $title = $('#title');
     var $description = $('#description');
-    var $subcategories = $('#subcategories');
-    var $tools = $('#tools');
+    var $features = $('#features');
+    var $categories = $('#categories');
 
     $title.append("Wird abgerufen...");
     $description.append("Wird abgerufen...");
-    $subcategories.append("Wird abgerufen...");
-    $tools.append("Wird abgerufen...");
+    $features.append("Wird abgerufen...");
+    $categories.append("Wird abgerufen...");
 
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/toolup/category/' + categoryId,
+        url: 'http://localhost:8080/toolup/application/' + applicationId,
         dataType: 'json',
         crossDomain: true,
         contentType: 'text/plain',
@@ -26,25 +26,25 @@ $(document).ready(function () {
         success: function(data) {
             $title.text(data['title']);
             $description.text(data['description']);
-            $subcategories.empty();
-            $tools.empty();
+            $features.empty();
+            $categories.empty();
 
-            for (var item of data['subCategories']) {
+            for (var item of data['features']) {
+                console.log(item);
+                item = JSON.parse(item);
+                var content = '<li>' + createLinkBoxForBO('feature', item['id'],item['title']) + '</li>';
+                var list = $('<ul />').html(content);
+
+                $features.append(list);
+            }
+
+            for (var item of data['categories']) {
                 console.log(item);
                 item = JSON.parse(item);
                 var content = '<li>' + createLinkBoxForBO('category', item['id'],item['title']) + '</li>';
                 var list = $('<ul />').html(content);
 
-                $subcategories.append(list);
-            }
-
-            for (var item of data['applications']) {
-                console.log(item);
-                item = JSON.parse(item);
-                var content = '<li>' + createLinkBoxForBO('application', item['id'],item['title']) + '</li>';
-                var list = $('<ul />').html(content);
-
-                $tools.append(list);
+                $categories.append(list);
             }
 
         },

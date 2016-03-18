@@ -15,13 +15,10 @@ $(document).ready(function(){
 
         },
         success: function(data) {
-            console.log(data);
-
             $menuCategories.empty();
 
             for (var item of data) {
-                console.log(item);
-                var content = createCategoryLink(item['id'],item['title']);
+                var content = createLinkBoxForBO('category', item['id'],item['title']);
                 $menuCategories.append(content);
             }
         },
@@ -59,6 +56,6 @@ $.urlParam = function(name){
     return results[1] || 0;
 }
 
-function createCategoryLink(id, title) {
-    return '<a href="category.html?id=' + id + '">' + title + '</a>';
+function createLinkBoxForBO(type, id, title) {
+    return '<a href="' + type + '.html?id=' + id + '">' + title + '</a>';
 }
