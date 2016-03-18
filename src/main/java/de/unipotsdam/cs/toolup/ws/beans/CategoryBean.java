@@ -17,13 +17,12 @@ public class CategoryBean extends BusinessObjectBean{
     private String superCategory;
     private Collection<String> subCategories;
 
-    public CategoryBean(Category cat) {
+    public CategoryBean(Category cat) throws InvalidIdException, SQLException, IOException {
         super(cat);
-        this.applications = cat.getRelatedApplications();
-        this.superCategory = cat.getSuperCategory();
-        this.subCategories = cat.getSubCategories();
+        this.applications = getJSONRepresentations(cat.getRelatedApplications());
+        this.superCategory = getJSONRepresentation(cat.getSuperCategory());
+        this.subCategories = getJSONRepresentations(cat.getSubCategories());
     }
-
 
     public Collection<String> getApplications(){
         return applications;
@@ -43,7 +42,7 @@ public class CategoryBean extends BusinessObjectBean{
 
     }
 
-    public static Collection<CategoryBean> getAllCategories() throws IOException, SQLException {
+    public static Collection<CategoryBean> getAllCategories() throws IOException, SQLException, InvalidIdException {
         Collection<CategoryBean> result = new HashSet<>();
         Map<String, BusinessObject> allCats = DatabaseController.getInstance().loadAllFrom(DatabaseController.TABLE_NAME_CATEGORY);
 
@@ -53,7 +52,7 @@ public class CategoryBean extends BusinessObjectBean{
         return result;
     }
 
-    public static Collection<CategoryBean> getAllCategoriesWithApplication() throws IOException, SQLException {
+    public static Collection<CategoryBean> getAllCategoriesWithApplication() throws IOException, SQLException, InvalidIdException {
         Collection<CategoryBean> result = new HashSet<>();
         Map<String, BusinessObject> allCats = DatabaseController.getInstance().loadAllCategoriesWithApplication();
 
@@ -63,7 +62,7 @@ public class CategoryBean extends BusinessObjectBean{
         return result;
     }
 
-    public static Collection<CategoryBean> getTopLevelCategories() throws IOException, SQLException {
+    public static Collection<CategoryBean> getTopLevelCategories() throws IOException, SQLException, InvalidIdException {
         Collection<CategoryBean> result = new HashSet<>();
         Map<String, BusinessObject> allCats = DatabaseController.getInstance().loadTopLevelCategories();
 

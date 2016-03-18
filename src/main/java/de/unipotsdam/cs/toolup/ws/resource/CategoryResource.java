@@ -41,7 +41,7 @@ public class CategoryResource {
     @GET
     @Path("/toplevel")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getTopLevelCategories() throws IOException, SQLException {
+    public Response getTopLevelCategories() throws Exception {
         return createResponseOk(CategoryBean.getTopLevelCategories());
     }
 

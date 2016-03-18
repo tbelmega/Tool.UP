@@ -20,9 +20,8 @@ public class ApplicationBean extends BusinessObjectBean {
 
     public ApplicationBean(Application app) throws InvalidIdException, SQLException, IOException {
         super(app);
-
-        this.categories = app.getRelatedCategories();
-        this.features = app.getRelatedFeatures();
+        this.categories = getJSONRepresentations(app.getRelatedCategories());
+        this.features = getJSONRepresentations(app.getRelatedFeatures());
     }
 
     public Collection<String> getCategories() {

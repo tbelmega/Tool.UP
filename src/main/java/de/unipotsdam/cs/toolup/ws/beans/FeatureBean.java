@@ -15,9 +15,9 @@ public class FeatureBean extends BusinessObjectBean{
 
     private Collection<String> applications;
 
-    public FeatureBean(Feature feat) {
+    public FeatureBean(Feature feat) throws InvalidIdException, SQLException, IOException {
         super(feat);
-        this.applications = feat.getRelatedApplications();
+        this.applications = getJSONRepresentations(feat.getRelatedApplications());
     }
 
     public static FeatureBean getBean(String id) throws IOException, SQLException, InvalidIdException {
@@ -25,7 +25,7 @@ public class FeatureBean extends BusinessObjectBean{
         return new FeatureBean(feat);
     }
 
-    public static Collection<FeatureBean> getAllFeatures() throws IOException, SQLException {
+    public static Collection<FeatureBean> getAllFeatures() throws IOException, SQLException, InvalidIdException {
         Collection<FeatureBean> result = new HashSet<>();
         Map<String, BusinessObject> allFeats = DatabaseController.getInstance().loadAllFrom(DatabaseController.TABLE_NAME_FEATURE);
 
@@ -33,6 +33,10 @@ public class FeatureBean extends BusinessObjectBean{
             result.add(new FeatureBean((Feature) feat));
         }
         return result;
+    }
+
+    public Collection<String> getApplications() {
+        return applications;
     }
 }
 

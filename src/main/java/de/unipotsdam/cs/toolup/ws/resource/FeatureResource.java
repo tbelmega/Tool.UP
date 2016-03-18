@@ -20,7 +20,7 @@ public class FeatureResource {
     @GET
     @Path("/")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getAll() throws IOException, SQLException {
+    public Response getAll() throws Exception {
         return createResponseOk(FeatureBean.getAllFeatures());
     }
 

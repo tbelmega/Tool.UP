@@ -30,5 +30,5 @@ $(document).ready(function () {
 
     });
 
-    $features.text('Loading the JSON file.');
+    $features.text('Lade Features..');
 });

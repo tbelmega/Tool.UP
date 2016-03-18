@@ -30,5 +30,5 @@ $(document).ready(function () {
         }
 
     });
-    $toplevelCategories.text('Loading the JSON file.');
+    $toplevelCategories.text('Lade Oberkategorien...');
 });
