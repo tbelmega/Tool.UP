@@ -6,6 +6,7 @@
         <packages>
             <package name="de.unipotsdam.cs.toolup.*">
                 <exclude name="de.unipotsdam.cs.toolup.ws.*"/>
+                <exclude name="de.unipotsdam.cs.toolup.database.*"/>
             </package>
         </packages>
     </test>
