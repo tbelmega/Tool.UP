@@ -109,7 +109,7 @@ input[type=text] {
     padding:8px 15px;
 }
 
-input[type=submit] {
+input[type=button] {
     position:relative;
     padding:6px 15px;
     left:-8px;

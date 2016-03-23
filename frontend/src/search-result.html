@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <title>Tool.UP</title>
     <link type="text/css" rel="stylesheet" href="css/main.css">
+    <link type="text/css" rel="stylesheet" href="css/feature-lookup.css">
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="js/search-result.js"></script>
     <script src="js/menu.js"></script>
-    <script src="js/application.js"></script>
 </head>
 <body>
 <nav>
     <ul>
         <li><img src = img/uni-logo.png/></li>
         <li><a href='index.html'>Startseite</a></li>
-        <li class="selected-menu-item">
+        <li>
             <div class="category-dropdown" onclick="showCategoryDropDown()">
                 Kategorien
                 <div id="category-dropdown-content" class="dropdown-content">
@@ -30,13 +31,11 @@
 </nav>
 
 <div id="main-content">
-    <h1 id="title"></h1>
-    <p id="description"></p>
-    <h2>Dieses Tool erfüllt folgende Funktionen:</h2>
-    <div id="features" class ="business-object-list feature-list"></div>
-    <h2>Dieses Tool gehört zu folgenden Kategorien:</h2>
-    <div id="categories" class ="business-object-list category-list"></div>
+
+    <h2>Folgende Treffer wurden für Ihren Suchtext gefunden:</h2>
+    <div id="applications" class ="business-object-list application-list"></div>
 </div>
+
 
 </body>
 </html>

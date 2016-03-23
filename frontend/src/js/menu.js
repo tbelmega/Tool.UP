@@ -59,3 +59,12 @@ $.urlParam = function(name){
 function createLinkBoxForBO(type, id, title) {
     return '<a href="' + type + '.html?id=' + id + '">' + title + '</a>';
 }
+
+function searchFulltext(){
+    var $searchBox = $('#searchStringInput');
+
+    var searchString = $searchBox[0].value;
+
+    window.location.href = "search-result.html?searchString=" + searchString;
+}
+
