@@ -21,6 +21,7 @@ public class SqlStatementFactory {
     public SqlStatementFactory() throws IOException, SQLException {
         sqlStatements = new Properties();
         sqlStatements.loadFromXML(this.getClass().getResourceAsStream(SQL_STATEMENTS_FILENAME));
+        DriverManager.registerDriver(new com.mysql.jdbc.Driver());
         connection = DriverManager.getConnection(ToolUpProperties.getDatabaseUrl());
     }
 
