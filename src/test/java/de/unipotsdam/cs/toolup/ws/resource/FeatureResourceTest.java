@@ -9,6 +9,7 @@ import java.util.Collection;
 
 import static de.unipotsdam.cs.toolup.model.BusinessObjectTest.FEATURE_TEST_ID_21;
 import static de.unipotsdam.cs.toolup.model.BusinessObjectTest.FEATURE_TEST_ID_22;
+import static de.unipotsdam.cs.toolup.model.BusinessObjectTest.FEATURE_TEST_ID_23;
 
 
 public class FeatureResourceTest {
@@ -18,7 +19,8 @@ public class FeatureResourceTest {
         //arrange
         Collection<FeatureBean> expectedFeats = Arrays.asList(
                 FeatureBean.getBean(FEATURE_TEST_ID_21),
-                FeatureBean.getBean(FEATURE_TEST_ID_22)
+                FeatureBean.getBean(FEATURE_TEST_ID_22),
+                FeatureBean.getBean(FEATURE_TEST_ID_23)
         );
 
         FeatureResource featRes = new FeatureResource();

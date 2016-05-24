@@ -17,7 +17,11 @@ public class CategoryResourceTest {
         Collection<CategoryBean> expectedCats = Arrays.asList(
                 CategoryBean.getBean(CATEGORY_TEST_ID_11),
                 CategoryBean.getBean(CATEGORY_TEST_ID_12),
-                CategoryBean.getBean(CATEGORY_TEST_ID_13)
+                CategoryBean.getBean(CATEGORY_TEST_ID_13),
+                CategoryBean.getBean(CATEGORY_TEST_ID_14),
+                CategoryBean.getBean(CATEGORY_TEST_ID_15),
+                CategoryBean.getBean(CATEGORY_TEST_ID_16),
+                CategoryBean.getBean(CATEGORY_TEST_ID_17)
         );
 
         //act
@@ -31,7 +35,9 @@ public class CategoryResourceTest {
     public void testThatCategoryResourceReturnsAllCategoriesWithApplications() throws Exception {
         //arrange
         Collection<CategoryBean> expectedCats = Arrays.asList(
-                CategoryBean.getBean(CATEGORY_TEST_ID_11)
+                CategoryBean.getBean(CATEGORY_TEST_ID_11),
+                CategoryBean.getBean(CATEGORY_TEST_ID_12),
+                CategoryBean.getBean(CATEGORY_TEST_ID_17)
         );
 
         //act
@@ -45,7 +51,9 @@ public class CategoryResourceTest {
     public void testThatCategoryResourceReturnsTopLevelCategories() throws Exception {
         //arrange
         Collection<CategoryBean> expectedCats = Arrays.asList(
-                CategoryBean.getBean(CATEGORY_TEST_ID_13)
+                CategoryBean.getBean(CATEGORY_TEST_ID_13),
+                CategoryBean.getBean(CATEGORY_TEST_ID_14),
+                CategoryBean.getBean(CATEGORY_TEST_ID_15)
         );
 
         //act

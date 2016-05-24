@@ -23,7 +23,7 @@ public class DatabaseControllerForCategoryTest extends AbstractDatabaseTest {
         Category cat = (Category) db.load(CATEGORY_TEST_ID_11);
 
         //assert
-        assertEquals(CATEGORY_TEST_ID_13, cat.getSuperCategory());
+        assertEquals(CATEGORY_TEST_ID_17, cat.getSuperCategory());
     }
 
     @Test
@@ -32,7 +32,7 @@ public class DatabaseControllerForCategoryTest extends AbstractDatabaseTest {
         Collection<String> expectedSubCategories = Arrays.asList(CATEGORY_TEST_ID_11, CATEGORY_TEST_ID_12);
 
         //act
-        Category cat = (Category) db.load(CATEGORY_TEST_ID_13);
+        Category cat = (Category) db.load(CATEGORY_TEST_ID_17);
 
         //assert
         assertCollectionEquals(expectedSubCategories, cat.getSubCategories());
@@ -41,7 +41,7 @@ public class DatabaseControllerForCategoryTest extends AbstractDatabaseTest {
     @Test
     public void testThatCategoriesWithApplicationAreLoadedFromDB() throws Exception {
         //arrange
-        Collection<String> expectedCategories = Arrays.asList(CATEGORY_TEST_ID_11);
+        Collection<String> expectedCategories = Arrays.asList(CATEGORY_TEST_ID_11, CATEGORY_TEST_ID_12, CATEGORY_TEST_ID_17);
 
         //act
         Map<String, BusinessObject> loadedCats = db.loadAllCategoriesWithApplication();
@@ -53,7 +53,7 @@ public class DatabaseControllerForCategoryTest extends AbstractDatabaseTest {
     @Test
     public void testThatTopLevelCategoriesAreLoadedFromDB() throws Exception {
         //arrange
-        Collection<String> expectedCategories = Arrays.asList(CATEGORY_TEST_ID_13);
+        Collection<String> expectedCategories = Arrays.asList(CATEGORY_TEST_ID_13, CATEGORY_TEST_ID_14, CATEGORY_TEST_ID_15);
 
         //act
         Map<String, BusinessObject> loadedCats = db.loadTopLevelCategories();

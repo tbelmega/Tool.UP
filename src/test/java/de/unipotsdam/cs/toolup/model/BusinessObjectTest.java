@@ -23,6 +23,10 @@ public class BusinessObjectTest {
     public static final String CATEGORY_TEST_ID_11 = "category-test_id_11";
     public static final String CATEGORY_TEST_ID_12 = "category-test_id_12";
     public static final String CATEGORY_TEST_ID_13 = "category-test_id_13";
+    public static final String CATEGORY_TEST_ID_14 = "category-test_id_14";
+    public static final String CATEGORY_TEST_ID_15 = "category-test_id_15";
+    public static final String CATEGORY_TEST_ID_16 = "category-test_id_16";
+    public static final String CATEGORY_TEST_ID_17 = "category-test_id_17";
     public static final String CATEGORY_TEST_ID_19 = "category-test_id_19";
     public static final String PROVIDE_SAMPLE_IDS = "provideSampleIds";
     public static final String PROVIDE_BOS_TO_COMPARE = "provideBOsToCompare";

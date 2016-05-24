@@ -1,12 +1,12 @@
 package de.unipotsdam.cs.toolup.ws.beans;
 
 import de.unipotsdam.cs.toolup.model.BusinessObject;
+import de.unipotsdam.cs.toolup.model.BusinessObjectFactory;
+import de.unipotsdam.cs.toolup.model.Category;
 import org.json.JSONObject;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.*;
 
 import static de.unipotsdam.cs.toolup.model.BusinessObjectTest.*;
 import static de.unipotsdam.cs.toolup.util.AssertionUtil.assertCollectionEquals;
@@ -20,13 +20,14 @@ public class CategoryBeanTest {
     @Test
     public void testThatCategoryBeanHasSuperCategoryField() throws Exception {
         //arrange
-        String expectedSuperCategoryId = CATEGORY_TEST_ID_13;
+        String expectedSuperCategoryId = CATEGORY_TEST_ID_17;
 
         //act
         CategoryBean bean = CategoryBean.getBean(CATEGORY_TEST_ID_11);
 
         //assert
-        assertEquals(expectedSuperCategoryId, bean.getSuperCategory());
+        JSONObject superCategory = new JSONObject(bean.getSuperCategory());
+        assertEquals(expectedSuperCategoryId, superCategory.getString(JSON_KEY_ID));
     }
 
     @Test
@@ -35,10 +36,16 @@ public class CategoryBeanTest {
         Collection<String> expectedSubcategoryIDs = Arrays.asList(CATEGORY_TEST_ID_11, CATEGORY_TEST_ID_12);
 
         //act
-        CategoryBean bean = CategoryBean.getBean(CATEGORY_TEST_ID_13);
+        CategoryBean bean = CategoryBean.getBean(CATEGORY_TEST_ID_17);
 
         //assert
-        assertCollectionEquals(expectedSubcategoryIDs, bean.getSubCategories());
+        List<String> actualSubcategoryIDs = new LinkedList<>();
+        for (String subCatRepresentation: bean.getSubCategories()) {
+            JSONObject cat = new JSONObject(subCatRepresentation);
+            actualSubcategoryIDs.add(cat.getString(JSON_KEY_ID));
+        }
+
+        assertCollectionEquals(expectedSubcategoryIDs, actualSubcategoryIDs);
     }
 
     @Test
