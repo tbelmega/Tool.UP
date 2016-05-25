@@ -109,6 +109,16 @@ input[type=text] {
     padding:8px 15px;
 }
 
+input[type=submit] {
+    position:relative;
+    padding:6px 15px;
+    left:-8px;
+    border: none;
+    border:2px solid #47476b;
+    background-color:#47476b;
+    color:#fafafa;
+}
+
 input[type=button] {
     position:relative;
     padding:6px 15px;

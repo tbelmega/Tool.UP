@@ -27,8 +27,16 @@ $(document).ready(function(){
         }
 
     });
+
     $menuCategories.text('Loading the JSON file.');
 
+    $('#searchStringInput').keyup(function(){
+        var searchString = $(this).val();
+        if (searchString.substr(-1) == " ") {
+            console.log(searchString);
+            searchFulltext();
+        }
+    });
 });
 
 //open category dropdown menu on click
@@ -60,6 +68,8 @@ function createLinkBoxForBO(type, id, title) {
     return '<a href="' + type + '.html?id=' + id + '">' + title + '</a>';
 }
 
+
+//onclick function for search button
 function searchFulltext(){
     var $searchBox = $('#searchStringInput');
 

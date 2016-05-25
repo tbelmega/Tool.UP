@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Tool.UP</title>
     <link type="text/css" rel="stylesheet" href="css/main.css">
-    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/menu.js"></script>
 </head>
@@ -26,8 +26,10 @@
         <li><a href='#'>Impressum</a></li>
     </ul>
     <div class="full-text-search">
-        <input type="text" id="searchStringInput" placeholder="Suche...">
-        <input type="button" value="Suche" onclick="searchFulltext()">
+        <form method="get" action="search-result.html" id="live-search">
+            <input type="text" id="searchStringInput" name="searchString" placeholder="Suche...">
+            <input type="submit" value="Suche">
+        </form>
     </div>
 </nav>
 
