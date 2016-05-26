@@ -201,6 +201,19 @@ input[type=button] {
     color: #47476b;
 }
 
+#feature-list {
+
+}
+
+#features {
+    list-style: none;
+}
+
+#features li {
+    margin: 5px;
+    float: left;
+    min-width: 400px;
+}
 
 
 

@@ -25,7 +25,7 @@ $(document).ready(function () {
         },
         success: function(data) {
             $title.text(data['title']);
-            $description.text(data['description']);
+            $description.text(data['description']!= null ? data['description'] : "");
             $subcategories.empty();
             $tools.empty();
 
