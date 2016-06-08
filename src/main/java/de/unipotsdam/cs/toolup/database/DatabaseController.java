@@ -2,6 +2,9 @@ package de.unipotsdam.cs.toolup.database;
 
 import de.unipotsdam.cs.toolup.exceptions.InvalidIdException;
 import de.unipotsdam.cs.toolup.model.*;
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -19,13 +22,18 @@ public class DatabaseController {
     public static final String TABLE_NAME_APPLICATION = "application";
     public static final String TABLE_NAME_APPLICATION_FEATURE = "application_has_feature";
     public static final String TABLE_NAME_APPLICATION_CATEGORY = "application_belongs_to_category";
+    public static final String TOOL_UP_CACHE = "toolUpCache";
     private static final String COLUMN_NAME_UUID = "uuid";
     private static final String COLUMN_SUFFIX_UUID = "_" + COLUMN_NAME_UUID;
     private static DatabaseController instance;
     private SqlStatementFactory sqlStatementFactory;
+    private CacheManager cacheManager;
+    private Cache cache;
 
     protected DatabaseController() throws IOException, SQLException {
         sqlStatementFactory = new SqlStatementFactory();
+
+        initCache();
     }
 
     public static DatabaseController getInstance() throws IOException, SQLException {
@@ -35,6 +43,13 @@ public class DatabaseController {
         return instance;
     }
 
+    private synchronized void initCache() {
+        cacheManager = CacheManager.newInstance();
+        if (!cacheManager.cacheExists(TOOL_UP_CACHE)) {
+            cacheManager.addCacheIfAbsent(TOOL_UP_CACHE);
+        }
+        cache = cacheManager.getCache(TOOL_UP_CACHE);
+    }
 
     /**
      * Loads all BusinessObjects from a single table.
@@ -51,22 +66,44 @@ public class DatabaseController {
     }
 
     /**
-     * Loads a single business object with the given uuid.
-     * The table to load from is evaluated from the id.
+     * Retrieves a single business object with the given uuid,
+     * either from cache or from the db.
      * @param uuid the uuid of the object to load.
-     * @return the loaded BusinessObject
+     * @return the loaded BusinessObject, or the NullBusinessObject if it doesn't exist
      * @throws SQLException
      * @throws InvalidIdException
      */
     public BusinessObject load(String uuid) throws SQLException, InvalidIdException {
+        Element cachedElement = cache.get(uuid);
+        if (cachedElement != null) {
+            System.out.println("Use BO from cache: " + uuid);
+            Object cachedObject = cachedElement.getObjectValue();
+            return (BusinessObject) cachedObject;
+        } else {
+            return loadBOFromDatabase(uuid);
+        }
+    }
+
+    /**
+     * Loads a single business object with the given uuid from the database.
+     * The table to load from is evaluated from the id.
+     */
+    private BusinessObject loadBOFromDatabase(String uuid) throws InvalidIdException, SQLException {
         String tableName = BusinessObject.getTableNameFromId(uuid);
 
         PreparedStatement prepQuery = sqlStatementFactory.getStatementSelectByUuidFrom(tableName);
-
         prepQuery.setString(1, uuid);
         ResultSet res = prepQuery.executeQuery();
 
-        return BusinessObjectFactory.createBusinessObjectFromSingleResult(res);
+        BusinessObject businessObjectFromSingleResult = BusinessObjectFactory.createBusinessObjectFromSingleResult(res);
+
+        putBOIntoCache(businessObjectFromSingleResult);
+        return businessObjectFromSingleResult;
+    }
+
+    private void putBOIntoCache(BusinessObject businessObjectFromSingleResult) {
+        Element element = new Element(businessObjectFromSingleResult.getUuid(), businessObjectFromSingleResult);
+        cache.put(element);
     }
 
 
