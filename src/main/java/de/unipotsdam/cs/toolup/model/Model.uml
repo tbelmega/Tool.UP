@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="79.0">de.unipotsdam.cs.toolup.model.Category</node>
+    <node x="223.13888888888886" y="158.0">de.unipotsdam.cs.toolup.model.BusinessObjectFactory</node>
+    <node x="187.01388888888886" y="0.0">de.unipotsdam.cs.toolup.model.BusinessObject</node>
+    <node x="99.99999999999997" y="79.0">de.unipotsdam.cs.toolup.model.NullBusinessObject</node>
+    <node x="0.0" y="232.0">de.unipotsdam.cs.toolup.model.ApplicationLookup</node>
+    <node x="367.0" y="79.0">de.unipotsdam.cs.toolup.model.Feature</node>
+    <node x="253.99999999999997" y="79.0">de.unipotsdam.cs.toolup.model.Application</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="de.unipotsdam.cs.toolup.model.Category" target="de.unipotsdam.cs.toolup.model.BusinessObject">
+      <point x="0.0" y="-14.5" />
+      <point x="40.0" y="49.0" />
+      <point x="201.01388888888886" y="49.0" />
+      <point x="-42.0" y="14.5" />
+    </edge>
+    <edge source="de.unipotsdam.cs.toolup.model.BusinessObjectFactory" target="de.unipotsdam.cs.toolup.model.Application">
+      <point x="0.0" y="-14.5" />
+      <point x="298.63888888888886" y="133.0" />
+      <point x="300.5" y="133.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="de.unipotsdam.cs.toolup.model.BusinessObjectFactory" target="de.unipotsdam.cs.toolup.model.Category">
+      <point x="-50.33333333333334" y="-14.5" />
+      <point x="248.30555555555551" y="133.0" />
+      <point x="40.0" y="133.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="de.unipotsdam.cs.toolup.model.Application" target="de.unipotsdam.cs.toolup.model.BusinessObject">
+      <point x="0.0" y="-14.5" />
+      <point x="300.5" y="59.0" />
+      <point x="257.01388888888886" y="59.0" />
+      <point x="14.0" y="14.5" />
+    </edge>
+    <edge source="de.unipotsdam.cs.toolup.model.BusinessObjectFactory" target="de.unipotsdam.cs.toolup.model.Feature">
+      <point x="50.333333333333314" y="-14.5" />
+      <point x="348.9722222222222" y="133.0" />
+      <point x="402.5" y="133.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="de.unipotsdam.cs.toolup.model.Feature" target="de.unipotsdam.cs.toolup.model.BusinessObject">
+      <point x="0.0" y="-14.5" />
+      <point x="402.5" y="49.0" />
+      <point x="285.01388888888886" y="49.0" />
+      <point x="42.0" y="14.5" />
+    </edge>
+    <edge source="de.unipotsdam.cs.toolup.model.NullBusinessObject" target="de.unipotsdam.cs.toolup.model.BusinessObject">
+      <point x="0.0" y="-14.5" />
+      <point x="166.99999999999997" y="59.0" />
+      <point x="229.01388888888886" y="59.0" />
+      <point x="-14.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="219.0" y="130.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
