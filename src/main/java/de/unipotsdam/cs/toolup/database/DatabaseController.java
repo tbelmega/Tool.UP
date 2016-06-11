@@ -199,6 +199,7 @@ public class DatabaseController {
     public void storeToDatabase(BusinessObject aBusinessObject) throws SQLException, InvalidIdException {
         boolean exists = checkIfExistsInDB(aBusinessObject);
         if (exists) {
+            cache.remove(aBusinessObject.getUuid());
             updateDatabase(aBusinessObject);
         } else {
             insertIntoDatabase(aBusinessObject);
@@ -331,6 +332,8 @@ public class DatabaseController {
 
 
     public void deleteFromDatabase(String id) throws SQLException, InvalidIdException {
+        cache.remove(id);
+
         String tableName = BusinessObject.getTableNameFromId(id);
 
         PreparedStatement prepQuery = sqlStatementFactory.getDeleteFrom(tableName);
