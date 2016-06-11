@@ -17,10 +17,30 @@ public class ApplicationLookup {
 
     public ApplicationLookup(String features) {
         this.features = Arrays.asList(features.split(LIST_DELIMITER));
+        throwExceptionIfNoFeaturesAreSpecified();
     }
 
-    public Set<Application> getApplications() throws IOException, SQLException, InvalidIdException {
-        throwExceptionIfNoFeaturesAreSpecified();
+
+    public Set<Application> getAllMatchingApplications() throws InvalidIdException, SQLException, IOException {
+        Set<String> resultSetOfApps = getApplicationsWithAtLeastOneFeature();
+        return loadApplicationsByIds(resultSetOfApps);
+    }
+
+    /**
+     * This method gets all Applications that match at least one feature of the feature list.
+     */
+    public Set<String> getApplicationsWithAtLeastOneFeature() throws IOException, SQLException, InvalidIdException {
+        Set<String> unionOfRelatedApps = new HashSet<>();
+
+        for (String featureId : features) {
+            unionOfRelatedApps.addAll(DatabaseController.getInstance()
+                    .loadRelatedApplicationsForFeature(featureId.trim()));
+        }
+        return unionOfRelatedApps;
+    }
+
+
+    public Set<Application> getBestMatchingApplications() throws IOException, SQLException, InvalidIdException {
         Set<String> resultSetOfApps = getApplicationsWithLargestSubSetOfFeatures();
         return loadApplicationsByIds(resultSetOfApps);
     }
@@ -60,13 +80,13 @@ public class ApplicationLookup {
         //load the related applications of the first feature
         String firstFeatureId = featureList.get(0).trim();
         Set<String> intersectionOfApps = DatabaseController.getInstance()
-                .loadRelatedApplicationsForFeat(firstFeatureId);
+                .loadRelatedApplicationsForFeature(firstFeatureId);
 
         //if there is more than one feature, make the intersection of the result sets
         for (int i = 1; i < featureList.size(); i++) {
             String id = featureList.get(i).trim();
             Set<String> apps = DatabaseController.getInstance()
-                    .loadRelatedApplicationsForFeat(id);
+                    .loadRelatedApplicationsForFeature(id);
             intersectionOfApps.retainAll(apps);
         }
         return intersectionOfApps;
@@ -83,4 +103,5 @@ public class ApplicationLookup {
         }
         return resultSetOfApps;
     }
+
 }

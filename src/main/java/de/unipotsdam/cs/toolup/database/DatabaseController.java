@@ -142,7 +142,7 @@ public class DatabaseController {
         return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION_FEATURE, TABLE_NAME_FEATURE, id);
     }
 
-    public Set<String> loadRelatedApplicationsForFeat(String id) throws SQLException, InvalidIdException {
+    public Set<String> loadRelatedApplicationsForFeature(String id) throws SQLException, InvalidIdException {
         return loadRelatedBusinessObjectsForId(TABLE_NAME_APPLICATION_FEATURE, TABLE_NAME_APPLICATION, id);
     }
 
@@ -317,9 +317,6 @@ public class DatabaseController {
         }
     }
 
-
-
-
     private void updateBO(BusinessObject aBusinessObject,
                           String tableName) throws SQLException {
         PreparedStatement prepQuery;
@@ -329,7 +326,6 @@ public class DatabaseController {
         prepQuery.setString(3, aBusinessObject.getUuid());
         prepQuery.executeUpdate();
     }
-
 
     public void deleteFromDatabase(String id) throws SQLException, InvalidIdException {
         cache.remove(id);
@@ -341,7 +337,5 @@ public class DatabaseController {
         prepQuery.setString(1, id);
         prepQuery.executeUpdate();
     }
-
-
 
 }

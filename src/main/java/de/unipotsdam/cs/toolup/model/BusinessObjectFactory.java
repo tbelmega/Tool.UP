@@ -86,7 +86,7 @@ public class BusinessObjectFactory {
                 ((Category) loadedBO).addSubCategories(db.loadSubCategories(id));
                 break;
             case TABLENAME_FEATURE:
-                loadedBO = new Feature(id, null, null, db.loadRelatedApplicationsForFeat(id));
+                loadedBO = new Feature(id, null, null, db.loadRelatedApplicationsForFeature(id));
                 break;
             default:
                 throw new UnsupportedOperationException("No class defined for this prefix:" + className);

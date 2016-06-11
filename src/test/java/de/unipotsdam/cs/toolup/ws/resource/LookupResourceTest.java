@@ -2,11 +2,11 @@ package de.unipotsdam.cs.toolup.ws.resource;
 
 
 import de.unipotsdam.cs.toolup.ws.beans.ApplicationBean;
+import de.unipotsdam.cs.toolup.ws.beans.LookupResultBean;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import static de.unipotsdam.cs.toolup.model.BusinessObjectTest.*;
@@ -16,21 +16,9 @@ import static org.testng.AssertJUnit.assertTrue;
 @SuppressWarnings("ALL")
 public class LookupResourceTest {
 
-    @Test
-    public void testThatPostRequestReturnsMapOfApplicationBeans() throws Exception {
-        //arrange
-        ApplicationBean app = ApplicationBean.getBean(APPLICATION_TEST_ID_1);
-        LookupResource lookupResource = new LookupResource();
-
-        //act
-        Collection<ApplicationBean> apps = (Collection<ApplicationBean>) lookupResource.post(FEATURE_TEST_ID_21 + ", " + FEATURE_TEST_ID_22).getEntity();
-
-        //assert
-        assertTrue(apps.contains(app));
-    }
 
     @Test
-    public void testThatPostRequestReturnsMapOfApplicationBeans2() throws Exception {
+    public void testThatPostRequestReturnsLookupResultBean() throws Exception {
         //arrange
         ApplicationBean app1 = ApplicationBean.getBean(APPLICATION_TEST_ID_1);
         ApplicationBean app2 = ApplicationBean.getBean(APPLICATION_TEST_ID_2);
@@ -38,10 +26,10 @@ public class LookupResourceTest {
         LookupResource lookupResource = new LookupResource();
 
         //act
-        Collection<ApplicationBean> apps = (Collection<ApplicationBean>) lookupResource.post(FEATURE_TEST_ID_21).getEntity();
+        LookupResultBean apps = (LookupResultBean) lookupResource.post(FEATURE_TEST_ID_21).getEntity();
 
         //assert
-        assertTrue(apps.containsAll(expectedApps));
+        assertTrue(apps.getBestMatches().containsAll(expectedApps));
     }
 
     @Test
@@ -52,10 +40,10 @@ public class LookupResourceTest {
         LookupResource lookupResource = new LookupResource();
 
         //act
-        Collection<ApplicationBean> apps = (Collection<ApplicationBean>) lookupResource.post(FEATURE_TEST_ID_22 + ", " + FEATURE_TEST_ID_23).getEntity();
+        LookupResultBean apps = (LookupResultBean) lookupResource.post(FEATURE_TEST_ID_22 + ", " + FEATURE_TEST_ID_23).getEntity();
 
         //assert
-        assertContainsAll(apps, expectedApps);
+        assertContainsAll(apps.getBestMatches(), expectedApps);
     }
 
     @Test
@@ -66,10 +54,10 @@ public class LookupResourceTest {
         LookupResource lookupResource = new LookupResource();
 
         //act
-        Collection<ApplicationBean> apps = (Collection<ApplicationBean>) lookupResource.post(FEATURE_TEST_ID_21 + ", " + FEATURE_TEST_ID_22 + ", " + FEATURE_TEST_ID_23).getEntity();
+        LookupResultBean apps = (LookupResultBean) lookupResource.post(FEATURE_TEST_ID_21 + ", " + FEATURE_TEST_ID_22 + ", " + FEATURE_TEST_ID_23).getEntity();
 
         //assert
-        assertContainsAll(apps, expectedApps);
+        assertContainsAll(apps.getBestMatches(), expectedApps);
     }
 
     @Test
@@ -81,10 +69,10 @@ public class LookupResourceTest {
         LookupResource lookupResource = new LookupResource();
 
         //act
-        Collection<ApplicationBean> apps = (Collection<ApplicationBean>) lookupResource.post(FEATURE_TEST_ID_21 + ", " + FEATURE_TEST_ID_23).getEntity();
+        LookupResultBean apps = (LookupResultBean) lookupResource.post(FEATURE_TEST_ID_21 + ", " + FEATURE_TEST_ID_23).getEntity();
 
         //assert
-        assertContainsAll(apps, expectedApps);
+        assertContainsAll(apps.getBestMatches(), expectedApps);
     }
 
     @Test
@@ -95,10 +83,10 @@ public class LookupResourceTest {
         LookupResource lookupResource = new LookupResource();
 
         //act
-        Collection<ApplicationBean> apps = (Collection<ApplicationBean>) lookupResource.post(FEATURE_TEST_ID_23).getEntity();
+        LookupResultBean apps = (LookupResultBean) lookupResource.post(FEATURE_TEST_ID_23).getEntity();
 
         //assert
-        assertContainsAll(apps, expectedApps);
+        assertContainsAll(apps.getBestMatches(), expectedApps);
     }
 
 }
