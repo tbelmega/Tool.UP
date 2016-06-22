@@ -74,3 +74,10 @@ INSERT INTO application_belongs_to_category VALUES ('application-test_id_2', 'ca
 INSERT INTO application_has_feature VALUES ('application-test_id_1', 'feature-test_id_21');
 INSERT INTO application_has_feature VALUES ('application-test_id_1', 'feature-test_id_22');
 INSERT INTO application_has_feature VALUES ('application-test_id_2', 'feature-test_id_21');
+
+ALTER TABLE application
+  ADD short_description LONGTEXT;
+ALTER TABLE application
+  ADD contact LONGTEXT;
+ALTER TABLE application
+  ADD provider LONGTEXT;
