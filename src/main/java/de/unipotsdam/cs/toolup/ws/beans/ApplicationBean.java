@@ -17,27 +17,17 @@ public class ApplicationBean extends BusinessObjectBean {
 
     private Collection<String> categories;
     private Collection<String> features;
+    private String shortDescription;
+    private String contact;
+    private String provider;
 
-    public ApplicationBean(Application app) throws InvalidIdException, SQLException, IOException {
+    private ApplicationBean(Application app) throws InvalidIdException, SQLException, IOException {
         super(app);
+        this.shortDescription = app.getShortDescription();
+        this.contact = app.getContact();
+        this.provider = app.getProvider();
         this.categories = getJSONRepresentations(app.getRelatedCategories());
         this.features = getJSONRepresentations(app.getRelatedFeatures());
-    }
-
-    public Collection<String> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Collection<String> categories) {
-        this.categories = categories;
-    }
-
-    public Collection<String> getFeatures() {
-        return features;
-    }
-
-    public void setFeatures(Collection<String> features) {
-        this.features = features;
     }
 
     public static ApplicationBean getBean(String id) throws InvalidIdException, SQLException, IOException {
@@ -67,8 +57,6 @@ public class ApplicationBean extends BusinessObjectBean {
         return result;
     }
 
-
-
     public static Collection<ApplicationBean> searchFor(String searchString) throws IOException, SQLException, InvalidIdException {
         Collection<ApplicationBean> result = new HashSet<>();
         Map<String, BusinessObject> allApps = DatabaseController.getInstance().doFullTextSearch(searchString);
@@ -78,5 +66,45 @@ public class ApplicationBean extends BusinessObjectBean {
         }
         return result;
 
+    }
+
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+    public Collection<String> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Collection<String> categories) {
+        this.categories = categories;
+    }
+
+    public Collection<String> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(Collection<String> features) {
+        this.features = features;
     }
 }

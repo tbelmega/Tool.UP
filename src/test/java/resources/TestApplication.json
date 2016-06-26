@@ -2,6 +2,9 @@
   "id": "application-test_id_1",
   "title": "Dropbox",
   "description": "Dropbox Description",
+  "short_description": "Shortdesc1",
+  "provider": "Provider1",
+  "contact": "Contact1",
   "categories": [
     {
       "id": "category-test_id_11"

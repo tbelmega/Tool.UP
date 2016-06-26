@@ -9,56 +9,51 @@ import java.util.Properties;
 
 import static de.unipotsdam.cs.toolup.database.DatabaseController.TABLE_NAME_CATEGORY;
 
-public class SqlStatementFactory {
+class SqlStatementFactory {
 
-    public static final String SQL_STATEMENTS_FILENAME = "/SQL_Statements.xml";
+    private static final String SQL_STATEMENTS_FILENAME = "/SQL_Statements.xml";
     private static final String TOKEN_TABLE_NAME = "TABLE_NAME";
     private static final String TOKEN_FOREIGN_KEY = "FOREIGN_KEY";
     private final Connection connection;
     private Properties sqlStatements;
 
 
-    public SqlStatementFactory() throws IOException, SQLException {
+    SqlStatementFactory() throws IOException, SQLException {
         sqlStatements = new Properties();
         sqlStatements.loadFromXML(this.getClass().getResourceAsStream(SQL_STATEMENTS_FILENAME));
         DriverManager.registerDriver(new com.mysql.jdbc.Driver());
         connection = DriverManager.getConnection(ToolUpProperties.getDatabaseUrl());
     }
 
-    public PreparedStatement getSelectRelation(
+    PreparedStatement getSelectRelation(
             String relationName, String criteriaAttribute) throws SQLException {
         String preparedQuery = sqlStatements.getProperty("selectRelation");
         preparedQuery = preparedQuery.replace(TOKEN_TABLE_NAME, relationName).replace(TOKEN_FOREIGN_KEY, criteriaAttribute);
         return connection.prepareStatement(preparedQuery);
     }
 
-    public PreparedStatement getStatementSelectByUuidFrom(String tableName) throws SQLException {
+    PreparedStatement getStatementSelectByUuidFrom(String tableName) throws SQLException {
         return getCustomizedStatement("selectBO", tableName);
     }
 
-    public PreparedStatement getStatementSelectAllFrom(String tableName) throws SQLException {
+    PreparedStatement getStatementSelectAllFrom(String tableName) throws SQLException {
         return getCustomizedStatement("selectAll", tableName);
     }
 
-    public PreparedStatement getInsertInto(String tableName) throws SQLException {
-        switch (tableName) {
-            case "category":
-                return getCustomizedStatement("insertCategory", tableName);
-            default:
-                return getCustomizedStatement("insertBO", tableName);
-        }
+    PreparedStatement getInsertInto(String tableName) throws SQLException {
+        return getCustomizedStatement(tableName + "Insert", tableName);
     }
 
 
-    public PreparedStatement getInsertRelation(String tableName) throws SQLException {
+    PreparedStatement getInsertRelation(String tableName) throws SQLException {
         return getCustomizedStatement("insertRelation", tableName);
     }
 
-    public PreparedStatement getDeleteFrom(String tableName) throws SQLException {
+    PreparedStatement getDeleteFrom(String tableName) throws SQLException {
         return getCustomizedStatement("deleteBO", tableName);
     }
 
-    public PreparedStatement getUpdate(String tableName) throws SQLException {
+    PreparedStatement getUpdate(String tableName) throws SQLException {
         return getCustomizedStatement("updateBO", tableName);
     }
 
@@ -70,21 +65,21 @@ public class SqlStatementFactory {
     }
 
 
-    public PreparedStatement getSelectSubcategories() throws SQLException {
+    PreparedStatement getSelectSubcategories() throws SQLException {
         return getCustomizedStatement("selectSubCategories", TABLE_NAME_CATEGORY);
     }
 
-    public PreparedStatement getSelectAllCategoriesWithApplication() throws SQLException {
+    PreparedStatement getSelectAllCategoriesWithApplication() throws SQLException {
         String preparedQuery = sqlStatements.getProperty("selectCategoriesWithApplication");
         return connection.prepareStatement(preparedQuery);
     }
 
-    public PreparedStatement getSelectTopLevelCategories() throws SQLException {
+    PreparedStatement getSelectTopLevelCategories() throws SQLException {
         String preparedQuery = sqlStatements.getProperty("selectCategoriesWithoutSuperCategory");
         return connection.prepareStatement(preparedQuery);
     }
 
-    public PreparedStatement getFullTextSearchStatement(String searchString) throws SQLException {
+    PreparedStatement getFullTextSearchStatement(String searchString) throws SQLException {
         String preparedQuery = sqlStatements.getProperty("fullTextSearch");
         return connection.prepareStatement(preparedQuery);
     }

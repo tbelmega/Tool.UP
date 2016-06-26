@@ -107,7 +107,7 @@ public class DatabaseController {
     }
 
 
-    public Set<String> loadRelatedBusinessObjectsForId(String tableName, String targetBusinessObjectType, String id) throws SQLException, InvalidIdException {
+    private Set<String> loadRelatedBusinessObjectsForId(String tableName, String targetBusinessObjectType, String id) throws SQLException, InvalidIdException {
 
         String criteriaBusinessObjectType = BusinessObject.getTableNameFromId(id);
 
@@ -280,6 +280,14 @@ public class DatabaseController {
         prepQuery.setString(1, aBusinessObject.getUuid());
         prepQuery.setString(2, aBusinessObject.getTitle());
         prepQuery.setString(3, aBusinessObject.getDescription());
+
+        if (aBusinessObject instanceof Application) {
+            Application a = (Application) aBusinessObject;
+            prepQuery.setString(4, a.getShortDescription());
+            prepQuery.setString(5, a.getContact());
+            prepQuery.setString(6, a.getProvider());
+        }
+
         prepQuery.executeUpdate();
     }
 

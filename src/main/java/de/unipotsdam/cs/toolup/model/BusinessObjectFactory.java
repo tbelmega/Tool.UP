@@ -78,7 +78,11 @@ public class BusinessObjectFactory {
 
         switch (className.toLowerCase()) {
             case TABLENAME_APPLICATION:
-                loadedBO = new Application(id, null, null, db.loadRelatedCategoriesForApp(id), db.loadRelatedFeaturesForApp(id));
+                Application loadedApplication = new Application(id, null, null, db.loadRelatedCategoriesForApp(id), db.loadRelatedFeaturesForApp(id));
+                loadedApplication.setShortDescription(res.getString(JSON_KEY_SHORTDESC));
+                loadedApplication.setContact(res.getString(JSON_KEY_CONTACT));
+                loadedApplication.setProvider(res.getString(JSON_KEY_PROVIDER));
+                loadedBO = loadedApplication;
                 break;
             case TABLENAME_CATEGORY:
                 loadedBO = new Category(id, null, null, db.loadRelatedApplicationsForCat(id));

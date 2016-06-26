@@ -5,8 +5,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
 import java.util.*;
 
 import static de.unipotsdam.cs.toolup.database.DatabaseController.*;
@@ -17,12 +15,16 @@ public abstract class BusinessObject {
     public static final String ID_DELIMITER = ID_DELIMITER_CHAR.toString();
     public static final String JSON_KEY_ID = "id";
     public static final String JSON_KEY_DESCRIPTION = "description";
+    public static final String JSON_KEY_SHORTDESC = "short_description";
+    public static final String JSON_KEY_CONTACT = "contact";
+    public static final String JSON_KEY_PROVIDER = "provider";
     public static final String JSON_KEY_TITLE = "title";
     public static final String JSON_KEY_FEATURES = "features";
     public static final String JSON_KEY_CATEGORIES = "categories";
     public static final String JSON_KEY_APPLICATIONS = "applications";
 
-    static Map<String, String> keyMappingSqlJson = new HashMap<>(); //TODO Move to config file
+    //Configuration to map SQL table names to JSON keys
+    private static Map<String, String> keyMappingSqlJson = new HashMap<>(); //TODO Move to config file
     static {
         keyMappingSqlJson.put(TABLE_NAME_APPLICATION, JSON_KEY_APPLICATIONS);
         keyMappingSqlJson.put(TABLE_NAME_CATEGORY, JSON_KEY_CATEGORIES);
@@ -84,20 +86,20 @@ public abstract class BusinessObject {
         return newlyCreatedBO;
     }
 
+    private static void addIdsOfAllElements(BusinessObject newlyCreatedBO,
+                                            JSONArray relationElements) throws JSONException, InvalidIdException {
+        for (int i = 0; i < relationElements.length(); i++) {
+            JSONObject app = relationElements.getJSONObject(i);
+            newlyCreatedBO.addRelation(app.getString(JSON_KEY_ID));
+        }
+    }
+
     protected abstract void buildSubClassSpecificAttributes(JSONObject jsonRepresentation) throws InvalidIdException;
 
     protected void addRelationFromJson(JSONObject jsonRepresentation, String relationKey) throws JSONException, InvalidIdException {
         if (jsonRepresentation.has(relationKey)) {
             JSONArray relationElements = jsonRepresentation.getJSONArray(relationKey);
             addIdsOfAllElements(this, relationElements);
-        }
-    }
-
-    private static void addIdsOfAllElements(BusinessObject newlyCreatedBO,
-                                            JSONArray relationElements) throws JSONException, InvalidIdException {
-        for (int i = 0; i < relationElements.length(); i++) {
-            JSONObject app = relationElements.getJSONObject(i);
-            newlyCreatedBO.addRelation(app.getString(JSON_KEY_ID));
         }
     }
 

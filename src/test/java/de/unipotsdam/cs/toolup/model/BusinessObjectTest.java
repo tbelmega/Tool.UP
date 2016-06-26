@@ -43,6 +43,9 @@ public class BusinessObjectTest {
     private static final String TABLENAME_CATEGORY = "category";
     private static final String TABLENAME_FEATURE = "feature";
     private static final String TABLENAME_APPLICATION = "application";
+    private static final String APPLICATION_TESTSHORTDESC_1 = "Shortdesc1";
+    private static final String APPLICATION_TEST_CONTACT_1 = "Contact1";
+    private static final String APPLICATION_TEST_PROVIDER_1 = "Provider1";
 
     @Test(dataProvider = PROVIDE_SAMPLE_IDS)
     public void testThatTablenameIsExtractableFromId(String expectedTableName, String id) throws InvalidIdException {
@@ -187,7 +190,8 @@ public class BusinessObjectTest {
         relatedApps.add(APPLICATION_TEST_ID_1);
         relatedApps.add(APPLICATION_TEST_ID_2);
 
-        BusinessObject app1 = new Application(APPLICATION_TEST_ID_1, APPLICATION_TESTTITLE_1, APPLICATION_TESTDESCRIPTION_1, relatedCats, relatedFeats);
+        BusinessObject app1 = new Application(APPLICATION_TEST_ID_1, APPLICATION_TESTTITLE_1, APPLICATION_TESTDESCRIPTION_1,
+                APPLICATION_TESTSHORTDESC_1, APPLICATION_TEST_PROVIDER_1, APPLICATION_TEST_CONTACT_1, relatedCats, relatedFeats);
         BusinessObject feat1 = new Feature(FEATURE_TEST_ID_21, FEATURE_TESTTITLE_21, FEATURE_TESTDESCRIPTION_21, relatedApps);
         Category cat1 = new Category(CATEGORY_TEST_ID_11, CATEGORY_TESTTITLE_11, CATEGORY_TESTDESCRIPTION_11, relatedApps);
         cat1.setSuperCategory(CATEGORY_TEST_ID_13);

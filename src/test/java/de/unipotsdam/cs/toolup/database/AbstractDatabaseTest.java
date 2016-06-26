@@ -6,6 +6,10 @@ import org.testng.annotations.BeforeClass;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * AbstractDatabaseTest is the super class for tests that create data in the database.
+ * The DatabaseControllerHelper object keeps track of the created objects and deletes them after the tests.
+ */
 public class AbstractDatabaseTest {
 
 
