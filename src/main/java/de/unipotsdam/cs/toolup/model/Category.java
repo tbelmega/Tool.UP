@@ -32,7 +32,8 @@ public class Category extends BusinessObject {
 
         this.superCategory = jsonRepresentation.getString(JSON_KEY_SUPERCATEGORY);
 
-        JSONArray subcategories = jsonRepresentation.getJSONArray(JSON_KEY_SUBCATEGORIES);
+        JSONArray subcategories = jsonRepresentation.optJSONArray(JSON_KEY_SUBCATEGORIES);
+        if (subcategories == null) return;
 
         for (int i = 0; i < subcategories.length(); i++) {
             JSONObject subCat = subcategories.getJSONObject(i);
