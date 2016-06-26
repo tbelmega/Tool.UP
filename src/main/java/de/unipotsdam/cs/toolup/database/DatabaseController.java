@@ -345,5 +345,4 @@ public class DatabaseController {
         prepQuery.setString(1, id);
         prepQuery.executeUpdate();
     }
-
 }

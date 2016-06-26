@@ -3,6 +3,7 @@ package de.unipotsdam.cs.toolup.ws.beans;
 import de.unipotsdam.cs.toolup.database.DatabaseController;
 import de.unipotsdam.cs.toolup.exceptions.InvalidIdException;
 import de.unipotsdam.cs.toolup.model.Application;
+import de.unipotsdam.cs.toolup.model.ApplicationStringSearch;
 import de.unipotsdam.cs.toolup.model.BusinessObject;
 
 import java.io.IOException;
@@ -17,15 +18,12 @@ public class ApplicationBean extends BusinessObjectBean {
 
     private Collection<String> categories;
     private Collection<String> features;
-    private String shortDescription;
-    private String contact;
-    private String provider;
+
+    private Application wrappedApp;
 
     private ApplicationBean(Application app) throws InvalidIdException, SQLException, IOException {
         super(app);
-        this.shortDescription = app.getShortDescription();
-        this.contact = app.getContact();
-        this.provider = app.getProvider();
+        this.wrappedApp = app;
         this.categories = getJSONRepresentations(app.getRelatedCategories());
         this.features = getJSONRepresentations(app.getRelatedFeatures());
     }
@@ -59,37 +57,25 @@ public class ApplicationBean extends BusinessObjectBean {
 
     public static Collection<ApplicationBean> searchFor(String searchString) throws IOException, SQLException, InvalidIdException {
         Collection<ApplicationBean> result = new HashSet<>();
-        Map<String, BusinessObject> allApps = DatabaseController.getInstance().doFullTextSearch(searchString);
+        Set<Application> searchResult = new ApplicationStringSearch(searchString).getResult();
 
-        for (BusinessObject app : allApps.values()) {
-            result.add(new ApplicationBean((Application) app));
+        for (Application app : searchResult) {
+            result.add(new ApplicationBean(app));
         }
         return result;
 
     }
 
     public String getShortDescription() {
-        return shortDescription;
-    }
-
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
+        return wrappedApp.getShortDescription();
     }
 
     public String getContact() {
-        return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
+        return wrappedApp.getContact();
     }
 
     public String getProvider() {
-        return provider;
-    }
-
-    public void setProvider(String provider) {
-        this.provider = provider;
+        return wrappedApp.getProvider();
     }
 
     public Collection<String> getCategories() {
