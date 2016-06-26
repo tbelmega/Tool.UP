@@ -47,7 +47,7 @@ public class ApplicationStringSearch {
 
     private boolean matchesSearchString(BusinessObject bo) {
         return bo.getTitle().toLowerCase().contains(searchString) ||
-                bo.getDescription().toLowerCase().contains(searchString);
+                (bo.getDescription() != null && bo.getDescription().toLowerCase().contains(searchString));
     }
 
     private void addRelatedApplications(Feature f) {
