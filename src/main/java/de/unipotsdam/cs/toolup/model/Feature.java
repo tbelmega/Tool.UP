@@ -25,6 +25,11 @@ public class Feature extends BusinessObject {
         addRelationFromJson(jsonRepresentation, JSON_KEY_APPLICATIONS);
     }
 
+    @Override
+    protected void addSubclassAttributes(JSONObject result) {
+        //nothing to do
+    }
+
     public Collection<String> getRelatedApplications() {
         return new HashSet<>(this.relations.get(TABLE_NAME_APPLICATION));
     }

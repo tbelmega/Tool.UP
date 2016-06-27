@@ -86,4 +86,11 @@ public class Application extends BusinessObject {
                 && this.provider.equals(otherApp.getProvider())
                 && this.contact.equals(otherApp.getContact());
     }
+
+    @Override
+    protected void addSubclassAttributes(JSONObject result) {
+        result.put(JSON_KEY_PROVIDER, this.provider);
+        result.put(JSON_KEY_CONTACT, this.contact);
+        result.put(JSON_KEY_SHORTDESC, this.shortDescription);
+    }
 }

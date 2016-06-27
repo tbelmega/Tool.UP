@@ -34,8 +34,7 @@ public class JSONUtil {
         String[] keys = JSONObject.getNames(secondJson);
         for (String key : keys) {
             Object value = secondJson.get(key);
-
-            equal = thisJSONhasEqualProperty(firstJson, key, value);
+            if (!thisJSONhasEqualProperty(firstJson, key, value)) return false;
         }
         return equal;
     }

@@ -187,10 +187,13 @@ public abstract class BusinessObject {
         result.put(JSON_KEY_TITLE, this.title);
         result.put(JSON_KEY_DESCRIPTION, this.description);
 
+        addSubclassAttributes(result);
         createRelationRepresentations(result);
 
         return result;
     }
+
+    protected abstract void addSubclassAttributes(JSONObject result);
 
     private void createRelationRepresentations(JSONObject result)
             throws JSONException {

@@ -36,6 +36,11 @@ public class NullBusinessObject extends BusinessObject {
     }
 
     @Override
+    protected void addSubclassAttributes(JSONObject result) {
+        //nothing to do
+    }
+
+    @Override
     public void addRelation(String string) {
     }
 

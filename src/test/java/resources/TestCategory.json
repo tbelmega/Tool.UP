@@ -3,6 +3,7 @@
   "title": "Cloud Speicher",
   "description": "Cloud Speicher Description",
   "supercategory": "category-test_id_17",
+  "subcategories": [],
   "applications": [
     {
       "id": "application-test_id_1"

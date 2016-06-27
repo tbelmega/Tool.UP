@@ -72,4 +72,16 @@ public class Category extends BusinessObject {
 
         return super.equalsInAllProperties(anOtherBO);
     }
+
+    @Override
+    protected void addSubclassAttributes(JSONObject result) {
+        result.put(JSON_KEY_SUPERCATEGORY, this.superCategory);
+
+        JSONArray subcategories = new JSONArray();
+        for (String catId : this.subCategories) {
+            subcategories.put(catId);
+        }
+
+        result.put(JSON_KEY_SUBCATEGORIES, subcategories);
+    }
 }
